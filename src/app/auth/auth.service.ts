@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { FirebaseService } from '../servizi/firebase.service';
-import { tap } from 'rxjs';
+import { catchError, tap, throwError } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -34,6 +34,10 @@ export class AuthService {
 
         // Aggiungi l'utente con UID = ID del documento
         await this.firebaseService.addUserToFirestore(uid, nome, cognome, email, ruolo);
+      }),
+      catchError(error => {
+        // Errore restituito a Registrazione.component
+        return throwError(() => error);
       })
     );
   }

@@ -44,12 +44,22 @@ export class RegistrazioneComponent implements OnInit {
       const email: string = this.registerForm.value.email;
       const password: string = this.registerForm.value.password;
 
-      // Esegui il signup
-      this.authService.signUp({ email: email, password: password, returnSecureToken: true }).subscribe(data => {
-        console.log(data);
+      this.authService.signUp({ email: email, password: password, returnSecureToken: true }).subscribe({
+        next: (data) => {
+          console.log('Utente registrato con successo', data);
+          this.registerForm.reset();
+        },
+        error: (error) => {
+          // caso email già registrata
+          if (error.error && error.error.error.message === 'EMAIL_EXISTS') {
+            alert('Questa email è già registrata. Vai al login.')
+            console.log('Email già registrata')
+          } else {
+            alert('Si è verificato un errore. Riprova più tardi.')
+            console.log('Errore')
+          }
+        }
       });
-
-      this.registerForm.reset();
     }
   }
 }
