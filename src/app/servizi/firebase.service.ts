@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Firestore, collection, addDoc, setDoc, doc } from '@angular/fire/firestore';
+import { Firestore, setDoc, doc } from '@angular/fire/firestore';
 import { inject } from '@angular/core';
 
 @Injectable({
@@ -12,7 +12,7 @@ export class FirebaseService {
 
   async addUserToFirestore(uid: string, nome: string, cognome: string, email: string, ruolo: string) {
     try {
-      const userDocRef = doc(this.firestore, 'users', uid) // Usa l'UID come ID del documento
+      const userDocRef = doc(this.firestore, 'users', uid); // Usa l'UID come ID del documento
       await setDoc(userDocRef, {
         nome: nome,
         cognome: cognome,

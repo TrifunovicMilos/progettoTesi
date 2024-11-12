@@ -23,7 +23,7 @@ export class RegistrazioneComponent implements OnInit {
   ngOnInit(): void {
     this.registerForm = new FormGroup({
       email: new FormControl('', [Validators.required, 
-      Validators.pattern(/^[a-zA-Z]+(\.[a-zA-Z]+)@(unireply\.it|studenti\.unireply\.it)$/)]),
+      Validators.pattern(/^[a-zA-Z]+(\.[a-zA-Z]+)@(unirely\.it|studenti\.unireply\.it)$/)]),
       
       password: new FormControl('', [Validators.required, Validators.minLength(6)]),
       confirmPassword: new FormControl('', [Validators.required]),
@@ -44,12 +44,12 @@ export class RegistrazioneComponent implements OnInit {
       const email: string = this.registerForm.value.email;
       const password: string = this.registerForm.value.password;
 
-      this.authService.signUp({ email: email, password: password, returnSecureToken: true }).subscribe({
-        next: (data) => {
-          console.log('Utente registrato con successo', data);
+      this.authService.signUp({ email, password}).then(()=> {
+          alert('Registrazione completata! Controlla la tua email per verificare l’account.');
+          console.log('Utente registrato con successo');
           this.registerForm.reset();
-        },
-        error: (error) => {
+        })
+        .catch((error: any) => {
           // caso email già registrata
           if (error.error && error.error.error.message === 'EMAIL_EXISTS') {
             alert('Questa email è già registrata. Vai al login.')
@@ -58,7 +58,6 @@ export class RegistrazioneComponent implements OnInit {
             alert('Si è verificato un errore. Riprova più tardi.')
             console.log('Errore')
           }
-        }
       });
     }
   }
