@@ -44,10 +44,14 @@ export class AuthService {
       
       console.log('Utente registrato con successo e email di verifica inviata');
       
-    } catch (error) {
-      console.error('Errore durante la registrazione o l’invio dell’email di verifica', error);
-      throwError;
-    }
+    } catch (error: any) {
+      if (error.code === 'auth/email-already-in-use') {
+        throw error;
+      } else {
+        console.error(error);
+        alert("Si è verificato un errore durante la registrazione.");
+      }
   }
+}
 }
 
