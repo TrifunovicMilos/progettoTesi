@@ -23,7 +23,7 @@ export class RegistrazioneComponent implements OnInit {
   ngOnInit(): void {
     this.registerForm = new FormGroup({
       email: new FormControl('', [Validators.required, 
-      Validators.pattern(/^[a-zA-Z]+(\.[a-zA-Z]+)@(unirely\.it|studenti\.unireply\.it)$/)]),
+      Validators.pattern(/^[a-zA-Z]+(\.[a-zA-Z]+)@(unireply\.it|studenti\.unireply\.it)$/)]),
       
       password: new FormControl('', [Validators.required, Validators.minLength(6)]),
       confirmPassword: new FormControl('', [Validators.required]),
