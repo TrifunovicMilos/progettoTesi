@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { FirebaseService } from '../servizi/firebase.service';
-import { throwError } from 'rxjs';
 import { getAuth, sendEmailVerification, createUserWithEmailAndPassword } from 'firebase/auth';
 
 
