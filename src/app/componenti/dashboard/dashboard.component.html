@@ -1,0 +1,35 @@
+<mat-toolbar>
+    <button mat-icon-button (click)="toggleSidebar()" aria-label="Toggle sidebar">
+      <mat-icon>menu</mat-icon>
+    </button>
+    <span>WebApp Tesi</span>
+    <span class="example-spacer"></span>
+    <!-- 2 bottoni casuali -->
+    <button mat-icon-button class="example-icon favorite-icon" aria-label="Favorite">
+      <mat-icon>favorite</mat-icon>
+    </button>
+    <button mat-icon-button class="example-icon" aria-label="Share">
+      <mat-icon>share</mat-icon>
+    </button>
+  </mat-toolbar>
+  
+  <mat-drawer-container class="example-container">
+    <mat-drawer #drawer mode="side" [opened]="isSidebarOpen">
+      <mat-nav-list>
+        <!-- aggiungo per ora 3 nomi e icone casuali -->
+        <a mat-list-item routerLink="/pagina1">
+          <mat-icon>home</mat-icon> Home Page
+        </a>
+        <a mat-list-item routerLink="/pagina2">
+          <mat-icon>account_circle</mat-icon> Page 2
+        </a>
+        <a mat-list-item routerLink="/pagina3">
+          <mat-icon>settings</mat-icon> Page 3
+        </a>
+      </mat-nav-list>
+    </mat-drawer>
+    <mat-drawer-content>
+      <router-outlet></router-outlet>
+    </mat-drawer-content>
+  </mat-drawer-container>
+  

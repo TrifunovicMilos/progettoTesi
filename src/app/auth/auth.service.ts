@@ -1,56 +1,76 @@
 import { Injectable } from '@angular/core';
 import { FirebaseService } from '../servizi/firebase.service';
-import { getAuth, sendEmailVerification, createUserWithEmailAndPassword } from 'firebase/auth';
-
+import { getAuth, sendEmailVerification, createUserWithEmailAndPassword, signInWithEmailAndPassword,} from 'firebase/auth';
+import { Router } from '@angular/router';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthService {
 
-  // url = "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyDC5n7iWZK43g6NixBX7SbS-rs3akW-DOk"
+  isLoggedIn = false
   
-  // isLoggedIn = true
-  // isAdmin = true;
+  constructor(private firebaseService: FirebaseService, private router: Router) {
+    this.checkLoginStatus();
+  }
 
-  constructor(private firebaseService: FirebaseService) { }
+  checkLoginStatus() {
+    const user = localStorage.getItem('user');
+    if (user) {
+      this.isLoggedIn = true;
+    }
+  }
 
-  // isAuthenticated(){
-  //   return this.isLoggedIn
-  // }
-
-  // isRoleAdmin(){
-  //   return this.isAdmin;
-  // }
-
-  async signUp(utente: any): Promise<void>  {
+  async signUp(utente: any): Promise<void> {
     const auth = getAuth();
-    
+
     try {
       // Registrazione utente tramite Firebase Auth
-      const userCredential = await createUserWithEmailAndPassword(auth, utente.email, utente.password);
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        utente.email,
+        utente.password
+      );
       const user = userCredential.user;
-      
+
       // Invio email di verifica
       await sendEmailVerification(user);
       console.log('Email di verifica inviata a:', utente.email);
-      
-      const [nome, cognome] = utente.email.split('@')[0].split('.');  // Estrazione nome e cognome
-      const ruolo = utente.email.includes("studenti") ? "studente" : "docente";  // Determinazione ruolo utente
-      
+
+      const [nome, cognome] = utente.email.split('@')[0].split('.'); // Estrazione nome e cognome
+      const ruolo = utente.email.includes('studenti') ? 'studente' : 'docente'; // Determinazione ruolo utente
+
       // Aggiungi l'utente a Firestore
-      await this.firebaseService.addUserToFirestore(user.uid, nome, cognome, utente.email, ruolo);
-      
+      await this.firebaseService.addUserToFirestore(
+        user.uid,
+        nome,
+        cognome,
+        utente.email,
+        ruolo
+      );
+
       console.log('Utente registrato con successo e email di verifica inviata');
-      
     } catch (error: any) {
       if (error.code === 'auth/email-already-in-use') {
         throw error;
       } else {
         console.error(error);
-        alert("Si è verificato un errore durante la registrazione.");
+        alert('Si è verificato un errore durante la registrazione.');
       }
+    }
   }
-}
-}
 
+  async login(email: string, password: string): Promise<void> {
+    const auth = getAuth();
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
+      this.isLoggedIn = true;
+      localStorage.setItem('user', email);
+      this.router.navigate(['']); 
+    } catch (error: any) {
+      console.log('Errore di login');
+      throw error;
+    }
+  }
+
+}
