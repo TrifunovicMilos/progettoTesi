@@ -43,7 +43,13 @@ export class LoginComponent implements OnInit{
       this.authService.login(email, password).then(() => {
         console.log('Login eseguito');
       }).catch((error: any) => {
-        alert("Errore durante il login. Controlla le credenziali.");
+        if(error.message === 'Email non verificata. ')
+        {
+          alert(error.message + 'Controlla la tua posta.')
+        }
+        else{
+          alert("Errore durante il login. Controlla le credenziali.");
+        }
       });
     }
   }

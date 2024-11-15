@@ -65,10 +65,17 @@ export class AuthService {
   async login(email: string, password: string): Promise<void> {
     const auth = getAuth();
     try {
-      await signInWithEmailAndPassword(auth, email, password);
-      this.isLoggedIn = true;
-      localStorage.setItem('user', email);
-      this.router.navigate(['']); 
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
+
+      if(user.emailVerified) {
+        this.isLoggedIn = true;
+        localStorage.setItem('user', email);
+        this.router.navigate(['']);
+      }
+      else{
+        throw new Error('Email non verificata. ');
+      }   
     } catch (error: any) {
       console.log('Errore di login');
       throw error;
