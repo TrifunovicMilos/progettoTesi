@@ -27,7 +27,7 @@ mat-drawer[opened] {
 }
 
 mat-drawer:not([opened]) {
-  width: 60px; /* Riduce la sidebar quando è chiusa, NON funziona */
+  width: 60px; /* Riduce la sidebar quando è chiusa */
 }
 
 mat-nav-list {

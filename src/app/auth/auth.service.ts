@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { FirebaseService } from '../servizi/firebase.service';
-import { getAuth, sendEmailVerification, createUserWithEmailAndPassword, signInWithEmailAndPassword,} from 'firebase/auth';
+import { getAuth, sendEmailVerification, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut} from 'firebase/auth';
 import { Router } from '@angular/router';
 
 @Injectable({
@@ -18,6 +18,9 @@ export class AuthService {
     const user = localStorage.getItem('user');
     if (user) {
       this.isLoggedIn = true;
+    }
+    else{
+      this.isLoggedIn = false;
     }
   }
 
@@ -70,6 +73,19 @@ export class AuthService {
     } catch (error: any) {
       console.log('Errore di login');
       throw error;
+    }
+  }
+
+  async logout(): Promise<void> {
+    const auth = getAuth();
+    try {
+      await signOut(auth);
+      localStorage.removeItem('user');
+      this.isLoggedIn = false;
+      console.log('Logout effettuato con successo');
+      this.router.navigate(['/signin']);
+    } catch (error) {
+      console.error('Errore durante il logout:', error);
     }
   }
 
