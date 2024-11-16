@@ -4,10 +4,10 @@
     </button>
     <span>WebApp Tesi</span>
     <span class="example-spacer"></span>
-    <button mat-icon-button class="example-icon favorite-icon" aria-label="Favorite">
+    <button mat-icon-button class="example-icon" aria-label="search">
       <mat-icon>search</mat-icon>
     </button>
-    <button mat-icon-button class="example-icon favorite-icon" aria-label="Favorite">
+    <button mat-icon-button class="example-icon" aria-label="account">
       <mat-icon>account_circle</mat-icon>
     </button>
     <button mat-icon-button class="example-icon" aria-label="logout" (click)="onLogout()">
@@ -15,23 +15,28 @@
     </button>
   </mat-toolbar>
   
-  <mat-drawer-container class="example-container">
-    <mat-drawer #drawer mode="side" [opened]="isSidebarOpen">
+  <mat-drawer-container>
+
+    <mat-drawer [ngClass]="isSidebarOpen ? 'mat-drawer-open' : 'mat-drawer-close'" mode="side" opened 
+    (mouseenter)="onMouseEnter()" (mouseleave)="onMouseLeave()">
       <mat-nav-list>
         <!-- aggiungo per ora 3 nomi e icone casuali -->
-        <a mat-list-item routerLink="/pagina1">
-          <mat-icon>home</mat-icon> Home Page
+        <a mat-list-item routerLink="/pagina1" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+          <mat-icon>home</mat-icon> <span *ngIf="isSidebarOpen">Home Page</span>
         </a>
-        <a mat-list-item routerLink="/pagina2">
-          <mat-icon>apps</mat-icon> Page 2
+        <a mat-list-item routerLink="/pagina2" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+          <mat-icon>apps</mat-icon> <span *ngIf="isSidebarOpen">Page 2</span>
         </a>
-        <a mat-list-item routerLink="/pagina3">
-          <mat-icon>settings</mat-icon> Page 3
+        <a mat-list-item routerLink="/pagina3" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+          <mat-icon>settings</mat-icon> <span *ngIf="isSidebarOpen">Page 3</span>
         </a>
       </mat-nav-list>
     </mat-drawer>
+
     <mat-drawer-content>
-      <router-outlet></router-outlet>
+      <div [ngClass]="isSidebarOpen ? 'mat-drawer-content-right' : 'mat-drawer-content-left'">
+        <router-outlet></router-outlet>
+      </div>
     </mat-drawer-content>
   </mat-drawer-container>
   

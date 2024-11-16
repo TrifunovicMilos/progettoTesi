@@ -1,5 +1,5 @@
-import { Component} from '@angular/core';
-import { RouterLink, RouterOutlet } from '@angular/router';
+import { Component } from '@angular/core';
+import { RouterLink, RouterOutlet, RouterLinkActive } from '@angular/router';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
@@ -14,18 +14,34 @@ import { MatDialog } from '@angular/material/dialog';
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [RouterLink, RouterOutlet, MatSidenavModule, MatToolbarModule, MatButtonModule, MatIconModule, MatListModule, ConfirmDialogComponent, CommonModule],
+  imports: [RouterLink, RouterOutlet, RouterLinkActive, MatSidenavModule, MatToolbarModule, MatButtonModule, MatIconModule, MatListModule, ConfirmDialogComponent, CommonModule],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'
 })
 export class DashboardComponent {
 
-  isSidebarOpen = true; // Sidebar inizialmente aperta
-
+  isSidebarOpen = false; // Sidebar inizialmente stretta
+  isSidebarOpenWithClick = false; // true se l'utente decide di aprire tramite click. Se la apre passandoci con il mouse, rimane false
+  
   constructor(private authService: AuthService, private dialog: MatDialog){}
 
   toggleSidebar() {
     this.isSidebarOpen = !this.isSidebarOpen;
+    this.isSidebarOpenWithClick = !this.isSidebarOpenWithClick;
+  }
+
+  onMouseEnter(): void {
+    if (!this.isSidebarOpen) {
+      this.isSidebarOpen = true; // Allarga la sidebar al passaggio del mouse
+    }
+  }
+
+  onMouseLeave(): void {
+    // se la sidebar è stata aperta senza il click (quindi passando con il mouse), deve chiudersi una volta usciti col mouse
+    // se la sidebar è stata aperta con il click sulla toolbar, NON deve restringersi una volta usciti con il mouse!
+    if (!this.isSidebarOpenWithClick && this.isSidebarOpen) { 
+      this.isSidebarOpen = false; // Restringi la sidebar quando il mouse esce
+    }
   }
 
   onLogout() {
