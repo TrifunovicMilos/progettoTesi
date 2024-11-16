@@ -53,12 +53,7 @@ export class AuthService {
 
       console.log('Utente registrato con successo e email di verifica inviata');
     } catch (error: any) {
-      if (error.code === 'auth/email-already-in-use') {
-        throw error;
-      } else {
-        console.error(error);
-        alert('Si è verificato un errore durante la registrazione.');
-      }
+      throw error; // gestito da LoginComponent
     }
   }
 
@@ -77,8 +72,7 @@ export class AuthService {
         throw new Error('Email non verificata. ');
       }   
     } catch (error: any) {
-      console.log('Errore di login');
-      throw error;
+      throw error; // gestito da LoginComponent
     }
   }
 

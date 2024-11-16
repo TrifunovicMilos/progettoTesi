@@ -45,9 +45,11 @@ export class LoginComponent implements OnInit{
       }).catch((error: any) => {
         if(error.message === 'Email non verificata. ')
         {
+          console.log('Email non verificata');
           alert(error.message + 'Controlla la tua posta.')
         }
         else{
+          console.log('Errore durante il login');
           alert("Errore durante il login. Controlla le credenziali.");
         }
       });
@@ -74,7 +76,13 @@ export class LoginComponent implements OnInit{
           this.registerForm.reset();
         })
         .catch((error: any) => {
-          alert("Questa email è già registrata. Per favore, prova a fare il login.");
+          if (error.code === 'auth/email-already-in-use') {
+            console.log('Email già registrata')
+            alert("Questa email è già registrata. Per favore, prova a fare il login.");
+          } else {
+            console.error(error);
+            alert('Si è verificato un errore durante la registrazione.');
+          }
       });
     }
   }
