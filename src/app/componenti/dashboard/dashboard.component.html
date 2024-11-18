@@ -17,7 +17,7 @@
   
   <mat-drawer-container>
 
-    <mat-drawer [ngClass]="isSidebarOpen ? 'mat-drawer-open' : 'mat-drawer-close'" mode="side" opened 
+    <mat-drawer [ngClass]="{'mat-drawer-open': isSidebarOpen, 'mat-drawer-close': !isSidebarOpen, 'no-transition': isInitialLoad}" mode="side" opened 
     (mouseenter)="onMouseEnter()" (mouseleave)="onMouseLeave()">
       <mat-nav-list>
         <!-- aggiungo per ora 3 nomi e icone casuali -->

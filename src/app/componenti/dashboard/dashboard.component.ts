@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { AfterViewInit, Component } from '@angular/core';
 import { RouterLink, RouterOutlet, RouterLinkActive } from '@angular/router';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatIconModule } from '@angular/material/icon';
@@ -18,12 +18,20 @@ import { MatDialog } from '@angular/material/dialog';
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'
 })
-export class DashboardComponent {
+export class DashboardComponent implements AfterViewInit{
 
   isSidebarOpen = false; // Sidebar inizialmente stretta
   isSidebarOpenWithClick = false; // true se l'utente decide di aprire tramite click. Se la apre passandoci con il mouse, rimane false
+  isInitialLoad = true;
   
   constructor(private authService: AuthService, private dialog: MatDialog){}
+
+  ngAfterViewInit(): void {
+    // Rimuove la classe iniziale dopo il rendering
+    setTimeout(() => {
+      this.isInitialLoad = false;
+    }, 300); // Tempo della transizione in CSS
+  }
 
   toggleSidebar() {
     this.isSidebarOpen = !this.isSidebarOpen;
