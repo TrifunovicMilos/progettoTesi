@@ -40,7 +40,9 @@ export class AuthService {
       await sendEmailVerification(user);
       console.log('Email di verifica inviata a:', utente.email);
 
-      const [nome, cognome, ruolo] = utente.email.split('@')[0].split('.'); // Estrazione nome, cognome e ruolo
+      let [nome, cognome, ruolo] = utente.email.split('@')[0].split('.'); // Estrazione nome, cognome e ruolo
+      nome = nome.charAt(0).toUpperCase() + nome.slice(1).toLowerCase(); // prima lettera maiuscola
+      cognome = cognome.charAt(0).toUpperCase() + cognome.slice(1).toLowerCase(); // prima lettera maiuscola
 
       // Aggiungi l'utente a Firestore
       await this.firebaseService.addUserToFirestore(

@@ -30,7 +30,7 @@ export class LoginComponent implements OnInit{
 
     this.registerForm = new FormGroup({
       email: new FormControl('', [Validators.required, 
-      Validators.pattern(/^[a-zA-Z]+(\.[a-zA-Z]+)+\.(studente|docente)@yopmail\.com$/)]),
+      Validators.pattern(/^[a-z]+(\.[a-z]+)+\.(studente|docente)@yopmail\.com$/)]),
       
       password: new FormControl('', [Validators.required, Validators.minLength(6)]),
       confirmPassword: new FormControl('', [Validators.required]),
