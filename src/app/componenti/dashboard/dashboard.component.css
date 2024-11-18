@@ -51,12 +51,12 @@ mat-drawer mat-icon {
 .mat-drawer-content-right {
   padding: 20px;
   margin-left: 250px;
-  /* transition: width 0.3s ease */
+  transition: width 0.3s ease
 }
 
 .mat-drawer-content-left {
   padding: 20px;
   margin-left: 60px;
-  /* transition: width 0.3s ease */
+  transition: width 0.3s ease
 }
 
