@@ -35,7 +35,9 @@ export class ProfiloComponent implements OnInit {
         } catch (error) {
           console.log('Errore nel recupero dei dati utente:');
         } finally {
-          this.isLoading = false; // Disattiva il caricamento
+          setTimeout(() => {
+            this.isLoading = false; // Disattiva il caricamento
+          }, 100);
         }
       } else {
         console.log('Utente non autenticato');
