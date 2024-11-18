@@ -51,7 +51,7 @@ export class AuthService {
         ruolo
       );
 
-      console.log('Utente registrato con successo e email di verifica inviata');
+      console.log('Utente registrato con successo e email di verifica inviata'); 
     } catch (error: any) {
       throw error; // gestito da LoginComponent
     }

@@ -73,7 +73,9 @@ export class LoginComponent implements OnInit{
       this.authService.signUp({ email, password}).then(()=> {
           alert('Registrazione completata! Controlla la tua email per verificare l’account.');
           console.log('Utente registrato con successo');
-          this.registerForm.reset();
+          // una volta registrati si va su /signin. 
+          //Usando router.navigate(['/signin']) al posto del reload non funziona perché ci fa rimanere sulla tab 'Registrazione'
+          window.location.reload();
         })
         .catch((error: any) => {
           if (error.code === 'auth/email-already-in-use') {
