@@ -1,1 +1,27 @@
-<p>pagina1 works!</p>
+<div class="card-container">
+  <div *ngFor="let i of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]" class="card-item">
+    <mat-card appearance="outlined">
+      <mat-card-header>
+        <div mat-card-avatar class="example-header-image"></div>
+        <mat-card-title>Esame {{ i }}</mat-card-title>
+        <mat-card-subtitle>Prof. {{ i }}</mat-card-subtitle>
+      </mat-card-header>
+      <img mat-card-image src="https://stem.elearning.unipd.it/pluginfile.php/871815/course/overviewfiles/prova.jpg" alt="Image">
+      <mat-card-content>
+        <p>
+          Descrizione {{ i }}: Questo corso fornisce le basi del calcolo differenziale e integrale per funzioni reali di una variabile. 
+          Si studiano limiti, derivate, integrali e le loro applicazioni, con particolare attenzione 
+          alla comprensione teorica e alla risoluzione di problemi pratici.
+        </p>
+      </mat-card-content>
+      <mat-card-actions>
+        <button mat-icon-button class="example-icon" aria-label="info" (click)="onClickInfo()">
+          <mat-icon>info</mat-icon>
+        </button>
+        <button mat-icon-button class="example-icon" aria-label="login">
+          <mat-icon>login</mat-icon>
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+</div>
