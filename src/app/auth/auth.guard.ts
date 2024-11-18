@@ -12,7 +12,6 @@ export const authGuard: CanActivateFn = (route, state) => {
     router.navigate(['/signin'])
     return false
   }
-  
 };
 
 // export const authGuardChild: CanActivateChildFn = (route, state) => {

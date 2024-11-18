@@ -7,7 +7,7 @@
     <button mat-icon-button class="example-icon" aria-label="search">
       <mat-icon>search</mat-icon>
     </button>
-    <button mat-icon-button class="example-icon" aria-label="account">
+    <button mat-icon-button class="example-icon" aria-label="account" routerLink="/profilo" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
       <mat-icon>account_circle</mat-icon>
     </button>
     <button mat-icon-button class="example-icon" aria-label="logout" (click)="onLogout()">

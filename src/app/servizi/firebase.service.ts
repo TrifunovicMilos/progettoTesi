@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Firestore, setDoc, doc } from '@angular/fire/firestore';
+import { Firestore, setDoc, doc, getDoc } from '@angular/fire/firestore';
 import { inject } from '@angular/core';
 
 @Injectable({
@@ -34,4 +34,21 @@ export class FirebaseService {
       console.error("Errore nell'aggiunta utente", error)
     }
   }
+
+  async getUserData(uid: string, ruolo: string): Promise<any> {
+    try {
+      const userDocRef = doc(this.firestore, ruolo === 'docente' ? 'docenti' : 'studenti', uid);
+      const docSnap = await getDoc(userDocRef);
+
+      if (docSnap.exists()) {
+        return docSnap.data();
+      } else {
+        throw new Error('Documento non trovato.');
+      }
+    } catch (error) {
+      console.error('Errore nel recupero dei dati utente:', error);
+      throw error;
+    }
+  }
+
 }
