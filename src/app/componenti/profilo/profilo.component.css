@@ -5,3 +5,32 @@
     color: #666;
   }
   
+  .avatar-container {
+    display: flex;
+    align-items: center;
+    gap: 16px; 
+  }
+
+  .avatar-select {
+      flex-grow: 1; 
+  }
+  
+  mat-option {
+    display: flex;
+    align-items: center;
+  }
+
+  .avatar-option {
+    display: flex;
+    align-items: center;
+  }
+  
+  .confirm-btn {
+    background-color: blue;  
+    color: white;            
+    padding: 10px 20px;      
+    border-radius: 4px;  
+    width: 150px;           
+    height: 40px;            
+  }
+  

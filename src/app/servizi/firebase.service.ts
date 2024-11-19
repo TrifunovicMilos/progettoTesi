@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Firestore, setDoc, doc, getDoc } from '@angular/fire/firestore';
+import { Firestore, setDoc, doc, getDoc, updateDoc } from '@angular/fire/firestore';
 import { inject } from '@angular/core';
 
 @Injectable({
@@ -51,4 +51,12 @@ export class FirebaseService {
     }
   }
 
+  async updateUserAvatar(uid: string, ruolo: string, avatar: string): Promise<void> {
+    try {
+      const userDocRef = doc(this.firestore, ruolo === 'docente' ? 'docenti' : 'studenti', uid);
+      await updateDoc(userDocRef, { avatar: avatar });
+    } catch (error) {
+      throw error; // lo stamperà ProfiloComponent
+    }
+  }
 }

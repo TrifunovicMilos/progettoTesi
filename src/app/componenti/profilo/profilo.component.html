@@ -1,11 +1,37 @@
 <div *ngIf="isLoading" class="loading-container">
-    <p>Caricamento in corso...</p>
+  <p>Caricamento in corso...</p>
+</div>
+
+<div *ngIf="!isLoading">
+  <p>Nome: {{ nome }}</p>
+  <p>Cognome: {{ cognome }}</p>
+  <p>Ruolo: {{ ruolo }}</p>
+  <p>Email: {{ email }}</p>
+
+  <div class="avatar-container">
+    <!-- Foto Avatar -->
+    <p><img [src]="selectedAvatarUrl" width="40" style="margin-right: 8px;"></p>
+    
+    <!-- Lista di Avatar -->
+    <mat-form-field class="avatar-select">
+      <mat-label>Change Avatar</mat-label>
+      <mat-select [(value)]="selectedAvatar" (selectionChange)="onSelect($event)">
+        <mat-option [value]="'Default'">
+          <div class="avatar-option">
+            <img [src]="'assets/avatar/default.jpg'" width="40" style="margin-right: 8px;" />
+            Default
+          </div>
+        </mat-option>
+        <mat-option *ngFor="let i of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]" [value]="'Avatar ' + i">
+          <div class="avatar-option">
+            <img [src]="'assets/avatar/avatar' + i + '.jpg'" width="40" style="margin-right: 8px;" />
+            Avatar {{i}}
+          </div>
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    
+    <!-- non posso cambiare avatar se l'avatar selezionato è quello che avevo già -->
+    <button mat-raised-button class="confirm-btn" [disabled]="selectedAvatar==initialAvatar" (click)="onConfirmChange()">Confirm Change</button>
   </div>
-  
-  <div *ngIf="!isLoading">
-    <p>Nome: {{ nome }}</p>
-    <p>Cognome: {{ cognome }}</p>
-    <p>Ruolo: {{ ruolo }}</p>
-    <p>Email: {{ email }}</p>
-  </div>
-  
+</div>
