@@ -47,7 +47,7 @@ export class ProfiloComponent implements OnInit {
         } finally {
           setTimeout(() => {
             this.isLoading = false; // Disattiva il caricamento
-          }, 100);
+          }, 150);
         }
       } else {
         console.log('Utente non autenticato');
@@ -72,6 +72,7 @@ export class ProfiloComponent implements OnInit {
 
   onConfirmChange(): void {
     console.log('Avatar cambiato a:', this.selectedAvatar);
+    this.initialAvatar = this.selectedAvatar;
 
     const auth = getAuth();
     const user = auth.currentUser;
