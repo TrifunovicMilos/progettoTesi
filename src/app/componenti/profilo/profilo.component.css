@@ -1,27 +1,26 @@
 .loading-container {
-    text-align: center;
-    margin-top: 20px;
-    font-size: 1.2em;
-    color: #666;
-  }
-  
-  .avatar-container {
-    display: flex;
-    align-items: center;
-    gap: 16px; 
-  }
+  text-align: center;
+  margin-top: 20px;
+  font-size: 1.2em;
+  color: #666;
+}
 
-  .avatar-select {
-    flex-grow: 1; 
-  }
-  
-  mat-option {
-    display: flex;
-    align-items: center;
-  }
+.avatar-container {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
 
-  .avatar-option {
-    display: flex;
-    align-items: center;
-  }
-  
+.avatar-select {
+  flex-grow: 1;
+}
+
+mat-option {
+  display: flex;
+  align-items: center;
+}
+
+.avatar-option {
+  display: flex;
+  align-items: center;
+}

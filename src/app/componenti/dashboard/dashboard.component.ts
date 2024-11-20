@@ -22,18 +22,18 @@ export class DashboardComponent implements AfterViewInit{
 
   isSidebarOpen = false; // Sidebar inizialmente stretta
   isSidebarOpenWithClick = false; // true se l'utente decide di aprire tramite click. Se la apre passandoci con il mouse, rimane false
-  isInitialLoad = true;
+  isInitialLoad = true; // fa sì che inizialmente "transition: none !important", per risolvere un bug
   
   constructor(private authService: AuthService, private dialog: MatDialog){}
 
   ngAfterViewInit(): void {
-    // Rimuove la classe iniziale dopo il rendering
+    // Riattivo le transizioni, che avevo disattivato causa bug
     setTimeout(() => {
       this.isInitialLoad = false;
-    }, 300); // Tempo della transizione in CSS
+    }, 300); 
   }
 
-  toggleSidebar() {
+  toggleSidebar(): void {
     this.isSidebarOpen = !this.isSidebarOpen;
     this.isSidebarOpenWithClick = !this.isSidebarOpenWithClick;
   }
@@ -52,12 +52,13 @@ export class DashboardComponent implements AfterViewInit{
     }
   }
 
-  onLogout() {
+  onLogout(): void {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
       data: { title: 'Conferma Logout', message: 'Sei sicuro di voler uscire?' }
     });
 
     dialogRef.afterClosed().subscribe(result => {
+      // se viene cliccato "Sì" ...
       if (result) {
         this.authService.logout();  
       }

@@ -32,19 +32,20 @@ export class LoginComponent implements OnInit{
       email: new FormControl('', [Validators.required, 
       Validators.pattern(/^[a-z]+(\.[a-z]+)+\.(studente|docente)@yopmail\.com$/)]),
       
+      // l'unico vincolopassword è quello di lunghezza minima = 6 perché è il vincolo imposto da firebase authentication
       password: new FormControl('', [Validators.required, Validators.minLength(6)]),
       confirmPassword: new FormControl('', [Validators.required]),
     });
   }
 
-  onLoginSubmit() {
+  onLoginSubmit(): void {
     if (this.loginForm.valid) {
-      const { email, password } = this.loginForm.value;
+      const { email, password } = this.loginForm.value; // estraggo i valori dal form
+
       this.authService.login(email, password).then(() => {
         console.log('Login eseguito');
       }).catch((error: any) => {
-        if(error.message === 'Email non verificata. ')
-        {
+        if(error.message === 'Email non verificata. '){
           console.log('Email non verificata');
           alert(error.message + 'Controlla la tua posta.')
         }
@@ -56,21 +57,22 @@ export class LoginComponent implements OnInit{
     }
   }
 
-  passwordsMatch(): boolean {
+  // chiamata da onRegisterSubmit()
+  private passwordsMatch(): boolean {
     return (
       this.registerForm.get('confirmPassword')?.value ==
       this.registerForm.get('password')?.value
     );
   }
 
-  onRegisterSubmit() {
+  onRegisterSubmit(): void {
     if (!this.passwordsMatch()) {
       alert('Le password non corrispondono');
     } else {
-      const email: string = this.registerForm.value.email;
-      const password: string = this.registerForm.value.password;
+      const email = this.registerForm.value.email;
+      const password = this.registerForm.value.password;
 
-      this.authService.signUp({ email, password}).then(()=> {
+      this.authService.signUp(email, password).then(()=> {
           alert('Registrazione completata! Controlla la tua email per verificare l’account.');
           console.log('Utente registrato con successo');
           // una volta registrati si va su /signin. 

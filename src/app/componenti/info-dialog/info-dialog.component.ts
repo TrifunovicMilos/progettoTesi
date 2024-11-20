@@ -21,7 +21,7 @@ export class InfoDialogComponent {
     this.message = data.message;
   }
 
-  onOk(): void {
+  onClick(): void {
     this.dialogRef.close(true); 
   }
 

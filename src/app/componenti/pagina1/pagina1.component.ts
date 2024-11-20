@@ -17,7 +17,8 @@ export class Pagina1Component {
 
   constructor(private dialog: MatDialog){}
 
-  onClickInfo(){
+  // per ora esami con titolo e descrizioni uguali
+  onClickInfo(): void {
     const dialogRef = this.dialog.open(InfoDialogComponent, {
       data: { title: 'Descrizione Corso', message: 'Questo corso fornisce le basi del calcolo differenziale e integrale per funzioni reali di una variabile. Si studiano limiti, derivate, integrali e le loro applicazioni, con particolare attenzione alla comprensione teorica e alla risoluzione di problemi pratici.' }
     });

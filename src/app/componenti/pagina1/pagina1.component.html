@@ -1,3 +1,5 @@
+<!-- pagina Home contente la lista di tutti gli esami (per ora sono una lista di 12 esami uguali) -->
+<!-- Ogni card (esame) mostra il titolo, docente, foto, info e opzioni per visualizzare la descrizione ed iscriversi-->
 <div class="card-container">
   <div *ngFor="let i of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]" class="card-item">
     <mat-card appearance="outlined">
@@ -15,10 +17,12 @@
         </p>
       </mat-card-content>
       <mat-card-actions>
+        <!-- visualizzazione della descrizione -->
         <button mat-icon-button class="example-icon" aria-label="info" (click)="onClickInfo()">
           <mat-icon>info</mat-icon>
         </button>
-        <button mat-icon-button class="example-icon" aria-label="login">
+        <!-- iscrizione all'esame ("Login" è solo il nome dell'icona di fonts.google.com/icons) -->
+        <button mat-icon-button class="example-icon" aria-label="iscrizione">
           <mat-icon>login</mat-icon>
         </button>
       </mat-card-actions>

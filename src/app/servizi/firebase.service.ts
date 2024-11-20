@@ -10,6 +10,7 @@ export class FirebaseService {
   private firestore: Firestore = inject(Firestore);
   constructor() { }
 
+  // fuzione chiamata da signUp() in AuthService
   async addUserToFirestore(uid: string, nome: string, cognome: string, email: string, ruolo: string) {
     try {
       if(ruolo == "docente"){
@@ -35,6 +36,7 @@ export class FirebaseService {
     }
   }
 
+  // funzione chiamata da profiloComponent
   async getUserData(uid: string, ruolo: string): Promise<any> {
     try {
       const userDocRef = doc(this.firestore, ruolo === 'docente' ? 'docenti' : 'studenti', uid);
@@ -50,7 +52,8 @@ export class FirebaseService {
       throw error;
     }
   }
-
+  
+  // funzione chiamata da profiloComponent
   async updateUserAvatar(uid: string, ruolo: string, avatar: string): Promise<void> {
     try {
       const userDocRef = doc(this.firestore, ruolo === 'docente' ? 'docenti' : 'studenti', uid);

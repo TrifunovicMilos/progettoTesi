@@ -1,3 +1,5 @@
+<!-- pagina per testare l'integrazione con firestore, estetica da cambiare -->
+
 <div *ngIf="isLoading" class="loading-container">
   <p>Caricamento in corso...</p>
 </div>
@@ -32,6 +34,6 @@
     </mat-form-field>
     
     <!-- non posso cambiare avatar se l'avatar selezionato è quello che avevo già -->
-    <button mat-raised-button style="border-radius: 4px;" [disabled]="selectedAvatar==initialAvatar" (click)="onConfirmChange()">Confirm Change</button>
+    <button mat-raised-button style="border-radius: 4px;" [disabled]="selectedAvatar==userAvatar" (click)="onConfirmChange()">Confirm Change</button>
   </div>
 </div>

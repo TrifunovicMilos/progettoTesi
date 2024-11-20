@@ -1,8 +1,10 @@
+<!-- Login e Registrazione sono nella stessa Component perché si trovano sulla stessa Card -->
 <div>
     <mat-card style="max-width: 450px;" appearance="outlined">
         <mat-card-content>
             <mat-tab-group>
 
+                <!-- sezione Login -->
                 <mat-tab label="Login">
                     <form [formGroup]="loginForm" (ngSubmit)="onLoginSubmit()">
                         <mat-form-field style="width: 100%; margin-top: 20px;">
@@ -28,6 +30,7 @@
                     </form>
                 </mat-tab>
 
+                <!-- sezione Registrazione -->
                 <mat-tab label="Registrazione">
                     <form [formGroup]="registerForm" (ngSubmit)="onRegisterSubmit()">
                         <mat-form-field style="width: 100%; margin-top: 20px;">

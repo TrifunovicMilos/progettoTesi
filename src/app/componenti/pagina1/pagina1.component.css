@@ -1,6 +1,6 @@
 .card-container {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Card più piccole, min-max a 250px */
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); 
   gap: 16px; /* Spaziatura tra le card */
 }
 
@@ -10,33 +10,30 @@
 
 .example-header-image {
   background-image: url('https://stem.elearning.unipd.it/pluginfile.php/871815/course/overviewfiles/prova.jpg');
-  background-size: cover;
-  width: 50px; /* Ridurre l'avatar dell'immagine */
-  height: 50px; /* Ridurre l'avatar dell'immagine */
-  border-radius: 50%; /* Impostare un bordo arrotondato */
+  background-size: cover; 
 }
 
 mat-card {
-  padding: 10px; /* Ridurre il padding generale */
+  padding: 10px; 
 }
 
 mat-card-title {
-  font-size: 16px; /* Impostare una dimensione più piccola per il titolo */
+  font-size: 16px; 
 }
 
 mat-card-subtitle {
-  font-size: 14px; /* Impostare una dimensione più piccola per il sottotitolo */
+  font-size: 14px; 
 }
 
 mat-card-content {
-  font-size: 12px; /* Ridurre la dimensione del testo nel contenuto */
+  font-size: 12px; 
 }
 
 mat-card-actions {
-  font-size: 12px; /* Ridurre la dimensione del testo nei bottoni */
+  font-size: 12px; 
 }
 
 img[mat-card-image] {
-  max-height: 150px; /* Limita l'altezza dell'immagine */
-  object-fit: cover; /* Fa sì che l'immagine non distorca */
+  max-height: 150px; 
+  object-fit: cover; 
 }

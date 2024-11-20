@@ -15,14 +15,14 @@ import { MatOptionModule } from '@angular/material/core';
   styleUrl: './profilo.component.css'
 })
 export class ProfiloComponent implements OnInit {
-  nome: string = '';
-  cognome: string = '';
-  ruolo: string = '';
-  email: string = '';
-  initialAvatar = ''; //avatar iniziale
-  selectedAvatar = '';
+  nome = '';
+  cognome = '';
+  ruolo = '';
+  email = '';
+  userAvatar = ''; // avatar associato all'utente
+  selectedAvatar = ''; // avatar selezionato al momento nel mat-select
   selectedAvatarUrl = '';
-  isLoading: boolean = true; // Stato del caricamento
+  isLoading = true; // Stato del caricamento
 
   constructor(private firebaseService: FirebaseService) {}
 
@@ -39,7 +39,7 @@ export class ProfiloComponent implements OnInit {
           const userData = await this.firebaseService.getUserData(uid, this.ruolo);
           this.nome = userData.nome;
           this.cognome = userData.cognome;
-          this.initialAvatar = userData.avatar || 'Default'; 
+          this.userAvatar = userData.avatar || 'Default'; 
           this.selectedAvatar = userData.avatar || 'Default'; 
           this.selectedAvatarUrl = this.getAvatarUrl();
         } catch (error) {
@@ -47,7 +47,7 @@ export class ProfiloComponent implements OnInit {
         } finally {
           setTimeout(() => {
             this.isLoading = false; // Disattiva il caricamento
-          }, 150);
+          }, 200); // delay in modo tale che il caricamento non duri mai meno di 200ms (non piacevole da vedere)
         }
       } else {
         console.log('Utente non autenticato');
@@ -56,7 +56,7 @@ export class ProfiloComponent implements OnInit {
     });
   }
 
-  getAvatarUrl(){
+  private getAvatarUrl(): string {
     if (this.selectedAvatar === 'Default') {
       return 'assets/avatar/default.jpg'; 
     } else {
@@ -65,14 +65,15 @@ export class ProfiloComponent implements OnInit {
     }
   }
 
+  // chiamata quando scelgo un avatar dalla lista
   onSelect(event: any): void {
     this.selectedAvatar = event.value
-    this.selectedAvatarUrl = this.getAvatarUrl();
+    this.selectedAvatarUrl = this.getAvatarUrl(); // si aggiorna l'avatar mostrato
   }
 
   onConfirmChange(): void {
     console.log('Avatar cambiato a:', this.selectedAvatar);
-    this.initialAvatar = this.selectedAvatar;
+    this.userAvatar = this.selectedAvatar;
 
     const auth = getAuth();
     const user = auth.currentUser;

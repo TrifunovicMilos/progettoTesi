@@ -1,7 +1,9 @@
+<!-- in alto la toolbar con nome app, icone di profilo e di logout -->
 <mat-toolbar>
     <button mat-icon-button (click)="toggleSidebar()" aria-label="Toggle sidebar">
       <mat-icon>menu</mat-icon>
     </button>
+    <!-- nome app da decidere ancora -->
     <span>WebApp Tesi</span>
     <span class="example-spacer"></span>
     <button mat-icon-button class="example-icon" aria-label="search">
@@ -15,6 +17,9 @@
     </button>
   </mat-toolbar>
   
+  <!-- sotto la toolbar un contenittore che: -->
+  <!-- - a sinistra contiene la sidebar (mat-drawer)  -->
+  <!-- - a destra la pagina scelta (mat-drawer-content) -->  
   <mat-drawer-container>
 
     <mat-drawer [ngClass]="{'mat-drawer-open': isSidebarOpen, 'mat-drawer-close': !isSidebarOpen, 'no-transition': isInitialLoad}" mode="side" opened 
@@ -33,6 +38,7 @@
       </mat-nav-list>
     </mat-drawer>
 
+    <!-- il contenuto a destra si muove in base alla dimensione della sidebar -->
     <mat-drawer-content>
       <div [ngClass]="isSidebarOpen ? 'mat-drawer-content-right' : 'mat-drawer-content-left'">
         <router-outlet></router-outlet>
