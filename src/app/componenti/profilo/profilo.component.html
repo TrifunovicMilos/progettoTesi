@@ -10,7 +10,7 @@
 
   <div class="avatar-container">
     <!-- Foto Avatar -->
-    <p><img [src]="selectedAvatarUrl" width="40" style="margin-right: 8px;"></p>
+    <p><img [src]="selectedAvatarUrl" width="60" style="margin-right: 8px;"></p>
     
     <!-- Lista di Avatar -->
     <mat-form-field class="avatar-select">
@@ -32,6 +32,6 @@
     </mat-form-field>
     
     <!-- non posso cambiare avatar se l'avatar selezionato è quello che avevo già -->
-    <button mat-raised-button class="confirm-btn" [disabled]="selectedAvatar==initialAvatar" (click)="onConfirmChange()">Confirm Change</button>
+    <button mat-raised-button style="border-radius: 4px;" [disabled]="selectedAvatar==initialAvatar" (click)="onConfirmChange()">Confirm Change</button>
   </div>
 </div>
