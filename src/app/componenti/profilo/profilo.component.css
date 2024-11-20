@@ -12,7 +12,7 @@
   }
 
   .avatar-select {
-      flex-grow: 1; 
+    flex-grow: 1; 
   }
   
   mat-option {
