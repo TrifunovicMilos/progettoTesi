@@ -26,7 +26,7 @@
     (mouseenter)="onMouseEnter()" (mouseleave)="onMouseLeave()">
       <mat-nav-list>
         <!-- aggiungo per ora 3 nomi e icone casuali -->
-        <a mat-list-item routerLink="/pagina1" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+        <a mat-list-item routerLink="/home" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
           <mat-icon>home</mat-icon> <span *ngIf="isSidebarOpen">Home Page</span>
         </a>
         <a mat-list-item routerLink="/pagina2" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
