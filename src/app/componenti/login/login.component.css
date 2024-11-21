@@ -1,8 +1,17 @@
 div {
-    height: 100vh;
-    background-color: #4169E1; 
-    display: flex; 
-    justify-content: center; 
-    align-items: center; 
-    text-align: center;
+  height: 100vh;
+  background-color: #4169e1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+a {
+  display: block;
+  text-align: center;
+  margin-top: 8px;
+  color: blue;
+  text-decoration: underline;
+  cursor: pointer;
 }

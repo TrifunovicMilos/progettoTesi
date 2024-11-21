@@ -6,7 +6,6 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { InfoDialogComponent } from '../info-dialog/info-dialog.component';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
-import { FirebaseService } from '../../servizi/firebase.service';
 
 @Component({
   selector: 'app-home',
@@ -20,7 +19,6 @@ export class HomeComponent implements OnInit {
   constructor(private dialog: MatDialog){}
 
   ruolo = '';
-
 
   ngOnInit(): void {
     const auth = getAuth();

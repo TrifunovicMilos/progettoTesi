@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { FirebaseService } from '../servizi/firebase.service';
-import { getAuth, sendEmailVerification, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut} from 'firebase/auth';
+import { getAuth, sendEmailVerification, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, sendPasswordResetEmail} from 'firebase/auth';
 import { Router } from '@angular/router';
 
 @Injectable({
@@ -84,6 +84,19 @@ export class AuthService {
       this.router.navigate(['/signin']);
     } catch (error) {
       console.error('Errore durante il logout:', error);
+    }
+  }
+
+  // funzione chiamata da onForgotPasswordSubmit() in ForgotPasswordDialogComponent
+  // (finestra che si apre al click di "Password Dimenticata" nella sezione di Login)
+  async resetPassword(email: string): Promise<void> {
+    const auth = getAuth();
+
+    try {
+      await sendPasswordResetEmail(auth, email);
+      console.log('Email per il reset della password inviata a:', email);
+    } catch (error: any) {
+      throw error; // gestito da ForgotPasswordDialogComponent
     }
   }
 

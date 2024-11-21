@@ -7,6 +7,8 @@ import { MatCardModule } from '@angular/material/card';
 import { MatTabsModule } from '@angular/material/tabs';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../auth/auth.service';
+import { MatDialog } from '@angular/material/dialog';
+import { ForgotPasswordDialogComponent } from '../forgot-password-dialog/forgot-password-dialog.component';
 
 @Component({
   selector: 'app-login',
@@ -18,8 +20,11 @@ import { AuthService } from '../../auth/auth.service';
 export class LoginComponent implements OnInit{
   registerForm!: FormGroup;
   loginForm!: FormGroup;
+  // salvo in una variabile la email con la quale ho provato ad accedere, 
+  // in modo tale da usarla come predefinita al click di "Password Dimenticata"
+  emailLogin = ''; 
 
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService, private dialog: MatDialog) {}
 
   ngOnInit(): void {
     
@@ -32,7 +37,7 @@ export class LoginComponent implements OnInit{
       email: new FormControl('', [Validators.required, 
       Validators.pattern(/^[a-z]+(\.[a-z]+)+\.(studente|docente)@yopmail\.com$/)]),
       
-      // l'unico vincolopassword è quello di lunghezza minima = 6 perché è il vincolo imposto da firebase authentication
+      // l'unico vincolo password è quello di lunghezza minima = 6 perché è il vincolo imposto da firebase authentication
       password: new FormControl('', [Validators.required, Validators.minLength(6)]),
       confirmPassword: new FormControl('', [Validators.required]),
     });
@@ -41,6 +46,7 @@ export class LoginComponent implements OnInit{
   onLoginSubmit(): void {
     if (this.loginForm.valid) {
       const { email, password } = this.loginForm.value; // estraggo i valori dal form
+      this.emailLogin = email;
 
       this.authService.login(email, password).then(() => {
         console.log('Login eseguito');
@@ -55,6 +61,17 @@ export class LoginComponent implements OnInit{
         }
       });
     }
+  }
+
+  openForgotPasswordDialog(): void {
+    const dialogRef = this.dialog.open(ForgotPasswordDialogComponent, {
+      width: '400px',
+      data: { email: this.emailLogin } // Passo l'email al dialog
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('Il dialog è stato chiuso');
+    });
   }
 
   // chiamata da onRegisterSubmit()
