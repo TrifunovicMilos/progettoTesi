@@ -1,40 +1,59 @@
-.card-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); 
-    gap: 16px; /* Spaziatura tra le card */
+.cards-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  justify-content: flex-start;
+  padding: 20px;
+}
+
+.card {
+  flex: 1 1 calc(33.33% - 16px); /* 3 card per riga su schermi larghi */
+  max-width: calc(33.33% - 16px); /* Evita di superare il 33% della larghezza */
+  box-sizing: border-box;
+  transition: all 0.3s ease;
+  overflow: hidden;
+}
+
+.card:hover {
+  transform: scale(1.05);
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* 2 card per riga su schermi medi */
+/* @media (max-width: 1200px) {
+  .example-card {
+    flex: 1 1 calc(50% - 16px); 
+    max-width: calc(50% - 16px);
   }
-  
-  .card-item {
-    box-sizing: border-box;
+} */
+
+/* 1 card per riga su schermi piccoli */
+/* @media (max-width: 768px) {
+  .example-card {
+    flex: 1 1 calc(100% - 16px); 
+    max-width: calc(100% - 16px);
   }
-  
-  .example-header-image {
-    background-image: url('https://stem.elearning.unipd.it/pluginfile.php/871815/course/overviewfiles/prova.jpg');
-    background-size: cover; 
-  }
-  
-  mat-card {
-    padding: 10px; 
-  }
-  
-  mat-card-title {
-    font-size: 16px; 
-  }
-  
-  mat-card-subtitle {
-    font-size: 14px; 
-  }
-  
-  mat-card-content {
-    font-size: 12px; 
-  }
-  
-  mat-card-actions {
-    font-size: 12px; 
-  }
-  
-  img[mat-card-image] {
-    max-height: 150px; 
-    object-fit: cover; 
-  }
-  
+} */
+
+.header-image {
+  background-image: url("https://stem.elearning.unipd.it/pluginfile.php/871815/course/overviewfiles/prova.jpg");
+  background-size: cover;
+}
+
+mat-card-title {
+  font-size: 17px;
+}
+
+mat-card-subtitle {
+  font-size: 15px;
+}
+
+mat-card-content {
+  font-size: 14px;
+}
+
+img[mat-card-image] {
+  margin: 0px 10px 10px;
+  max-height: 200px;
+  object-fit: cover;
+}
