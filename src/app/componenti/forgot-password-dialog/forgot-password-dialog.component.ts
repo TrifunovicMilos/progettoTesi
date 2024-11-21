@@ -36,7 +36,7 @@ export class ForgotPasswordDialogComponent {
       console.log('Recupero password per:', email);
       
       this.authService.resetPassword(email).then(() => {
-        alert('Email per il reset della password inviata')
+        alert("Email per il reset della password inviata.\nSe non hai ricevuto il messaggio, assicurati di aver inserito l'indirizzo corretto.")
         console.log('Email per il reset della password inviata');
         this.dialogRef.close(); // Chiudi il dialog dopo aver inviato l'email
       }).catch((error) => {
