@@ -24,6 +24,7 @@ export class LoginComponent implements OnInit{
   // salvo in una variabile la email con la quale ho provato ad accedere, 
   // in modo tale da usarla come predefinita al click di "Password Dimenticata"
   emailLogin = ''; 
+  registerPasswordError = 0; // tipologia errore password di registrazione
 
   constructor(private authService: AuthService, private dialog: MatDialog) {}
 
@@ -43,6 +44,19 @@ export class LoginComponent implements OnInit{
       passwordValidator()]),
       confirmPassword: new FormControl('', [Validators.required]),
     });
+
+    this.registerForm.get('password')?.valueChanges.subscribe(() => {
+      this.checkPasswordErrors();
+    });
+  }
+
+  checkPasswordErrors() {
+      if(this.registerForm.get('password')?.hasError('required'))
+      this.registerPasswordError = 1 // password non inserita
+      else if(this.registerForm.controls['password'].hasError('minlength'))
+      this.registerPasswordError = 2 // password corta
+      else if(this.registerForm.controls['password'].hasError('passwordStrength'))
+      this.registerPasswordError = 3 // password debole
   }
 
   onLoginSubmit(): void {

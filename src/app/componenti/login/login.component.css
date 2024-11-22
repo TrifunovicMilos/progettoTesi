@@ -20,5 +20,6 @@ mat-error {
   color: red;
   display: flex;
   width: 100%;
+  margin-top: 2px;
   white-space: normal;
 }
