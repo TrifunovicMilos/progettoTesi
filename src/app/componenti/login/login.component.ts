@@ -9,6 +9,7 @@ import { CommonModule } from '@angular/common';
 import { AuthService } from '../../auth/auth.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ForgotPasswordDialogComponent } from '../forgot-password-dialog/forgot-password-dialog.component';
+import { passwordValidator } from '../../validators/password.validator';
 
 @Component({
   selector: 'app-login',
@@ -37,8 +38,9 @@ export class LoginComponent implements OnInit{
       email: new FormControl('', [Validators.required, 
       Validators.pattern(/^[a-z]+(\.[a-z]+)+\.(studente|docente)@yopmail\.com$/)]),
       
-      // l'unico vincolo password è quello di lunghezza minima = 6 perché è il vincolo imposto da firebase authentication
-      password: new FormControl('', [Validators.required, Validators.minLength(6)]),
+      // La password deve contenere almeno 8 caratteri, una lettera maiuscola, una lettera minuscola e un numero.
+      password: new FormControl('', [Validators.required, Validators.minLength(8),
+      passwordValidator()]),
       confirmPassword: new FormControl('', [Validators.required]),
     });
   }
