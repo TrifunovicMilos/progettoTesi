@@ -11,7 +11,7 @@
   box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
 }
 
-/* 4 card per riga su schermi enormi */
+/* 3 card per riga su schermi enormi */
 .card {
   flex: 1 1 calc(33.33% - 16px); 
   max-width: calc(33.33% - 16px); 
@@ -20,7 +20,7 @@
   overflow: hidden;
 }
 
-/* 3 card per riga su schermi grandi */
+/* TODO */
 /* @media (max-width: 1350px) {
   .card {
     flex: 1 1 calc(33.33% - 16px); 
@@ -28,7 +28,7 @@
   }
 } */
 
-/* 2 card per riga su schermi medi */
+/* TODO */
 /* @media (max-width: 1050px) {
   .card {
     flex: 1 1 calc(50% - 16px); 
@@ -36,7 +36,7 @@
   }
 } */
 
-/* 1 card per riga su schermi piccoli */
+/* TODO */
 /* @media (min-width: 650px) and (max-width: 750px) {
   .card {
     flex: 1 1 calc(100% - 16px); 
@@ -46,7 +46,7 @@
   }
 } */
 
-/* 1 card per riga su schermi piccoli */
+/* TODO */
 /* @media (min-width: 550px) and (max-width: 650px) {
   .card {
     flex: 1 1 calc(100% - 16px); 
@@ -56,7 +56,7 @@
   }
 } */
 
-/* 1 card per riga su schermi piccoli */
+/* TODO */
 /* @media (max-width: 550px) {
   .card {
     flex: 1 1 calc(100% - 16px); 
@@ -66,7 +66,7 @@
   }
 } */
 
-/* 1 card per riga su schermi piccoli */
+/* TODO */
 /* @media (max-width: 500px) {
   .card {
     margin-left: 0px;
