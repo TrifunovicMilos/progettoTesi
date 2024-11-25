@@ -9,6 +9,7 @@ import { CommonModule } from '@angular/common';
 import { AuthService } from '../../auth/auth.service';
 import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
+import { SidebarService } from '../../servizi/sidebar.service';
 
 
 @Component({
@@ -20,11 +21,15 @@ import { MatDialog } from '@angular/material/dialog';
 })
 export class DashboardComponent implements AfterViewInit{
 
-  isSidebarOpen = false; // Sidebar inizialmente stretta
+  isSidebarOpen = false;
   isSidebarOpenWithClick = false; // true se l'utente decide di aprire tramite click. Se la apre passandoci con il mouse, rimane false
   isInitialLoad = true; // fa sì che inizialmente "transition: none !important", per risolvere un bug
   
-  constructor(private authService: AuthService, private dialog: MatDialog){}
+  constructor(private authService: AuthService, private sidebarService: SidebarService, private dialog: MatDialog){
+    this.sidebarService.sidebarState$.subscribe(state => {
+      this.isSidebarOpen = state; // Aggiorna lo stato locale
+    });
+  }
 
   ngAfterViewInit(): void {
     // Riattivo le transizioni, che avevo disattivato causa bug
@@ -34,15 +39,15 @@ export class DashboardComponent implements AfterViewInit{
   }
 
   toggleSidebar(): void {
-    this.isSidebarOpen = !this.isSidebarOpen;
+    this.sidebarService.toggleSidebar();
     this.isSidebarOpenWithClick = !this.isSidebarOpenWithClick;
   }
 
   onMouseEnter(): void {
-    if (!this.isSidebarOpen) {
+     if (!this.isSidebarOpen) {
       this.isSidebarOpen = true; // Allarga la sidebar al passaggio del mouse
-    }
-  }
+     }
+   }
 
   onMouseLeave(): void {
     // se la sidebar è stata aperta senza il click (quindi passando con il mouse), deve chiudersi una volta usciti col mouse
