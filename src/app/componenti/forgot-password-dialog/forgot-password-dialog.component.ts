@@ -25,8 +25,7 @@ export class ForgotPasswordDialogComponent {
     private authService: AuthService
   ) {
     this.forgotPasswordForm = new FormGroup({
-      email: new FormControl(this.data.email || '', 
-      [Validators.required, Validators.pattern(/^[a-z]+(\.[a-z]+)+\.(studente|docente)@yopmail\.com$/)]) 
+      email: new FormControl(this.data.email || '', [Validators.required, Validators.email]) 
     });
   }
 
