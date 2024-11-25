@@ -6,32 +6,72 @@
   padding: 20px;
 }
 
-.card {
-  flex: 1 1 calc(33.33% - 16px); /* 3 card per riga su schermi larghi */
-  max-width: calc(33.33% - 16px); /* Evita di superare il 33% della larghezza */
-  box-sizing: border-box;
-  transition: all 0.3s ease;
-  overflow: hidden;
-}
-
 .card:hover {
   transform: scale(1.05);
   box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
 }
 
+/* 4 card per riga su schermi enormi */
+.card {
+  flex: 1 1 calc(33.33% - 16px); 
+  max-width: calc(33.33% - 16px); 
+  box-sizing: border-box;
+  transition: all 0.3s ease;
+  overflow: hidden;
+}
+
+/* 3 card per riga su schermi grandi */
+/* @media (max-width: 1350px) {
+  .card {
+    flex: 1 1 calc(33.33% - 16px); 
+    max-width: calc(33.33% - 16px);
+  }
+} */
+
 /* 2 card per riga su schermi medi */
-/* @media (max-width: 1200px) {
-  .example-card {
+/* @media (max-width: 1050px) {
+  .card {
     flex: 1 1 calc(50% - 16px); 
     max-width: calc(50% - 16px);
   }
 } */
 
 /* 1 card per riga su schermi piccoli */
-/* @media (max-width: 768px) {
-  .example-card {
+/* @media (min-width: 650px) and (max-width: 750px) {
+  .card {
     flex: 1 1 calc(100% - 16px); 
     max-width: calc(100% - 16px);
+    margin-left: 100px;
+    margin-right: 100px;
+  }
+} */
+
+/* 1 card per riga su schermi piccoli */
+/* @media (min-width: 550px) and (max-width: 650px) {
+  .card {
+    flex: 1 1 calc(100% - 16px); 
+    max-width: calc(100% - 16px);
+    margin-left: 50px;
+    margin-right: 50px;
+  }
+} */
+
+/* 1 card per riga su schermi piccoli */
+/* @media (max-width: 550px) {
+  .card {
+    flex: 1 1 calc(100% - 16px); 
+    max-width: calc(100% - 16px);
+    margin-left: 20px;
+    margin-right: 20px;
+  }
+} */
+
+/* 1 card per riga su schermi piccoli */
+/* @media (max-width: 500px) {
+  .card {
+    margin-left: 0px;
+    margin-right: 0px;
+    color: red;
   }
 } */
 
