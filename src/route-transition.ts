@@ -1,7 +1,7 @@
 import { animate, group, query, style, transition, trigger } from "@angular/animations";
 
 export const routeTransition = trigger('routeTransition', [
-    transition('SigninPage => HomePage', [
+    transition('* => *', [
       query(':enter, :leave', [
         style({ position: 'absolute', width: '100%' })
       ], { optional: true }),
