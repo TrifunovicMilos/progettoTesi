@@ -1,4 +1,4 @@
-import { AfterViewInit, Component } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { RouterLink, RouterOutlet, RouterLinkActive } from '@angular/router';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatIconModule } from '@angular/material/icon';
@@ -9,6 +9,8 @@ import { CommonModule } from '@angular/common';
 import { AuthService } from '../../auth/auth.service';
 import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
+import { FirebaseService } from '../../servizi/firebase.service';
 
 
 @Component({
@@ -18,13 +20,37 @@ import { MatDialog } from '@angular/material/dialog';
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'
 })
-export class DashboardComponent implements AfterViewInit{
+export class DashboardComponent implements OnInit, AfterViewInit{
+  nome = '';
+  cognome = '';
+  ruolo = '';
 
   isSidebarOpen = false;
   isSidebarOpenWithClick = false; // true se l'utente decide di aprire tramite click. Se la apre passandoci con il mouse, rimane false
   isInitialLoad = true; // fa sì che inizialmente "transition: none !important", per risolvere un bug
   
-  constructor(private authService: AuthService, private dialog: MatDialog){}
+  constructor(private authService: AuthService, private firebaseService: FirebaseService, private dialog: MatDialog){}
+
+  ngOnInit(): void {
+    const auth = getAuth();
+
+    onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        const uid = user.uid;
+        this.ruolo = user.email?.includes('docente') ? 'docente' : 'studente';
+
+        try {
+          const userData = await this.firebaseService.getUserData(uid, this.ruolo);
+          this.nome = userData.nome;
+          this.cognome = userData.cognome;
+        } catch (error) {
+          console.log('Errore nel recupero dei dati utente:');
+        }
+      } else {
+        console.log('Utente non autenticato');
+      }
+    });
+  }
 
   ngAfterViewInit(): void {
     // Riattivo le transizioni, che avevo disattivato causa bug

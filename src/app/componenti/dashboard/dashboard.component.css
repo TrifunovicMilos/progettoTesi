@@ -1,14 +1,30 @@
 .title {
+  font-family: "Gill Sans", sans-serif;
   text-decoration: none; 
   color: inherit;
 }
 
 .title:hover {
-  color: orange; /* Colore quando si passa sopra */
+  color: orange;
 }
 
 .example-spacer {
   flex: 1 1 auto;
+}
+
+.nomeProfilo {
+  margin-left: 15px; 
+  font-family: Copperplate, Papyrus, fantasy;
+  text-decoration: none; 
+  color: inherit;
+}
+
+.nomeProfilo:hover {
+  color: orange; 
+}
+
+.activeNomeProfilo {
+  color: orange;
 }
 
 mat-drawer-container  {
