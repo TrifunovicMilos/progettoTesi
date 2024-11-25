@@ -25,7 +25,7 @@ export class DashboardComponent implements OnInit, AfterViewInit{
   cognome = '';
   ruolo = '';
   avatar = '';
-  avatarUrl = ''
+  avatarUrl = '';
 
   isSidebarOpen = false;
   isSidebarOpenWithClick = false; // true se l'utente decide di aprire tramite click. Se la apre passandoci con il mouse, rimane false
@@ -41,15 +41,14 @@ export class DashboardComponent implements OnInit, AfterViewInit{
         const uid = user.uid;
         this.ruolo = user.email?.includes('docente') ? 'docente' : 'studente';
 
-        try {
-          const userData = await this.firebaseService.getUserData(uid, this.ruolo);
-          this.nome = userData.nome;
-          this.cognome = userData.cognome;
-          this.avatar = userData.avatar || 'Default';
-          this.avatarUrl = this.getAvatarUrl();
-        } catch (error) {
-          console.log('Errore nel recupero dei dati utente:');
-        }
+        this.firebaseService.listenToUserData(uid, this.ruolo).subscribe((userData) => {
+          if (userData) {
+            this.nome = userData.nome;
+            this.cognome = userData.cognome;
+            this.avatar = userData.avatar || 'Default';
+            this.avatarUrl = this.getAvatarUrl();
+          }
+        });
       } else {
         console.log('Utente non autenticato');
       }
@@ -61,7 +60,7 @@ export class DashboardComponent implements OnInit, AfterViewInit{
       return 'assets/avatar/default.jpg'; 
     } else {
       const avatarNumber = this.avatar.split(' ')[1];
-      return 'assets/avatar/avatar${avatarNumber}.jpg';
+      return `assets/avatar/avatar${avatarNumber}.jpg`;
     }
   }
 

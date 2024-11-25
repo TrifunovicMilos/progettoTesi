@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Firestore, setDoc, doc, getDoc, updateDoc } from '@angular/fire/firestore';
+import { Firestore, setDoc, doc, getDoc, updateDoc, onSnapshot } from '@angular/fire/firestore';
 import { inject } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -62,4 +63,22 @@ export class FirebaseService {
       throw error; // lo stamperà ProfiloComponent
     }
   }
+
+  listenToUserData(uid: string, ruolo: string) {
+    const userDocRef = doc(this.firestore, ruolo === 'docente' ? 'docenti' : 'studenti', uid);
+    const userSubject = new BehaviorSubject<any>(null); // Comincia con null
+
+    // Ascolta in tempo reale i cambiamenti
+    onSnapshot(userDocRef, (docSnap) => {
+      if (docSnap.exists()) {
+        userSubject.next(docSnap.data()); // Emmetti i dati aggiornati
+      } else {
+        console.log('Documento non trovato.');
+        userSubject.next(null); // Se non esiste il documento, emetti null
+      }
+    });
+
+    return userSubject.asObservable(); // Restituisce un observable
+  }
 }
+
