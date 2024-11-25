@@ -1,48 +1,47 @@
 <!-- in alto la toolbar con nome app, icone di profilo e di logout -->
 <mat-toolbar>
-    <button mat-icon-button (click)="toggleSidebar()" aria-label="Toggle sidebar">
-      <mat-icon>menu</mat-icon>
-    </button>
-    <!-- nome app da decidere ancora -->
-    <span>WebApp Tesi</span>
-    <span class="example-spacer"></span>
-    <button mat-icon-button class="example-icon" aria-label="search">
-      <mat-icon>search</mat-icon>
-    </button>
-    <button mat-icon-button class="example-icon" aria-label="account" routerLink="/profilo" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
-      <mat-icon>account_circle</mat-icon>
-    </button>
-    <button mat-icon-button class="example-icon" aria-label="logout" (click)="onLogout()">
-      <mat-icon>logout</mat-icon>
-    </button>
-  </mat-toolbar>
-  
-  <!-- sotto la toolbar un contenittore che: -->
-  <!-- - a sinistra contiene la sidebar (mat-drawer)  -->
-  <!-- - a destra la pagina scelta (mat-drawer-content) -->  
-  <mat-drawer-container>
+  <button mat-icon-button (click)="toggleSidebar()" aria-label="Toggle sidebar">
+    <mat-icon>menu</mat-icon>
+  </button>
+  <!-- nome app da decidere ancora -->
+  <span>WebApp Tesi</span>
+  <span class="example-spacer"></span>
+  <button mat-icon-button class="example-icon" aria-label="search">
+    <mat-icon>search</mat-icon>
+  </button>
+  <button mat-icon-button class="example-icon" aria-label="account" routerLink="/profilo" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+    <mat-icon>account_circle</mat-icon>
+  </button>
+  <button mat-icon-button class="example-icon" aria-label="logout" (click)="onLogout()">
+    <mat-icon>logout</mat-icon>
+  </button>
+</mat-toolbar>
 
-    <mat-drawer [ngClass]="{'mat-drawer-open': isSidebarOpen, 'mat-drawer-close': !isSidebarOpen, 'no-transition': isInitialLoad}" mode="side" opened 
-    (mouseenter)="onMouseEnter()" (mouseleave)="onMouseLeave()">
-      <mat-nav-list>
-        <!-- aggiungo per ora 3 nomi e icone casuali -->
-        <a mat-list-item routerLink="/home" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
-          <mat-icon>home</mat-icon> <span *ngIf="isSidebarOpen">Home Page</span>
-        </a>
-        <a mat-list-item routerLink="/pagina2" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
-          <mat-icon>apps</mat-icon> <span *ngIf="isSidebarOpen">Page 2</span>
-        </a>
-        <a mat-list-item routerLink="/pagina3" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
-          <mat-icon>settings</mat-icon> <span *ngIf="isSidebarOpen">Page 3</span>
-        </a>
-      </mat-nav-list>
-    </mat-drawer>
+<!-- sotto la toolbar un contenittore che: -->
+<!-- - a sinistra contiene la sidebar (mat-drawer)  -->
+<!-- - a destra la pagina scelta (mat-drawer-content) -->  
+<mat-drawer-container>
 
-    <!-- il contenuto a destra si muove in base alla dimensione della sidebar -->
-    <mat-drawer-content>
-      <div [ngClass]="isSidebarOpen ? 'mat-drawer-content-right' : 'mat-drawer-content-left'">
-        <router-outlet></router-outlet>
-      </div>
-    </mat-drawer-content>
-  </mat-drawer-container>
-  
+  <mat-drawer [ngClass]="{'mat-drawer-open': isSidebarOpen, 'mat-drawer-close': !isSidebarOpen, 'no-transition': isInitialLoad}" mode="side" opened 
+  (mouseenter)="onMouseEnter()" (mouseleave)="onMouseLeave()">
+    <mat-nav-list>
+      <!-- aggiungo per ora 3 nomi e icone casuali -->
+      <a mat-list-item routerLink="/home" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+        <mat-icon>home</mat-icon> <span *ngIf="isSidebarOpen">Home Page</span>
+      </a>
+      <a mat-list-item routerLink="/pagina2" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+        <mat-icon>apps</mat-icon> <span *ngIf="isSidebarOpen">Page 2</span>
+      </a>
+      <a mat-list-item routerLink="/pagina3" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+        <mat-icon>settings</mat-icon> <span *ngIf="isSidebarOpen">Page 3</span>
+      </a>
+    </mat-nav-list>
+  </mat-drawer>
+
+  <!-- il contenuto a destra si muove in base alla dimensione della sidebar -->
+  <mat-drawer-content>
+    <div [ngClass]="isSidebarOpen ? 'mat-drawer-content-right' : 'mat-drawer-content-left'">
+      <router-outlet></router-outlet>
+    </div>
+  </mat-drawer-content>
+</mat-drawer-container>
