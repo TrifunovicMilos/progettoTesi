@@ -16,9 +16,9 @@
     routerLink="/profilo" routerLinkActive="activeNomeProfilo" [routerLinkActiveOptions]="{exact: true}">
     {{nome}} {{cognome}} - {{ruolo}}
   </a>
-  <a [routerLink]="['/profilo']">
+  <button mat-icon-button aria-label="avatar" class="avatarButton" routerLink="/profilo">
     <img [src]="avatarUrl" class="avatar">
-  </a>
+  </button>
   <!-- <button mat-icon-button class="example-icon" aria-label="account" style="margin-left: 10px;"
     routerLink="/profilo" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
     <mat-icon>account_circle</mat-icon>
