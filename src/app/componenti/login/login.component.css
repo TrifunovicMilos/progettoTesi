@@ -9,7 +9,10 @@ div {
 
 a {
   display: block;
+  width : 165px;  /* larghezza area cliccabile di "Password Dimenticata?", equivalente alla larghezza del testo */
   text-align: center;
+  margin-left: auto; 
+  margin-right: auto; 
   margin-top: 8px;
   color: blue;
   text-decoration: underline;
@@ -17,7 +20,6 @@ a {
 }
 
 mat-error {
-  color: red;
   display: flex;
   width: 100%;
   margin-top: 2px;
