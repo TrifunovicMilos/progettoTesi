@@ -91,7 +91,7 @@ mat-drawer mat-icon {
   background-color: #B8ECFF;
 }
 
-.mat-drawer-content-right {
+/* .mat-drawer-content-right {
   padding: 20px;
   margin-left: 210px;
   transition: width 0.3s ease
@@ -101,4 +101,8 @@ mat-drawer mat-icon {
   padding: 20px;
   margin-left: 20px;
   transition: width 0.3s ease
+} */
+mat-drawer-content {
+  padding-top: 20px;
+  transition: width 0.3s ease 
 }

@@ -50,9 +50,8 @@
   </mat-drawer>
 
   <!-- il contenuto a destra si muove in base alla dimensione della sidebar -->
-  <mat-drawer-content>
-    <div [ngClass]="isSidebarOpen ? 'mat-drawer-content-right' : 'mat-drawer-content-left'">
+  <mat-drawer-content [ngStyle]="{'margin-left': isSidebarOpen ? '265px' : '80px'}" 
+  style="margin-left: 80px;">
       <router-outlet></router-outlet>
-    </div>
   </mat-drawer-content>
 </mat-drawer-container>
