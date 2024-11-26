@@ -58,6 +58,7 @@ mat-drawer-container  {
 }
 
 .mat-drawer-open {
+  display: flex;
   width: 250px;
   border: 1px solid #ddd;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
@@ -65,11 +66,19 @@ mat-drawer-container  {
 }
 
 .mat-drawer-close {
+  display: flex;
   width: 60px;
   border: 1px solid #ddd;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
   transition: width 0.3s ease
 }
+
+/* su schermi piccoli, la sidebar o non c'è o è larga, non ha senso averne una stretta */
+@media (max-width: 770px) {
+  .mat-drawer-close {
+    display: none;
+  }
+} 
 
 mat-nav-list {
   display: flex;
@@ -91,19 +100,37 @@ mat-drawer mat-icon {
   background-color: #B8ECFF;
 }
 
-/* .mat-drawer-content-right {
-  padding: 20px;
-  margin-left: 210px;
-  transition: width 0.3s ease
-}
-
-.mat-drawer-content-left {
-  padding: 20px;
-  margin-left: 20px;
-  transition: width 0.3s ease
-} */
-
 mat-drawer-content {
   padding-top: 20px;
   transition: width 0.3s ease 
+}
+
+mat-drawer-content.mat-drawer-content-right {
+  margin-left: 265px !important;
+}
+
+@media (max-width: 770px) {
+  mat-drawer-content.mat-drawer-content-right {
+    margin-left: 80px !important;
+  }
+}
+
+mat-drawer-content.mat-drawer-content-left {
+  margin-left: 80px !important;
+}
+
+/* su schermi piccoli non c'è sidebar, quindi non mi sposto */
+@media (max-width: 770px) {
+  mat-drawer-content.mat-drawer-content-left {
+    margin-left: 0 !important;
+    margin-right: -10px !important;
+  }
+}
+
+/* su schermi piccoli, quando la sidebar si apre, passa sopra il contenuto */
+@media (max-width: 770px) {
+  mat-drawer-content.mat-drawer-content-right {
+    margin-left: 0 !important;
+    margin-right: -10px !important;
+  }
 }
