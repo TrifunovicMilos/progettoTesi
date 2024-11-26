@@ -11,69 +11,65 @@
   box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
 }
 
-/* 3 card per riga su schermi enormi */
+/* 4 card per riga su molto schermi larghi */
 .card {
-  flex: 1 1 calc(33.33% - 16px); 
-  max-width: calc(33.33% - 16px); 
+  flex: 1 1 calc(25% - 16px); 
+  max-width: calc(25% - 16px); 
   box-sizing: border-box;
   transition: all 0.3s ease;
   overflow: hidden;
 }
 
-/* TODO */
-/* @media (max-width: 1350px) {
+/* 3 card per riga su schermi larghi */
+@media (max-width: 1350px) {
   .card {
     flex: 1 1 calc(33.33% - 16px); 
     max-width: calc(33.33% - 16px);
   }
-} */
+} 
 
-/* TODO */
-/* @media (max-width: 1050px) {
+/* 2 card per riga su schermi medi */
+@media (max-width: 1050px) {
   .card {
     flex: 1 1 calc(50% - 16px); 
     max-width: calc(50% - 16px);
   }
-} */
+}
 
-/* TODO */
-/* @media (min-width: 650px) and (max-width: 750px) {
+/* 1 card per riga su schermi stretti */
+@media (min-width: 650px) and (max-width: 750px) {
   .card {
     flex: 1 1 calc(100% - 16px); 
     max-width: calc(100% - 16px);
     margin-left: 100px;
     margin-right: 100px;
   }
-} */
+}
 
-/* TODO */
-/* @media (min-width: 550px) and (max-width: 650px) {
+@media (min-width: 550px) and (max-width: 650px) {
   .card {
     flex: 1 1 calc(100% - 16px); 
     max-width: calc(100% - 16px);
     margin-left: 50px;
     margin-right: 50px;
   }
-} */
+}
 
-/* TODO */
-/* @media (max-width: 550px) {
+@media (max-width: 550px) {
   .card {
     flex: 1 1 calc(100% - 16px); 
     max-width: calc(100% - 16px);
     margin-left: 20px;
     margin-right: 20px;
   }
-} */
+}
 
-/* TODO */
-/* @media (max-width: 500px) {
+@media (max-width: 500px) {
   .card {
     margin-left: 0px;
     margin-right: 0px;
-    color: red;
   }
-} */
+}
 
 .header-image {
   background-image: url("https://stem.elearning.unipd.it/pluginfile.php/871815/course/overviewfiles/prova.jpg");
