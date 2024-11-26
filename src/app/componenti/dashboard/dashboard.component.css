@@ -102,6 +102,7 @@ mat-drawer mat-icon {
   margin-left: 20px;
   transition: width 0.3s ease
 } */
+
 mat-drawer-content {
   padding-top: 20px;
   transition: width 0.3s ease 
