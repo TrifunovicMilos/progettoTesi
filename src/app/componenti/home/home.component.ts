@@ -6,6 +6,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { InfoDialogComponent } from '../info-dialog/info-dialog.component';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
+import { SidebarService } from '../../servizi/sidebar.service';
 
 @Component({
   selector: 'app-home',
@@ -16,9 +17,10 @@ import { getAuth, onAuthStateChanged } from 'firebase/auth';
 })
 export class HomeComponent implements OnInit {
 
-  constructor(private dialog: MatDialog){}
-
   ruolo = '';
+  isSidebarOpen = false;
+
+  constructor(private sidebarService: SidebarService, private dialog: MatDialog){}
 
   ngOnInit(): void {
     const auth = getAuth();
@@ -27,6 +29,11 @@ export class HomeComponent implements OnInit {
       if(user)
         this.ruolo = user.email?.includes('docente') ? 'docente' : 'studente';
       });
+
+      this.sidebarService.sidebarState$.subscribe(state => {
+        this.isSidebarOpen = state; 
+      })
+
     }
 
   // per ora esami con titolo e descrizioni uguali
