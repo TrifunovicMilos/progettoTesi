@@ -11,6 +11,7 @@ import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.compone
 import { MatDialog } from '@angular/material/dialog';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { FirebaseService } from '../../servizi/firebase.service';
+import { SidebarService } from '../../servizi/sidebar.service';
 
 
 @Component({
@@ -31,7 +32,7 @@ export class DashboardComponent implements OnInit, AfterViewInit{
   isSidebarOpenWithClick = false; // true se l'utente decide di aprire tramite click. Se la apre passandoci con il mouse, rimane false
   isInitialLoad = true; // fa sì che inizialmente "transition: none !important", per risolvere un bug
   
-  constructor(private authService: AuthService, private firebaseService: FirebaseService, private dialog: MatDialog){}
+  constructor(private authService: AuthService, private firebaseService: FirebaseService, private sidebarService: SidebarService, private dialog: MatDialog){}
 
   ngOnInit(): void {
     const auth = getAuth();
@@ -53,6 +54,10 @@ export class DashboardComponent implements OnInit, AfterViewInit{
         console.log('Utente non autenticato');
       }
     });
+
+    this.sidebarService.sidebarState$.subscribe(state => {
+      this.isSidebarOpen = state; 
+    })
   }
 
   private getAvatarUrl(): string {
@@ -72,13 +77,13 @@ export class DashboardComponent implements OnInit, AfterViewInit{
   }
 
   toggleSidebar(): void {
-    this.isSidebarOpen = !this.isSidebarOpen;
+    this.sidebarService.toggleSidebar()
     this.isSidebarOpenWithClick = !this.isSidebarOpenWithClick;
   }
 
   onMouseEnter(): void {
     if (!this.isSidebarOpen) {
-      this.isSidebarOpen = true; // Allarga la sidebar al passaggio del mouse
+      this.sidebarService.setSidebarState(true); // Allarga la sidebar al passaggio del mouse
     }
    }
 
@@ -86,7 +91,7 @@ export class DashboardComponent implements OnInit, AfterViewInit{
     // se la sidebar è stata aperta senza il click (quindi passando con il mouse), deve chiudersi una volta usciti col mouse
     // se la sidebar è stata aperta con il click sulla toolbar, NON deve restringersi una volta usciti con il mouse!
     if (!this.isSidebarOpenWithClick && this.isSidebarOpen) { 
-      this.isSidebarOpen = false; // Restringi la sidebar quando il mouse esce
+      this.sidebarService.setSidebarState(false); // Restringi la sidebar quando il mouse esce
     }
   }
 
