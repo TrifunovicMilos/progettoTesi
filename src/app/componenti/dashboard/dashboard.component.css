@@ -53,10 +53,12 @@ mat-drawer-container  {
   display: flex;
 }
 
-.no-transition {
+/* usato in passato al caricamento iniziale della pagina per risolvere un bug che però non c'è più */
+/* .no-transition {
   transition: none !important;
-}
+} */
 
+/* sidebar larga: 250px */
 .mat-drawer-open {
   display: flex;
   width: 250px;
@@ -65,6 +67,7 @@ mat-drawer-container  {
   transition: width 0.3s ease
 }
 
+/* sidebar stretta: 60px */
 .mat-drawer-close {
   display: flex;
   width: 60px;
@@ -73,7 +76,7 @@ mat-drawer-container  {
   transition: width 0.3s ease
 }
 
-/* su schermi piccoli, la sidebar o non c'è o è larga, non ha senso averne una stretta */
+/* su schermi piccoli, la sidebar o non c'è o è larga (e passa sopra il contentuto), non ha senso averne una stretta */
 @media (max-width: 770px) {
   .mat-drawer-close {
     display: none;
@@ -105,31 +108,19 @@ mat-drawer-content {
   transition: width 0.3s ease 
 }
 
+/* si attiva quando isSidebarOpen */
 mat-drawer-content.mat-drawer-content-right {
   margin-left: 265px !important;
 }
 
-@media (max-width: 770px) {
-  mat-drawer-content.mat-drawer-content-right {
-    margin-left: 80px !important;
-  }
-}
-
+/* si attiva quando !isSidebarOpen */
 mat-drawer-content.mat-drawer-content-left {
   margin-left: 80px !important;
 }
 
-/* su schermi piccoli non c'è sidebar, quindi non mi sposto */
+/* su schermi piccoli, la sidebar non ha effetto sulla posizione del contenuto */
 @media (max-width: 770px) {
-  mat-drawer-content.mat-drawer-content-left {
-    margin-left: 0 !important;
-    margin-right: -10px !important;
-  }
-}
-
-/* su schermi piccoli, quando la sidebar si apre, passa sopra il contenuto */
-@media (max-width: 770px) {
-  mat-drawer-content.mat-drawer-content-right {
+  mat-drawer-content.mat-drawer-content-left, mat-drawer-content.mat-drawer-content-right  {
     margin-left: 0 !important;
     margin-right: -10px !important;
   }

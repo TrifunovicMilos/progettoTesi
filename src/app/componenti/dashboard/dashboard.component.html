@@ -1,9 +1,9 @@
-<!-- in alto la toolbar con nome app, icone di profilo e di logout -->
+<!-- in alto la toolbar con nome app, dati del profilo e logout -->
 <mat-toolbar>
   <button mat-icon-button (click)="toggleSidebar()" aria-label="Toggle sidebar">
     <mat-icon>menu</mat-icon>
   </button>
-  <!-- nome app da decidere ancora -->
+  <!-- nome app e logo da decidere ancora -->
   <a routerLink="/home" class="title" style="display: flex; align-items: center;">
     <mat-icon style="color: orange; margin-left: 20px;">flutter_dash</mat-icon>
     <span style="margin-left: 8px;">Nome App</span>
@@ -12,6 +12,7 @@
   <button mat-icon-button class="example-icon" aria-label="search">
     <mat-icon>search</mat-icon>
   </button>
+  <!-- dati utente -->
   <a class="nomeProfilo"
     routerLink="/profilo" routerLinkActive="activeNomeProfilo" [routerLinkActiveOptions]="{exact: true}">
     {{nome}} {{cognome}} - {{ruolo}}
@@ -19,10 +20,7 @@
   <button mat-icon-button aria-label="avatar" class="avatarButton" routerLink="/profilo">
     <img [src]="avatarUrl" class="avatar">
   </button>
-  <!-- <button mat-icon-button class="example-icon" aria-label="account" style="margin-left: 10px;"
-    routerLink="/profilo" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
-    <mat-icon>account_circle</mat-icon>
-  </button> -->
+  <!-- logout -->
   <button mat-icon-button class="example-icon" aria-label="logout" (click)="onLogout()">
     <mat-icon>logout</mat-icon>
   </button>
@@ -32,8 +30,9 @@
 <!-- - a sinistra contiene la sidebar (mat-drawer)  -->
 <!-- - a destra la pagina scelta (mat-drawer-content) -->  
 <mat-drawer-container>
-
-  <mat-drawer [ngClass]="{'mat-drawer-open': isSidebarOpen, 'mat-drawer-close': !isSidebarOpen, 'no-transition': isInitialLoad}" mode="side" opened 
+  
+  <!-- lo stato della Sidebar determina la classe -->
+  <mat-drawer [ngClass]="{'mat-drawer-open': isSidebarOpen, 'mat-drawer-close': !isSidebarOpen}" mode="side" opened 
   (mouseenter)="onMouseEnter()" (mouseleave)="onMouseLeave()">
     <mat-nav-list>
       <!-- aggiungo per ora 3 nomi e icone casuali -->

@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { RouterLink, RouterOutlet, RouterLinkActive } from '@angular/router';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatIconModule } from '@angular/material/icon';
@@ -21,7 +21,8 @@ import { SidebarService } from '../../servizi/sidebar.service';
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'
 })
-export class DashboardComponent implements OnInit, AfterViewInit{
+export class DashboardComponent implements OnInit{
+  // campi mostrati nell'header
   nome = '';
   cognome = '';
   ruolo = '';
@@ -30,7 +31,8 @@ export class DashboardComponent implements OnInit, AfterViewInit{
 
   isSidebarOpen = false;
   isSidebarOpenWithClick = false; // true se l'utente decide di aprire tramite click. Se la apre passandoci con il mouse, rimane false
-  isInitialLoad = true; // fa sì che inizialmente "transition: none !important", per risolvere un bug
+  // fa sì che inizialmente "transition: none !important", per risolvere un bug, che però (per ora) non c'è più
+  // isInitialLoad = true; 
   
   constructor(private authService: AuthService, private firebaseService: FirebaseService, private sidebarService: SidebarService, private dialog: MatDialog){}
 
@@ -41,7 +43,8 @@ export class DashboardComponent implements OnInit, AfterViewInit{
       if (user) {
         const uid = user.uid;
         this.ruolo = user.email?.includes('docente') ? 'docente' : 'studente';
-
+        
+        // ascolta i cambiamenti nel db, per poter aggiornare i dati nell'header istantaneamente, quando vengono cambiati in Profilo
         this.firebaseService.listenToUserData(uid, this.ruolo).subscribe((userData) => {
           if (userData) {
             this.nome = userData.nome;
@@ -54,7 +57,8 @@ export class DashboardComponent implements OnInit, AfterViewInit{
         console.log('Utente non autenticato');
       }
     });
-
+    
+    // lo stato della sidebar influenza le classi css delle componenti, perché ha impatto sullo spazio disponibile a destra
     this.sidebarService.sidebarState$.subscribe(state => {
       this.isSidebarOpen = state; 
     })
@@ -69,12 +73,12 @@ export class DashboardComponent implements OnInit, AfterViewInit{
     }
   }
 
-  ngAfterViewInit(): void {
-    // Riattivo le transizioni, che avevo disattivato causa bug
-    setTimeout(() => {
-      this.isInitialLoad = false;
-    }, 300); 
-  }
+  // Riattivo le transizioni, che avevo disattivato causa bug
+  // ngAfterViewInit(): void {
+  //   setTimeout(() => {
+  //     this.isInitialLoad = false;
+  //   }, 300); 
+  // }
 
   toggleSidebar(): void {
     this.sidebarService.toggleSidebar()
