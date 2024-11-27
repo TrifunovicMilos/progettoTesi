@@ -83,7 +83,7 @@ export class ProfiloComponent implements OnInit {
     if (user) {
       const uid = user.uid;
 
-      this.firebaseService.updateUserAvatar(uid, this.ruolo, this.selectedAvatar)
+      this.firebaseService.updateUserField(uid, this.ruolo, 'avatar', this.selectedAvatar)
       .then(() => {
         console.log('Avatar aggiornato con successo!');
       })

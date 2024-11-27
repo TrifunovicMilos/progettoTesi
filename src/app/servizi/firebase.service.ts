@@ -41,21 +41,11 @@ export class FirebaseService {
 
   }
   
-  // funzione chiamata da profiloComponent
-  async updateUserAvatar(id: string, ruolo: string, avatar: string): Promise<void> {
-    try {
-      // percorso collezione -> documento (id)
-      const userDocRef = doc(this.firestore, ruolo === 'docente' ? 'docenti' : 'studenti', id);
-      await updateDoc(userDocRef, { avatar: avatar });
-    } catch (error) {
-      throw error; // lo stamperà ProfiloComponent
-    }
+  // funzione chiamata da profiloComponent per cambiare Avatar
+  async updateUserField(id: string, ruolo: string, field: string, value: any): Promise<void> {
+    const userDocRef = doc(this.firestore, ruolo === 'docente' ? 'docenti' : 'studenti', id);
+    await updateDoc(userDocRef, { [field]: value });
   }
-
-  // async updateUserField(uid: string, ruolo: string, field: string, value: any): Promise<void> {
-  //   const userDocRef = doc(this.firestore, `${ruolo}s`, uid);
-  //   await updateDoc(userDocRef, { [field]: value });
-  // }
   
   // chiamato dall' header di DasboardComponent, per poter aggiornare istantaneamente l'Avatar quando viene cambiato in Profilo
   listenToUserData(id: string, ruolo: string) {
