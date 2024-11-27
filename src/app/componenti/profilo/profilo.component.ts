@@ -33,6 +33,7 @@ export class ProfiloComponent implements OnInit {
       if (user) {
         this.email = user.email ?? ''; // se null o undefined diventa strigna vuota
         const uid = user.uid;
+        // ottengo il ruolo/collezione
         this.ruolo = this.email.includes('docente') ? 'docente' : 'studente';
 
         try {
@@ -43,7 +44,7 @@ export class ProfiloComponent implements OnInit {
           this.selectedAvatar = userData.avatar || 'Default'; 
           this.selectedAvatarUrl = this.getAvatarUrl();
         } catch (error) {
-          console.log('Errore nel recupero dei dati utente:');
+          console.log('Errore nel recupero dei dati utente');
         } finally {
           setTimeout(() => {
             this.isLoading = false; // Disattiva il caricamento
@@ -70,9 +71,10 @@ export class ProfiloComponent implements OnInit {
     this.selectedAvatar = event.value
     this.selectedAvatarUrl = this.getAvatarUrl(); // si aggiorna l'avatar mostrato
   }
-
+  
+  // click bottone di conferma Avatar
   onConfirmChange(): void {
-    console.log('Avatar cambiato a:', this.selectedAvatar);
+    console.log('Avatar cambiato a: ', this.selectedAvatar);
     this.userAvatar = this.selectedAvatar;
 
     const auth = getAuth();

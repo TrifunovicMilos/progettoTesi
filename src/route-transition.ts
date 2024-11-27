@@ -1,5 +1,6 @@
 import { animate, group, query, style, transition, trigger } from "@angular/animations";
 
+// TODO: non funziona ancora bene / non funziona nelle pagine che voglio
 export const routeTransition = trigger('routeTransition', [
     transition('* => *', [
       query(':enter, :leave', [

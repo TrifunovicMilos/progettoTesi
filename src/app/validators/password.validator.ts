@@ -1,5 +1,7 @@
 import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 
+// vincoli password: carattere maiusolo, minuscolo, numero. 
+// (lunghezza minima gestita da un altro validatore, per differenziare i messaggi di errore)
 export function passwordValidator(): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {
     const value = control.value;
@@ -10,9 +12,8 @@ export function passwordValidator(): ValidatorFn {
 
     const hasNumber = /\d/.test(value);
 
-    const isValidLength = value.length >= 8;
 
-    if (hasUpperCase && hasLowerCase && hasNumber && isValidLength) {
+    if (hasUpperCase && hasLowerCase && hasNumber) {
       return null; // password valida
     }
 
