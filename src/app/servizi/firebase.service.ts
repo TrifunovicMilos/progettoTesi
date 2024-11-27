@@ -6,6 +6,8 @@ import { BehaviorSubject } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
+
+// servizio per aggiungere e manipolare i documenti in Firestore e per ascoltarne i cambiamenti
 export class FirebaseService {
 
   private firestore: Firestore = inject(Firestore);
@@ -15,6 +17,7 @@ export class FirebaseService {
   async addUserToFirestore(uid: string, nome: string, cognome: string, email: string, ruolo: string) {
     try {
       if(ruolo == "docente"){
+        // collezione docenti
         const userDocRef = doc(this.firestore, 'docenti', uid); // Usa l'UID come ID del documento
         await setDoc(userDocRef, {
           nome: nome,
@@ -22,6 +25,7 @@ export class FirebaseService {
           email: email
       });
       }
+      // collezione studenti
       else if(ruolo == "studente"){ 
         const userDocRef = doc(this.firestore, 'studenti', uid); // Usa l'UID come ID del documento
         await setDoc(userDocRef, {
@@ -38,9 +42,10 @@ export class FirebaseService {
   }
 
   // funzione chiamata da profiloComponent
-  async getUserData(uid: string, ruolo: string): Promise<any> {
+  async getUserData(id: string, ruolo: string): Promise<any> {
     try {
-      const userDocRef = doc(this.firestore, ruolo === 'docente' ? 'docenti' : 'studenti', uid);
+      // percorso collezione -> documento (id)
+      const userDocRef = doc(this.firestore, ruolo === 'docente' ? 'docenti' : 'studenti', id);
       const docSnap = await getDoc(userDocRef);
 
       if (docSnap.exists()) {
@@ -55,20 +60,23 @@ export class FirebaseService {
   }
   
   // funzione chiamata da profiloComponent
-  async updateUserAvatar(uid: string, ruolo: string, avatar: string): Promise<void> {
+  async updateUserAvatar(id: string, ruolo: string, avatar: string): Promise<void> {
     try {
-      const userDocRef = doc(this.firestore, ruolo === 'docente' ? 'docenti' : 'studenti', uid);
+      // percorso collezione -> documento (id)
+      const userDocRef = doc(this.firestore, ruolo === 'docente' ? 'docenti' : 'studenti', id);
       await updateDoc(userDocRef, { avatar: avatar });
     } catch (error) {
       throw error; // lo stamperà ProfiloComponent
     }
   }
+  
+  // chiamato dall' header di DasboardComponent, per poter aggiornare istantaneamente l'Avatar quando viene cambiato in Profilo
+  listenToUserData(id: string, ruolo: string) {
+    // percorso collezione -> documento (id)
+    const userDocRef = doc(this.firestore, ruolo === 'docente' ? 'docenti' : 'studenti', id);
+    const userSubject = new BehaviorSubject<any>(null); 
 
-  listenToUserData(uid: string, ruolo: string) {
-    const userDocRef = doc(this.firestore, ruolo === 'docente' ? 'docenti' : 'studenti', uid);
-    const userSubject = new BehaviorSubject<any>(null); // Comincia con null
-
-    // Ascolta in tempo reale i cambiamenti
+    // ascolta i cambiamenti
     onSnapshot(userDocRef, (docSnap) => {
       if (docSnap.exists()) {
         userSubject.next(docSnap.data()); // Emmetti i dati aggiornati
@@ -78,7 +86,7 @@ export class FirebaseService {
       }
     });
 
-    return userSubject.asObservable(); // Restituisce un observable
+    return userSubject.asObservable(); 
   }
 }
 
