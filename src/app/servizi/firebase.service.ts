@@ -15,35 +15,20 @@ export class FirebaseService {
 
   // fuzione chiamata da signUp() in AuthService
   async addUserToFirestore(uid: string, nome: string, cognome: string, email: string, ruolo: string) {
-    try {
-      if(ruolo == "docente"){
-        // collezione docenti
-        const userDocRef = doc(this.firestore, 'docenti', uid); // Usa l'UID come ID del documento
-        await setDoc(userDocRef, {
-          nome: nome,
-          cognome: cognome,
-          email: email
-      });
-      }
-      // collezione studenti
-      else if(ruolo == "studente"){ 
-        const userDocRef = doc(this.firestore, 'studenti', uid); // Usa l'UID come ID del documento
-        await setDoc(userDocRef, {
-          nome: nome,
-          cognome: cognome,
-          email: email
-      });
-      }
-      console.log("Aggiunto ID = UID : " + uid + '\n' + "email: " + email + '\n' + 
-      "nome: " + nome + '\n' + "cognome: " + cognome + '\n' + "ruolo: " + ruolo)
-    } catch (error) {
-      console.error("Errore nell'aggiunta utente", error)
-    }
+    
+    const userDocRef = doc(this.firestore, ruolo === 'docente' ? 'docenti' : 'studenti', uid); // Usa l'UID come ID del documento
+    await setDoc(userDocRef, {
+      nome: nome,
+      cognome: cognome,
+      email: email
+    });
+    console.log("Aggiunto ID = UID : " + uid + '\n' + "email: " + email + '\n' + 
+    "nome: " + nome + '\n' + "cognome: " + cognome + '\n' + "ruolo: " + ruolo)
   }
 
   // funzione chiamata da profiloComponent
   async getUserData(id: string, ruolo: string): Promise<any> {
-    try {
+
       // percorso collezione -> documento (id)
       const userDocRef = doc(this.firestore, ruolo === 'docente' ? 'docenti' : 'studenti', id);
       const docSnap = await getDoc(userDocRef);
@@ -53,10 +38,7 @@ export class FirebaseService {
       } else {
         throw new Error('Documento non trovato.');
       }
-    } catch (error) {
-      console.error('Errore nel recupero dei dati utente:', error);
-      throw error;
-    }
+
   }
   
   // funzione chiamata da profiloComponent
@@ -69,6 +51,11 @@ export class FirebaseService {
       throw error; // lo stamperà ProfiloComponent
     }
   }
+
+  // async updateUserField(uid: string, ruolo: string, field: string, value: any): Promise<void> {
+  //   const userDocRef = doc(this.firestore, `${ruolo}s`, uid);
+  //   await updateDoc(userDocRef, { [field]: value });
+  // }
   
   // chiamato dall' header di DasboardComponent, per poter aggiornare istantaneamente l'Avatar quando viene cambiato in Profilo
   listenToUserData(id: string, ruolo: string) {
