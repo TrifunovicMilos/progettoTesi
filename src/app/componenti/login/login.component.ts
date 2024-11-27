@@ -26,8 +26,9 @@ export class LoginComponent implements OnInit {
   // salvo in una variabile la email con la quale ho provato ad accedere,
   // in modo tale da usarla come predefinita al click di "Password Dimenticata"
   emailLogin = '';
-  registerPasswordError = 0; // tipologia errore password di registrazione
-  confirmPasswordError = 0;
+  // tipologia errore password di registrazione
+  registerPasswordError = 0; // mancante (1), corta (2), debole (3)
+  confirmPasswordError = 0;  // mancante (1), diversa da password (2)
   passwordsMatch = true;
   hideLoginPassword = true;
   hideRegistrationPassword = true;
@@ -42,22 +43,25 @@ export class LoginComponent implements OnInit {
 
     this.registerForm = new FormGroup({
       email: new FormControl('', [Validators.required, 
-        Validators.pattern(/^[a-z]+(\.[a-z]+)+\.(studente|docente)@yopmail\.com$/),]),
+        Validators.pattern(/^[a-z]+(\.[a-z]+)+\.(studente|docente)@yopmail\.com$/)]),
 
       // La password deve contenere almeno 8 caratteri, una lettera maiuscola, una lettera minuscola e un numero.
       password: new FormControl('', [Validators.required, Validators.minLength(8), passwordValidator()]),
       confirmPassword: new FormControl(''),
     });
-
+    
+    // check dinamico sulla password
     this.registerForm.get('password')?.valueChanges.subscribe(() => {
       this.checkPasswordErrors();
       this.comparePasswords();
     });
-
+    
+    // aggiungo solo ora il validatore, in quanto sopra 'password' non era ancora nota
     this.registerForm.get('confirmPassword')?.setValidators([
       Validators.required, confirmPasswordValidator(this.registerForm.get('password')!),
     ]);
-
+    
+    // check dinamico sulla conferma password
     this.registerForm.get('confirmPassword')?.valueChanges.subscribe(() => {
       this.checkConfirmPasswordsErrors();
       this.comparePasswords();
@@ -90,9 +94,9 @@ export class LoginComponent implements OnInit {
     const confirmPassword = this.registerForm.get('confirmPassword');
 
     if (confirmPassword?.hasError('required'))
-      this.confirmPasswordError = 1; 
+      this.confirmPasswordError = 1; // password non inserita
     else if (confirmPassword?.hasError('passwordMismatch'))
-      this.confirmPasswordError = 2; 
+      this.confirmPasswordError = 2; // password diversa
     else {
       this.confirmPasswordError = 0;
     }
@@ -115,7 +119,7 @@ export class LoginComponent implements OnInit {
           console.log('Login eseguito');
         })
         .catch((error: any) => {
-          if (error.message === 'Email non verificata. ') {
+          if (error.message === 'Email non verificata.') {
             console.log('Email non verificata');
             alert(error.message + 'Controlla la tua posta.');
           } else {
@@ -146,7 +150,7 @@ export class LoginComponent implements OnInit {
         alert('Registrazione completata! Controlla la tua email per verificare l’account.');
         console.log('Utente registrato con successo');
         // una volta registrati si va su /signin.
-        //Usando router.navigate(['/signin']) al posto del reload non funziona perché ci fa rimanere sulla tab 'Registrazione'
+        // usando router.navigate(['/signin']) al posto del reload non funziona perché ci fa rimanere sulla tab 'Registrazione'
         window.location.reload();
       })
       .catch((error: any) => {

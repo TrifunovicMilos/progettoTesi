@@ -7,6 +7,7 @@ div {
   text-align: center;
 }
 
+/* 'testo password dimenticata?' */
 a {
   display: block;
   width : 165px;  /* larghezza area cliccabile di "Password Dimenticata?", equivalente alla larghezza del testo */
