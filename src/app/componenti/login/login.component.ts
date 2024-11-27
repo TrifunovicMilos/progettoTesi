@@ -121,7 +121,7 @@ export class LoginComponent implements OnInit {
         .catch((error: any) => {
           if (error.message === 'Email non verificata.') {
             console.log('Email non verificata');
-            alert(error.message + 'Controlla la tua posta.');
+            alert(error.message + ' Controlla la tua posta.');
           } else {
             console.log('Errore durante il login');
             alert('Errore durante il login. Controlla le credenziali.');
