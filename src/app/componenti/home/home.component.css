@@ -25,11 +25,29 @@
   overflow: hidden;
 }
 
+/* 3 card per riga su molto schermi larghi con sidebar allargata */
+.card-collapsed {
+  flex: 1 1 calc(33.33% - 16px); 
+  max-width: calc(33.33% - 16px); 
+  box-sizing: border-box;
+  transition: all 0.3s ease;
+  overflow: hidden;
+}
+
 /* 3 card per riga su schermi larghi */
 @media (max-width: 1350px) {
   .card {
     flex: 1 1 calc(33.33% - 16px); 
     max-width: calc(33.33% - 16px);
+    color: blue;
+  }
+} 
+
+/* 2 card per riga su schermi larghi con sidebar allargata */
+@media (max-width: 1350px) {
+  .card-collapsed {
+    flex: 1 1 calc(50% - 16px); 
+    max-width: calc(50% - 16px);
     color: blue;
   }
 } 
@@ -43,15 +61,36 @@
   }
 }
 
-/* 2 card per riga su schermi stretti perche non ce sidebar */
+/* 1 card per riga su schermi medi con sidebar allargata */
+@media (max-width: 1050px) {
+  .card-collapsed {
+    flex: 1 1 calc(100% - 16px); 
+    max-width: calc(100% - 16px);
+    margin-left: 100px;
+    margin-right: 100px;
+    color: red;
+  }
+}
+
+/* d'ora in poi la sidebar o non c'è o è allargata ma passa sopra il contenuto, 
+quindi isSidebarOpen non ha più impatto sulla classi */
+
+/* 2 card per riga su schermi stretti*/
 @media (max-width: 770px) {
   .card, .card-collapsed {
     flex: 1 1 calc(50% - 16px); 
     max-width: calc(50% - 16px);
+    margin-left: auto;
+    margin-right: auto;
     color: green;
   }
 }
 
+/* 
+  d'ora in poi 1 card per riga con margini differenti, 
+  poiché in alcuni casi 2 card sono troppe mentre 1 è troppo poco (diventa enorme la card), 
+  quindi manimolo i margini
+*/
 @media (max-width: 650px) {
   .card, .card-collapsed {
     flex: 1 1 calc(100%); 
@@ -78,36 +117,7 @@
     max-width: calc(100%);
     margin-right: 0px;
     margin-left: 0px;
-    color: blue;
-  }
-}
-
-/* 3 card per riga su molto schermi larghi con sidebar allargata */
-.card-collapsed {
-  flex: 1 1 calc(33.33% - 16px); 
-  max-width: calc(33.33% - 16px); 
-  box-sizing: border-box;
-  transition: all 0.3s ease;
-  overflow: hidden;
-}
-
-/* 2 card per riga su schermi larghi con sidebar allargata */
-@media (max-width: 1350px) {
-  .card-collapsed {
-    flex: 1 1 calc(50% - 16px); 
-    max-width: calc(50% - 16px);
-    color: blue;
-  }
-} 
-
-/* 1 card per riga su schermi medi */
-@media (max-width: 1050px) {
-  .card-collapsed {
-    flex: 1 1 calc(100% - 16px); 
-    max-width: calc(100% - 16px);
-    margin-left: 100px;
-    margin-right: 100px;
-    color: red;
+    color: orange;
   }
 }
 
