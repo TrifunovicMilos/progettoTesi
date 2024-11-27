@@ -11,10 +11,10 @@ import { Router } from '@angular/router';
 
 export class AuthService {
 
-  isLoggedIn = false
+  isLoggedIn = false;
   
   constructor(private firebaseService: FirebaseService, private router: Router) {
-    this.checkLoginStatus()
+    this.checkLoginStatus();
   }
 
   checkLoginStatus() {
@@ -43,9 +43,10 @@ export class AuthService {
       cognome = cognome.charAt(0).toUpperCase() + cognome.slice(1).toLowerCase(); // prima lettera maiuscola
 
       // Aggiungi l'utente a Firestore
+      // di default, l'ID del documento creato è casuale. Impongo IDdocumento (firestore) = UIDutente (firebase auth)
       await this.firebaseService.addUserToFirestore( user.uid, nome, cognome, email, ruolo);
 
-      console.log('Utente registrato con successo e email di verifica inviata'); 
+      console.log('Utente registrato con successo'); 
     } catch (error: any) {
       throw error; // gestito da LoginComponent
     }
@@ -65,7 +66,7 @@ export class AuthService {
         this.router.navigate(['']);
       }
       else{
-        throw new Error('Email non verificata. ');
+        throw new Error('Email non verificata.');
       }   
     } catch (error: any) {
       throw error; // gestito da LoginComponent
@@ -94,7 +95,7 @@ export class AuthService {
 
     try {
       await sendPasswordResetEmail(auth, email);
-      console.log('Email per il reset della password inviata a:', email);
+      console.log('Email per il reset della password inviata a: ', email);
     } catch (error: any) {
       throw error; // gestito da ForgotPasswordDialogComponent
     }
