@@ -13,13 +13,37 @@ export class AuthService {
 
   private auth = getAuth();
   isLoggedIn = false;
+  private inactivityTimer: any = null;
+  private logoutTime = 10 * 1000; // numero di millisecondi, per testare uso 10 secondi
   
   constructor(private firebaseService: FirebaseService, private router: Router) {
-    const user = localStorage.getItem('user');
+    const user = sessionStorage.getItem('user');
     if (user)
     this.isLoggedIn = true;
     else
     this.isLoggedIn = false;
+
+    this.startInactivityTimer();
+  }
+
+  private startInactivityTimer() {
+    // reset del timer ogni volta che l'utente interagisce con la pagina
+    window.onload = () => this.resetInactivityTimer();
+    window.onclick = () => this.resetInactivityTimer();
+    window.onmousemove = () => this.resetInactivityTimer();
+    window.onkeyup = () => this.resetInactivityTimer();
+    window.onkeydown = () => this.resetInactivityTimer();
+  }
+
+  private resetInactivityTimer() {
+    if (this.inactivityTimer) {
+      clearTimeout(this.inactivityTimer);
+    }
+
+    // logout automatico dopo il periodo di inattività
+    this.inactivityTimer = setTimeout(() => {
+      this.logout();
+    }, this.logoutTime);
   }
   
   // funzione chiamata dalla sezione Registrazione in LoginComponent al click del bottone "Registrati"
@@ -52,7 +76,7 @@ export class AuthService {
 
      if (user.emailVerified) {
       this.isLoggedIn = true;
-      localStorage.setItem('user', email);
+      sessionStorage.setItem('user', email);
       this.router.navigate(['']);
     } else {
       throw new Error('Email non verificata.');
@@ -65,7 +89,7 @@ export class AuthService {
 
     try {
       await signOut(this.auth);
-      localStorage.removeItem('user');
+      sessionStorage.removeItem('user');
       this.isLoggedIn = false;
       console.log('Logout effettuato con successo');
       this.router.navigate(['/signin']);
