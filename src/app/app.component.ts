@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, RouterOutlet } from '@angular/router';
-import { routeTransition } from '../route-transition';
+import { routeTransition } from './animations';
 
 
 @Component({
