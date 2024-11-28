@@ -7,7 +7,10 @@ import { Router } from '@angular/router';
   providedIn: 'root',
 })
 
-//TODO: gestione della sessione
+// TODO: migliorare gestione della sessione, 
+// con localstorage al posto di sessionstorage il login veniva mantenuto anche chiudendo e riaprendo broswer
+// ora con sessionstorage non viene mantenuto, ma non viene mantentuto nemmeno aprendo una nuova tab nel browser
+// TODO: trovare una soluzione
 
 export class AuthService {
 

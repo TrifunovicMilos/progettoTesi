@@ -11,12 +11,12 @@ import { ProfiloComponent } from './componenti/profilo/profilo.component';
 export const routes: Routes = [
     {path: '', component: DashboardComponent, canActivate: [authGuard], children: [
         {path:'', redirectTo: 'home', pathMatch: 'full'},
-        {path:'home', component: HomeComponent, data: { animation: 'HomePage' } },
+        {path:'home', component: HomeComponent},
         {path:'pagina2', component: Pagina2Component},
         {path:'pagina3', component: Pagina3Component},
         {path:'profilo', component: ProfiloComponent},
     ]},
-    {path: 'signin', component: LoginComponent, data: { animation: 'SigninPage' } },
+    {path: 'signin', component: LoginComponent},
     {path: '404', component: NotfoundComponent},
     {path: '**', redirectTo: '404' },
 ];
