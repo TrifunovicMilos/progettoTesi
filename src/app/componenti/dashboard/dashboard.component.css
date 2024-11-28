@@ -19,6 +19,12 @@
   color: inherit;
 }
 
+@media (max-width: 750px) {
+  .nomeProfilo {
+    display: none;
+  }
+} 
+
 .nomeProfilo:hover {
   color: orange; 
 }

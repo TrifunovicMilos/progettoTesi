@@ -80,7 +80,7 @@ quindi isSidebarOpen non ha più impatto sulla classi */
   .card, .card-collapsed {
     flex: 1 1 calc(50% - 16px); 
     max-width: calc(50% - 16px);
-    margin-left: auto;
+    margin-left: 0;
     margin-right: auto;
     color: green;
   }
@@ -96,7 +96,7 @@ quindi isSidebarOpen non ha più impatto sulla classi */
     flex: 1 1 calc(100%); 
     max-width: calc(100%);
     margin-left: 50px;
-    margin-right: 50px;
+    margin-right: 60px;
     color: red;
   }
 }
@@ -105,8 +105,8 @@ quindi isSidebarOpen non ha più impatto sulla classi */
   .card, .card-collapsed {
     flex: 1 1 calc(100%); 
     max-width: calc(100%);
-    margin-right: 20px;
     margin-left: 20px;
+    margin-right: 30px;
     color: blue;
   }
 }
@@ -115,8 +115,8 @@ quindi isSidebarOpen non ha più impatto sulla classi */
   .card, .card-collapsed {
     flex: 1 1 calc(100%); 
     max-width: calc(100%);
-    margin-right: 0px;
-    margin-left: 0px;
+    margin-left: 20px;
+    margin-right: 30px;
     color: orange;
   }
 }
