@@ -40,10 +40,13 @@
         <mat-icon>home</mat-icon> <span *ngIf="isSidebarOpen">Home Page</span>
       </a>
       <a mat-list-item routerLink="/pagina2" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
-        <mat-icon>apps</mat-icon> <span *ngIf="isSidebarOpen">Page 2</span>
+        <mat-icon>school</mat-icon> <span *ngIf="isSidebarOpen">I miei esami</span>
       </a>
       <a mat-list-item routerLink="/pagina3" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
-        <mat-icon>settings</mat-icon> <span *ngIf="isSidebarOpen">Page 3</span>
+        <mat-icon>query_stats</mat-icon> <span *ngIf="isSidebarOpen">Statistiche</span>
+      </a>
+      <a mat-list-item routerLink="/pagina4" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+        <mat-icon>settings</mat-icon> <span *ngIf="isSidebarOpen">Impostazioni</span>
       </a>
     </mat-nav-list>
   </mat-drawer>

@@ -7,6 +7,7 @@ import { HomeComponent } from './componenti/home/home.component';
 import { Pagina2Component } from './componenti/pagina2/pagina2.component';
 import { Pagina3Component } from './componenti/pagina3/pagina3.component';
 import { ProfiloComponent } from './componenti/profilo/profilo.component';
+import { Pagina4Component } from './componenti/pagina4/pagina4.component';
 
 export const routes: Routes = [
     {path: '', component: DashboardComponent, canActivate: [authGuard], children: [
@@ -14,6 +15,7 @@ export const routes: Routes = [
         {path:'home', component: HomeComponent},
         {path:'pagina2', component: Pagina2Component},
         {path:'pagina3', component: Pagina3Component},
+        {path:'pagina4', component: Pagina4Component},
         {path:'profilo', component: ProfiloComponent},
     ]},
     {path: 'signin', component: LoginComponent},
