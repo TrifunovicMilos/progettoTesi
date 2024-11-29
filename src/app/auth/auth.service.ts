@@ -17,7 +17,7 @@ export class AuthService {
   private auth = getAuth();
   isLoggedIn = false;
   private inactivityTimer: any = null;
-  private logoutTime = 10 * 1000; // numero di millisecondi, per testare uso 10 secondi
+  private logoutTime = 10 * 60 * 1000; // numero di millisecondi, per testare uso 10 secondi
   
   constructor(private firebaseService: FirebaseService, private router: Router) {
     const user = sessionStorage.getItem('user');
