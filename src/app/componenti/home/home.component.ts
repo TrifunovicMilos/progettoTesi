@@ -24,7 +24,9 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
     const auth = getAuth();
-
+    
+    // devo conoscere il ruolo per sapere se mostrare o meno la lista di tutti gli esami nella piattaforma
+    // per ora abbiamo scelto che i docenti non la vedono perché tanto non si possono iscrivere
     onAuthStateChanged(auth, async (user) => {
       if(user)
         this.ruolo = user.email?.includes('docente') ? 'docente' : 'studente';

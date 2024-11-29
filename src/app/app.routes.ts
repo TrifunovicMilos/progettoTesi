@@ -10,6 +10,9 @@ import { ProfiloComponent } from './componenti/profilo/profilo.component';
 import { Pagina4Component } from './componenti/pagina4/pagina4.component';
 
 export const routes: Routes = [
+    // a questo gruppo di pagina ci si puo accedere solo se loggati
+    // Dashboard contiene Header (in alto) e Sidebar (a sinistra) fissi 
+    // e, a destra, una delle pagine sottostanti (<routeroutlet> in dashboard.component.ts)
     {path: '', component: DashboardComponent, canActivate: [authGuard], children: [
         {path:'', redirectTo: 'home', pathMatch: 'full'},
         {path:'home', component: HomeComponent},

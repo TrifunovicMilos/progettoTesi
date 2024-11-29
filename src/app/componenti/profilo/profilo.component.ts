@@ -14,6 +14,7 @@ import { MatOptionModule } from '@angular/material/core';
   templateUrl: './profilo.component.html',
   styleUrl: './profilo.component.css'
 })
+
 export class ProfiloComponent implements OnInit {
   nome = '';
   cognome = '';
@@ -49,6 +50,8 @@ export class ProfiloComponent implements OnInit {
           setTimeout(() => {
             this.isLoading = false; // Disattiva il caricamento
           }, 200); // delay in modo tale che il caricamento non duri mai meno di 200ms (non piacevole da vedere)
+          // sarebbe più carina un animazione durante la quale i dati intanto vengono caricati
+          // ma, come descritto in animation.ts, non riesco ancora ad implementarle
         }
       } else {
         console.log('Utente non autenticato');
@@ -57,6 +60,9 @@ export class ProfiloComponent implements OnInit {
     });
   }
 
+  // chiamata ogni volta che cambio Avatar per cambiare anche il selectedAvatarUrl
+  // gli avatar sono di tipo "Avatar X", mentre gli url /avatarX
+  // quindi estraggo X e la concateno con "avatar"
   private getAvatarUrl(): string {
     if (this.selectedAvatar === 'Default') {
       return 'assets/avatar/default.jpg'; 
@@ -73,6 +79,7 @@ export class ProfiloComponent implements OnInit {
   }
   
   // click bottone di conferma Avatar
+  // il form non me lo fa fare se userAvatar = selectedAvatar
   onConfirmChange(): void {
     console.log('Avatar cambiato a: ', this.selectedAvatar);
     this.userAvatar = this.selectedAvatar;

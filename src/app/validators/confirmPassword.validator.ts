@@ -1,5 +1,6 @@
 import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 
+// vincolo sulla conferma password: deve usare uguale alla password
 export function confirmPasswordValidator(passwordControl: AbstractControl): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {
     const password = passwordControl.value;
