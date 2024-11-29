@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "public": "dist/progetto-tesi",
+    "public": "dist/progetto-tesi/browser",
     "ignore": [
       "firebase.json",
       "**/.*",
