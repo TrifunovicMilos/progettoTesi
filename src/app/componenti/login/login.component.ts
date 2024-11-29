@@ -20,6 +20,7 @@ import { confirmPasswordValidator } from '../../validators/confirmPassword.valid
   templateUrl: './login.component.html',
   styleUrl: './login.component.css',
 })
+
 export class LoginComponent implements OnInit {
   registerForm!: FormGroup;
   loginForm!: FormGroup;
@@ -112,6 +113,7 @@ export class LoginComponent implements OnInit {
   onLoginSubmit(): void {
     if (this.loginForm.valid) {
       const { email, password } = this.loginForm.value; // estraggo i valori dal form
+      // salvo l'email nel caso l'accesso non vada a buon fine, per passarla come predefinita al dialog di Password Dimenticata
       this.emailLogin = email;
 
       this.authService.login(email, password)
@@ -129,7 +131,9 @@ export class LoginComponent implements OnInit {
         });
     }
   }
-
+  
+  // si attiva al click di "Password Dimenticata?"
+  // passo l'ultima email con la quale ho provato (erroneamente) ad accedere
   openForgotPasswordDialog(): void {
     const dialogRef = this.dialog.open(ForgotPasswordDialogComponent, {
       width: '400px',

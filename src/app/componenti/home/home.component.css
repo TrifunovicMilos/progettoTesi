@@ -16,6 +16,8 @@
   box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
 }
 
+/* isSidebarOpen determina se le card sono collapsed o no (vedi l'html) */
+
 /* 4 card per riga su molto schermi larghissimi */
 .card {
   flex: 1 1 calc(25% - 16px); 
@@ -74,6 +76,7 @@
 
 /* d'ora in poi la sidebar o non c'è o è allargata ma passa sopra il contenuto, 
 quindi isSidebarOpen non ha più impatto sulla classi */
+/* vedi dashboard.css, matdrawerclose (sidebar stretta) ha display:none sotto i 770px */
 
 /* 2 card per riga su schermi stretti*/
 @media (max-width: 770px) {

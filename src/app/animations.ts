@@ -1,5 +1,6 @@
 import { animate, group, query, style, transition, trigger } from "@angular/animations";
 
+// non viene usata per ora, quando la usavo funzionava solo da Login a Home e viceversa
 // TODO: non funziona ancora bene / non funziona nelle pagine che voglio
 export const routeTransition = trigger('routeTransition', [
     transition('* => *', [
