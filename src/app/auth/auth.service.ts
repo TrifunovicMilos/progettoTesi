@@ -11,7 +11,7 @@ import { Router } from '@angular/router';
 // con localstorage al posto di sessionstorage il login viene mantenuto anche chiudendo e riaprendo broswer (anche riaprendolo dopo ore)
 // con sessionstorage non viene mantenuto, ma non viene mantentuto nemmeno aprendo una nuova tab nel browser
 // TODO: trovare una soluzione, voglio che aprendo nuove tab rimanga il login, ma non se riapro il browser
-// soluzione temporanea (codice commentato con ***):
+// UPDATE -> soluzione temporanea (codice commentato con ***):
 // - salvare in localstorage l'istante dell'ultima interazione con la pagina
 // - se l'ultima interazione è stata fatta tanto tempo fa (30 min fa), mi rimanda al login
 // - altrimenti no. In questo modo, se riapro il browser entro 30min sarò comunque loggato automaticamente, ma non se lo riapro dopo 30 minuti.
