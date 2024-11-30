@@ -8,23 +8,35 @@ import { Router } from '@angular/router';
 })
 
 // TODO: migliorare gestione della sessione, 
-// con localstorage al posto di sessionstorage il login viene mantenuto anche chiudendo e riaprendo broswer
+// con localstorage al posto di sessionstorage il login viene mantenuto anche chiudendo e riaprendo broswer (anche riaprendolo dopo ore)
 // con sessionstorage non viene mantenuto, ma non viene mantentuto nemmeno aprendo una nuova tab nel browser
-// TODO: trovare una soluzione
+// TODO: trovare una soluzione, voglio che aprendo nuove tab rimanga il login, ma non se riapro il browser
+// soluzione temporanea (codice commentato con ***):
+// - salvare in localstorage l'istante dell'ultima interazione con la pagina
+// - se l'ultima interazione è stata fatta tanto tempo fa (30 min fa), mi rimanda al login
+// - altrimenti no. In questo modo, se riapro il browser entro 30min sarò comunque loggato automaticamente, ma non se lo riapro dopo 30 minuti.
 
 export class AuthService {
 
   private auth = getAuth();
   isLoggedIn = false;
   private inactivityTimer: any = null;
-  private logoutTime = 1 * 10 * 1000; // numero di millisecondi, per testare provare con 10 secondi (logoutTime = 10 * 1000)
+  private logoutTime = 30 * 60 * 1000; // numero di millisecondi, per testare provare con 10 secondi (logoutTime = 10 * 1000)
   
   constructor(private firebaseService: FirebaseService, private router: Router) {
     const user = localStorage.getItem('user');
-    if (user)
-    this.isLoggedIn = true;
-    else
-    this.isLoggedIn = false;
+    const lastActive = localStorage.getItem('lastActive'); //***
+    if (user && lastActive) {
+      const now = new Date().getTime(); //***
+      const elapsedTime = now - parseInt(lastActive, 10); //***
+      if (elapsedTime < this.logoutTime) { //***
+        this.isLoggedIn = true;
+      } else {
+        this.logout(); //***
+      }
+    } else {
+      this.isLoggedIn = false;
+    }
 
     this.startInactivityTimer();
   }
@@ -42,6 +54,9 @@ export class AuthService {
     if (this.inactivityTimer) {
       clearTimeout(this.inactivityTimer);
     }
+
+    // Salva l'orario dell'ultima interazione
+    localStorage.setItem('lastActive', new Date().getTime().toString()); //***
 
     // logout automatico dopo il periodo di inattività
     this.inactivityTimer = setTimeout(() => {
@@ -80,6 +95,7 @@ export class AuthService {
      if (user.emailVerified) {
       this.isLoggedIn = true;
       localStorage.setItem('user', email);
+      localStorage.setItem('lastActive', new Date().getTime().toString()); //*** Salva l'orario dell'accesso
       this.router.navigate(['']);
     } else {
       throw new Error('Email non verificata.');
@@ -93,6 +109,7 @@ export class AuthService {
     try {
       await signOut(this.auth);
       localStorage.removeItem('user');
+      localStorage.removeItem('lastActive'); //***
       this.isLoggedIn = false;
       console.log('Logout effettuato con successo');
       this.router.navigate(['/signin']);
