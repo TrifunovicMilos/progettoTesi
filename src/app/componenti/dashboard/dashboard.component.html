@@ -26,7 +26,7 @@
   </button>
 </mat-toolbar>
 
-<!-- sotto la toolbar un contenittore che: -->
+<!-- sotto l'header, un contenitore mat-drawer-container che: -->
 <!-- - a sinistra contiene la sidebar (mat-drawer)  -->
 <!-- - a destra la pagina scelta (mat-drawer-content) -->  
 <mat-drawer-container>
@@ -35,7 +35,7 @@
   <mat-drawer [ngClass]="{'mat-drawer-open': isSidebarOpen, 'mat-drawer-close': !isSidebarOpen}" mode="side" opened 
   (mouseenter)="onMouseEnter()" (mouseleave)="onMouseLeave()">
     <mat-nav-list>
-      <!-- aggiungo per ora 3 nomi e icone casuali -->
+      <!-- icone di Home, Esami, Statistiche (visualizzazione progressi ecc), impostazioni(?) -->
       <a mat-list-item routerLink="/home" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
         <mat-icon>home</mat-icon> <span *ngIf="isSidebarOpen">Home Page</span>
       </a>
@@ -45,13 +45,17 @@
       <a mat-list-item routerLink="/pagina3" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
         <mat-icon>query_stats</mat-icon> <span *ngIf="isSidebarOpen">Statistiche</span>
       </a>
+      <!-- impostazioni nel caso volessimo implementare cambi di dati come email (fattibile con firebase) -->
+      <!-- oppure la tolgo e verra fatto tutto nella pagina di profilo -->
       <a mat-list-item routerLink="/pagina4" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
         <mat-icon>settings</mat-icon> <span *ngIf="isSidebarOpen">Impostazioni</span>
       </a>
+      <!-- altre possibili icone ...  -->
     </mat-nav-list>
   </mat-drawer>
 
-  <!-- il contenuto a destra si muove in base alla dimensione della sidebar -->
+  <!-- il contenuto a destra della sidebat si muove in base alla dimensione della sidebar  -->
+  <!-- (si sposta ancor più a destra se sidebar larga), vedi css .mat-drawer-content-right-->
   <mat-drawer-content [ngClass]="isSidebarOpen ? 'mat-drawer-content-right' : 'mat-drawer-content-left'">
     <router-outlet></router-outlet>
   </mat-drawer-content>

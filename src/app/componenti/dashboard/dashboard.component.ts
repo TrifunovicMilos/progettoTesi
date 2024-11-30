@@ -21,6 +21,7 @@ import { SidebarService } from '../../servizi/sidebar.service';
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'
 })
+
 export class DashboardComponent implements OnInit{
   // campi mostrati nell'header
   nome = '';
@@ -31,8 +32,6 @@ export class DashboardComponent implements OnInit{
 
   isSidebarOpen = false;
   isSidebarOpenWithClick = false; // true se l'utente decide di aprire tramite click. Se la apre passandoci con il mouse, rimane false
-  // fa sì che inizialmente "transition: none !important", per risolvere un bug, che però (per ora) non c'è più
-  // isInitialLoad = true; 
   
   constructor(private authService: AuthService, private firebaseService: FirebaseService, private sidebarService: SidebarService, private dialog: MatDialog){}
 
@@ -63,7 +62,8 @@ export class DashboardComponent implements OnInit{
       this.isSidebarOpen = state; 
     })
   }
-
+  
+  // chiamata nella funzione sopra per aggiornare avatarUrl (foto mostrata nell'header)
   private getAvatarUrl(): string {
     if (this.avatar === 'Default') {
       return 'assets/avatar/default.jpg'; 
@@ -72,22 +72,17 @@ export class DashboardComponent implements OnInit{
       return `assets/avatar/avatar${avatarNumber}.jpg`;
     }
   }
-
-  // Riattivo le transizioni, che avevo disattivato causa bug
-  // ngAfterViewInit(): void {
-  //   setTimeout(() => {
-  //     this.isInitialLoad = false;
-  //   }, 300); 
-  // }
-
+  
+  // apertura/chiusura sidebar tramite click sul menu
   toggleSidebar(): void {
     this.sidebarService.toggleSidebar()
     this.isSidebarOpenWithClick = !this.isSidebarOpenWithClick;
   }
-
+  
+  // apertura sidebar al passaggio del mouse
   onMouseEnter(): void {
     if (!this.isSidebarOpen) {
-      this.sidebarService.setSidebarState(true); // Allarga la sidebar al passaggio del mouse
+      this.sidebarService.setSidebarState(true); 
     }
    }
 
@@ -98,7 +93,8 @@ export class DashboardComponent implements OnInit{
       this.sidebarService.setSidebarState(false); // Restringi la sidebar quando il mouse esce
     }
   }
-
+  
+  // apre un dialog al quale bisogna passare titolo e messaggio
   onLogout(): void {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
       data: { title: 'Conferma Logout', message: 'Sei sicuro di voler uscire?' }

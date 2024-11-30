@@ -1,3 +1,4 @@
+/* nomeApp, purtroppo il font non funziona sul (mio) telefono... */
 .title {
   font-family: "Gill Sans", sans-serif;
   text-decoration: none; 
@@ -12,6 +13,7 @@
   flex: 1 1 auto;
 }
 
+/* scritta "Nome Cognome - Ruolo", purtroppo il font non funziona sul (mio) telefono... */
 .nomeProfilo {
   margin-left: 15px; 
   font-family: Copperplate, Papyrus, fantasy;
@@ -19,6 +21,7 @@
   color: inherit;
 }
 
+/* la scritta "Nome Cognome - Ruolo" non viene mostrata su schermi più stretti... */
 @media (max-width: 750px) {
   .nomeProfilo {
     display: none;
@@ -37,6 +40,7 @@
   width: 50px;
   height: 50px;
   margin-left: 10px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .avatar {
@@ -44,10 +48,9 @@
   height: 100%; 
   object-fit: cover;
   border-radius: 50%; 
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.avatar:hover {
+.avatarButton:hover {
   transform: scale(1.1); 
 }
 
@@ -58,11 +61,6 @@ mat-drawer-container  {
   border: 1px solid #ddd;
   display: flex;
 }
-
-/* usato in passato al caricamento iniziale della pagina per risolvere un bug che però non c'è più */
-/* .no-transition {
-  transition: none !important;
-} */
 
 /* sidebar larga: 250px */
 .mat-drawer-open {
@@ -115,18 +113,19 @@ mat-drawer-content {
 }
 
 /* si attiva quando isSidebarOpen */
-mat-drawer-content.mat-drawer-content-right {
+.mat-drawer-content-right {
   margin-left: 265px !important;
 }
 
 /* si attiva quando !isSidebarOpen */
-mat-drawer-content.mat-drawer-content-left {
+.mat-drawer-content-left {
   margin-left: 80px !important;
 }
 
 /* su schermi piccoli, la sidebar non ha effetto sulla posizione del contenuto */
+/* quindi .mat-drawer-content-left e .mat-drawer-content-right fanno le stesse cose */
 @media (max-width: 770px) {
-  mat-drawer-content.mat-drawer-content-left, mat-drawer-content.mat-drawer-content-right  {
+  .mat-drawer-content-left, .mat-drawer-content-right  {
     margin-left: 0 !important;
     margin-right: -10px !important;
   }
