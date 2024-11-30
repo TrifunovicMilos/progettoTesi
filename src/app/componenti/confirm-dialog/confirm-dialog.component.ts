@@ -21,7 +21,8 @@ export class ConfirmDialogComponent {
     this.message = data.message;
   }
 
-  // nella funzione onLogout() della Dashboard, questa funzione fa diventare true "result" di "if (result) {...}"  
+  // nella funzione onLogout() della Dashboard, questa funzione fa diventare true "result" di 
+  // "if (result) {this.authService.logout()}"  
   // e quindi fa sì che venga chiamata authService.logout() 
   onConfirm(): void {
     this.dialogRef.close(true); 
