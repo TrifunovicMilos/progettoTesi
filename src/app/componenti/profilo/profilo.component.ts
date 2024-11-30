@@ -47,11 +47,7 @@ export class ProfiloComponent implements OnInit {
         } catch (error) {
           console.log('Errore nel recupero dei dati utente');
         } finally {
-          setTimeout(() => {
-            this.isLoading = false; // Disattiva il caricamento
-          }, 200); // delay in modo tale che il caricamento non duri mai meno di 200ms (non piacevole da vedere)
-          // sarebbe più carina un animazione durante la quale i dati intanto vengono caricati
-          // ma, come descritto in animation.ts, non riesco ancora ad implementarle
+          this.isLoading = false;
         }
       } else {
         console.log('Utente non autenticato');
