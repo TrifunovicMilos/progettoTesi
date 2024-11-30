@@ -12,6 +12,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { FirebaseService } from '../../servizi/firebase.service';
 import { SidebarService } from '../../servizi/sidebar.service';
+import { slideInAnimation } from '../../animations';
 
 
 @Component({
@@ -19,7 +20,10 @@ import { SidebarService } from '../../servizi/sidebar.service';
   standalone: true,
   imports: [RouterLink, RouterOutlet, RouterLinkActive, MatSidenavModule, MatToolbarModule, MatButtonModule, MatIconModule, MatListModule, ConfirmDialogComponent, CommonModule],
   templateUrl: './dashboard.component.html',
-  styleUrl: './dashboard.component.css'
+  styleUrl: './dashboard.component.css',
+  animations: [
+    slideInAnimation
+  ]
 })
 
 export class DashboardComponent implements OnInit{
