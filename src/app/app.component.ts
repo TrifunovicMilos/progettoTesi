@@ -9,12 +9,11 @@ import { routeTransition } from './animations';
   imports: [RouterOutlet],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
-  // animations: [
-  //   routeTransition
-  // ]
+  animations: [
+    routeTransition
+  ]
 })
 export class AppComponent {
   title = 'progettoTesi';
 
-  // constructor(protected route: ActivatedRoute){}
 }

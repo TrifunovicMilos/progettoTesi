@@ -1,3 +1,3 @@
-<!-- <div [@routeTransition]="route.snapshot.data" style="display: contents;"> -->
-    <router-outlet></router-outlet>
-<!-- </div> -->
+<div class="container" [@routeTransition]="o.isActivated ? o.activatedRoute : ''">
+    <router-outlet #o="outlet"></router-outlet>
+</div>
