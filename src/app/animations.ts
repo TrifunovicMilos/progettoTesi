@@ -1,9 +1,7 @@
 import { animate, group, query, style, transition, trigger } from "@angular/animations";
 
-// non viene usata per ora, quando la usavo funzionava solo da Login a Home e viceversa
-// TODO: non funziona ancora bene / non funziona nelle pagine che voglio
 export const routeTransition = trigger('routeTransition', [
-    transition('* => *', [
+    transition('* <=> *', [
       query(':enter, :leave', [
         style({ position: 'absolute', width: '100%' })
       ], { optional: true }),
@@ -22,6 +20,23 @@ export const routeTransition = trigger('routeTransition', [
         // L'elemento in entrata si ingrandisce e appare gradualmente
         query(':enter', [
           animate('0.5s ease-out', style({ transform: 'scale(1)', opacity: 1 }))
+        ], { optional: true })
+      ])
+    ])
+  ]);
+
+  export const slideInAnimation = trigger('slideInAnimation', [
+
+    transition('* <=> *', [
+      query(':enter, :leave', style({ position: 'fixed', width: '100%', zIndex: 2 }), { optional: true }),
+      group([
+        query(':enter', [
+          style({ transform: 'translateX(100%)' }),
+          animate('0.5s ease-out', style({ transform: 'translateX(0%)' }))
+        ], { optional: true }),
+        query(':leave', [
+          style({ transform: 'translateX(0%)' }),
+          animate('0.5s ease-out', style({ transform: 'translateX(-100%)' }))
         ], { optional: true })
       ])
     ])
