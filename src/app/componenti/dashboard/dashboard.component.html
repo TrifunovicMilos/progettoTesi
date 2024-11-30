@@ -54,7 +54,7 @@
     </mat-nav-list>
   </mat-drawer>
 
-  <!-- il contenuto a destra della sidebat si muove in base alla dimensione della sidebar  -->
+  <!-- il contenuto a destra della sidebar si muove in base alla dimensione della sidebar  -->
   <!-- (si sposta ancor più a destra se sidebar larga), vedi css .mat-drawer-content-right-->
   <mat-drawer-content [ngClass]="isSidebarOpen ? 'mat-drawer-content-right' : 'mat-drawer-content-left'">
     <router-outlet></router-outlet>
