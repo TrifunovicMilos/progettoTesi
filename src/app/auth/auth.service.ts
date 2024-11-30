@@ -8,13 +8,12 @@ import { Router } from '@angular/router';
 })
 
 // TODO: migliorare gestione della sessione, 
-// con localstorage al posto di sessionstorage il login veniva mantenuto anche chiudendo e riaprendo broswer
-// ora con sessionstorage non viene mantenuto, ma non viene mantentuto nemmeno aprendo una nuova tab nel browser
+// con localstorage al posto di sessionstorage il login viene mantenuto anche chiudendo e riaprendo broswer
+// con sessionstorage non viene mantenuto, ma non viene mantentuto nemmeno aprendo una nuova tab nel browser
 // TODO: trovare una soluzione
 
 export class AuthService {
 
-  private auth = getAuth();
   isLoggedIn = false;
   private inactivityTimer: any = null;
   private logoutTime = 1 * 10 * 1000; // numero di millisecondi, per testare provare con 10 secondi (logoutTime = 10 * 1000)
@@ -51,9 +50,10 @@ export class AuthService {
   
   // funzione chiamata dalla sezione Registrazione in LoginComponent al click del bottone "Registrati"
   async signUp(email: string, password: string): Promise<void> {
+    const auth = getAuth();
 
     // Registrazione utente tramite Firebase Auth
-    const userCredential = await createUserWithEmailAndPassword(this.auth, email, password);
+    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
     const user = userCredential.user;
 
     // Invio email di verifica
@@ -73,8 +73,9 @@ export class AuthService {
 
   // funzione chiamata dalla sezione Login in LoginComponent al click del bottone "Accedi"
   async login(email: string, password: string): Promise<void> {
+    const auth = getAuth();
 
-    const userCredential = await signInWithEmailAndPassword(this.auth, email, password);
+    const userCredential = await signInWithEmailAndPassword(auth, email, password);
     const user = userCredential.user;
 
      if (user.emailVerified) {
@@ -89,9 +90,10 @@ export class AuthService {
   
   // funzione chiamata in DashboardComponent al click sull'icona di Logout
   async logout(): Promise<void> {
+    const auth = getAuth();
 
     try {
-      await signOut(this.auth);
+      await signOut(auth);
       sessionStorage.removeItem('user');
       this.isLoggedIn = false;
       console.log('Logout effettuato con successo');
@@ -104,8 +106,10 @@ export class AuthService {
   // funzione chiamata da onForgotPasswordSubmit() in ForgotPasswordDialogComponent
   // (finestra che si apre al click di "Password Dimenticata" nella sezione di Login)
   async resetPassword(email: string): Promise<void> {
-      await sendPasswordResetEmail(this.auth, email);
-      console.log('Email per il reset della password inviata a: ', email);
+    const auth = getAuth();
+
+    await sendPasswordResetEmail(auth, email);
+    console.log('Email per il reset della password inviata a: ', email);
   }
 
 }
