@@ -12,7 +12,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { FirebaseService } from '../../servizi/firebase.service';
 import { SidebarService } from '../../servizi/sidebar.service';
-import { slideInAnimation } from '../../animations';
+import { routeTransition, slideInAnimation } from '../../animations';
 
 
 @Component({
@@ -22,6 +22,7 @@ import { slideInAnimation } from '../../animations';
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css',
   animations: [
+    routeTransition, 
     slideInAnimation
   ]
 })
