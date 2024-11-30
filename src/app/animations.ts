@@ -1,5 +1,8 @@
 import { animate, group, query, style, transition, trigger } from "@angular/animations";
 
+// TODO: capire come far attivare le animazioni in base alle rotte. Per ora uso sempre slideInAnimation
+// questa prima animazione per ora non la uso. Vorrei usarla solo da Login->Home, ma non riesco
+// se la metto in appcomponent.html, quando vado da Login->home si combina con la slideAnimation...
 export const routeTransition = trigger('routeTransition', [
     transition('* <=> *', [
       query(':enter, :leave', [
