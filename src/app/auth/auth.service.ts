@@ -17,8 +17,12 @@ import { Router } from '@angular/router';
 // - altrimenti no. In questo modo, se riapro il browser entro 30min sarò comunque loggato automaticamente, ma non se lo riapro dopo 30 minuti.
 
 export class AuthService {
-
+  // auth permette di interagire con firebase authentication, usando funzioni come:
+  // createUserWithEmailAndPassword(auth: Auth, email: string, password: string)
+  // signInWithEmailAndPassword(auth: Auth, email: string, password: string)
+  // entrambe ritornano un oggetto di credenziali dell'utente (UserCredential)
   private auth = getAuth();
+  
   isLoggedIn = false;
   private inactivityTimer: any = null;
   private logoutTime = 30 * 60 * 1000; // numero di millisecondi, per testare provare con 10 secondi (logoutTime = 10 * 1000)
@@ -69,11 +73,11 @@ export class AuthService {
 
     // Registrazione utente tramite Firebase Auth
     const userCredential = await createUserWithEmailAndPassword(this.auth, email, password);
-    const user = userCredential.user;
+    const user = userCredential.user; // contiene i campi .email, .emailVerified, .uid ...
 
     // Invio email di verifica
     await sendEmailVerification(user);
-    console.log('Email di verifica inviata a:', email);
+    console.log('Email di verifica inviata a:', email); // o anche user.email
 
     let [nome, cognome, ruolo] = email.split('@')[0].split('.'); // Estrazione nome, cognome e ruolo
     nome = nome.charAt(0).toUpperCase() + nome.slice(1).toLowerCase(); // prima lettera maiuscola
@@ -90,11 +94,11 @@ export class AuthService {
   async login(email: string, password: string): Promise<void> {
 
     const userCredential = await signInWithEmailAndPassword(this.auth, email, password);
-    const user = userCredential.user;
+    const user = userCredential.user; // contiene i campi .email, .emailVerified, .uid ...
 
      if (user.emailVerified) {
       this.isLoggedIn = true;
-      localStorage.setItem('user', email);
+      localStorage.setItem('user', email); // o anche user.email
       localStorage.setItem('lastActive', new Date().getTime().toString()); //*** Salva l'orario dell'accesso
       this.router.navigate(['']);
     } else {
