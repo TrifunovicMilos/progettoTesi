@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, RouterOutlet } from '@angular/router';
-import { routeTransition } from './animations';
+import { routeTransition, slideInAnimation } from './animations';
 
 
 @Component({
@@ -10,7 +10,8 @@ import { routeTransition } from './animations';
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
   animations: [
-    routeTransition
+    routeTransition,
+    slideInAnimation
   ]
 })
 export class AppComponent {
