@@ -14,12 +14,13 @@ import { Router } from '@angular/router';
 
 export class AuthService {
 
+  private auth = getAuth();
   isLoggedIn = false;
   private inactivityTimer: any = null;
   private logoutTime = 1 * 10 * 1000; // numero di millisecondi, per testare provare con 10 secondi (logoutTime = 10 * 1000)
   
   constructor(private firebaseService: FirebaseService, private router: Router) {
-    const user = sessionStorage.getItem('user');
+    const user = localStorage.getItem('user');
     if (user)
     this.isLoggedIn = true;
     else
@@ -50,10 +51,9 @@ export class AuthService {
   
   // funzione chiamata dalla sezione Registrazione in LoginComponent al click del bottone "Registrati"
   async signUp(email: string, password: string): Promise<void> {
-    const auth = getAuth();
 
     // Registrazione utente tramite Firebase Auth
-    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+    const userCredential = await createUserWithEmailAndPassword(this.auth, email, password);
     const user = userCredential.user;
 
     // Invio email di verifica
@@ -73,14 +73,13 @@ export class AuthService {
 
   // funzione chiamata dalla sezione Login in LoginComponent al click del bottone "Accedi"
   async login(email: string, password: string): Promise<void> {
-    const auth = getAuth();
 
-    const userCredential = await signInWithEmailAndPassword(auth, email, password);
+    const userCredential = await signInWithEmailAndPassword(this.auth, email, password);
     const user = userCredential.user;
 
      if (user.emailVerified) {
       this.isLoggedIn = true;
-      sessionStorage.setItem('user', email);
+      localStorage.setItem('user', email);
       this.router.navigate(['']);
     } else {
       throw new Error('Email non verificata.');
@@ -90,11 +89,10 @@ export class AuthService {
   
   // funzione chiamata in DashboardComponent al click sull'icona di Logout
   async logout(): Promise<void> {
-    const auth = getAuth();
 
     try {
-      await signOut(auth);
-      sessionStorage.removeItem('user');
+      await signOut(this.auth);
+      localStorage.removeItem('user');
       this.isLoggedIn = false;
       console.log('Logout effettuato con successo');
       this.router.navigate(['/signin']);
@@ -106,10 +104,8 @@ export class AuthService {
   // funzione chiamata da onForgotPasswordSubmit() in ForgotPasswordDialogComponent
   // (finestra che si apre al click di "Password Dimenticata" nella sezione di Login)
   async resetPassword(email: string): Promise<void> {
-    const auth = getAuth();
-
-    await sendPasswordResetEmail(auth, email);
-    console.log('Email per il reset della password inviata a: ', email);
+      await sendPasswordResetEmail(this.auth, email);
+      console.log('Email per il reset della password inviata a: ', email);
   }
 
 }
