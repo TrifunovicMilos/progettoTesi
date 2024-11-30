@@ -57,7 +57,7 @@
   <!-- il contenuto a destra della sidebar si muove in base alla dimensione della sidebar  -->
   <!-- (si sposta ancor più a destra se sidebar larga), vedi css .mat-drawer-content-right-->
   <mat-drawer-content [ngClass]="isSidebarOpen ? 'mat-drawer-content-right' : 'mat-drawer-content-left'">
-    <div [@routeTransition]="o.isActivated ? o.activatedRoute : ''">
+    <div [@slideInAnimation]="o.isActivated ? o.activatedRoute : ''">
       <router-outlet #o="outlet"></router-outlet>
     </div>
   </mat-drawer-content>
