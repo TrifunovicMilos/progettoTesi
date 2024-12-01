@@ -41,17 +41,18 @@ export class HomeComponent implements OnInit {
         this.isSidebarOpen = state; 
       });
   }
-
+  
+  // recupero degli esami da firestore
   async loadEsami() {
     try {
       this.esami = await this.firebaseService.getEsami() || [];
     } catch (error) {
-      console.error('Errore nel recupero degli esami:', error);
+      console.log('Errore nel recupero degli esami');
     }
   }
   
 
-  // per ora esami con titolo e descrizioni uguali
+  // mostri la descrizione dell'esame al click su "info"
   onClickInfo(esame: any): void {
     const dialogRef = this.dialog.open(InfoDialogComponent, {
       data: { title: 'Descrizione Corso', message: esame.descrizione }

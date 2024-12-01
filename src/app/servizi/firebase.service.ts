@@ -49,13 +49,16 @@ export class FirebaseService {
     const userDocRef = doc(this.firestore, ruolo === 'docente' ? 'docenti' : 'studenti', id);
     await updateDoc(userDocRef, { [field]: value });
   }
-
+  
+  // chiamata da HomeComponent nel caso il ruolo sia studente, per mostrare tutti gli esami disponibili
   async getEsami(): Promise<any[]> {
-    const esamiColRef = collection(this.firestore, 'esami'); // Collezione degli esami
-    const esamiSnapshot = await getDocs(esamiColRef); // Ottieni tutti i documenti
-    return esamiSnapshot.docs.map(doc => doc.data()); // Restituisci i dati dei documenti
+    const esamiColRef = collection(this.firestore, 'esami'); // collezione 'esami'
+    const esamiSnapshot = await getDocs(esamiColRef); // ottieni tutti i documenti (esami)
+    return esamiSnapshot.docs.map(doc => doc.data()); // restituisce i dati dei documenti
   }
-
+  
+  // servirà per quando entro in un esame specifico, avrò probabilmente un EsameComponent dove potrò vedere i test relativi
+  // l'esame avrà root /esami/id
   async getEsameById(id: string): Promise<any> {
     const esameDocRef = doc(this.firestore, 'esami', id);
     const docSnap = await getDoc(esameDocRef);
