@@ -3,4 +3,7 @@
     <!-- <router-outlet #o="outlet"></router-outlet> -->
 <!-- </div> -->
 
-<router-outlet></router-outlet>
+<!-- quindi ci metto la slideAnimation pure per quando vado da Login->Dashboard e Dashboard->Login -->
+<div [@routeTransition]="o.isActivated ? o.activatedRoute : ''">
+    <router-outlet #o="outlet"></router-outlet>
+</div>
