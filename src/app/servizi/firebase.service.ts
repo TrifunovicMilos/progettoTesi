@@ -54,7 +54,10 @@ export class FirebaseService {
   async getEsami(): Promise<any[]> {
     const esamiColRef = collection(this.firestore, 'esami'); // collezione 'esami'
     const esamiSnapshot = await getDocs(esamiColRef); // ottieni tutti i documenti (esami)
-    return esamiSnapshot.docs.map(doc => doc.data()); // restituisce i dati dei documenti
+    return esamiSnapshot.docs.map(doc => {
+      // l'ID serve a HomeComponent per quando clicco su esame, per reindirizzarmi a /esami/id
+      return { id: doc.id, ...doc.data() }; // Restituisce i dati dei documenti, incluso l'ID
+    });
   }
   
   // servirà per quando entro in un esame specifico, avrò probabilmente un EsameComponent dove potrò vedere i test relativi

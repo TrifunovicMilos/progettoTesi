@@ -17,7 +17,7 @@ export const routes: Routes = [
     {path: '', component: DashboardComponent, canActivate: [authGuard], children: [
         {path:'', redirectTo: 'home', pathMatch: 'full'},
         {path:'home', component: HomeComponent},
-        // { path: 'esame/:id', component: EsameComponent },
+        {path: 'esami/:id', component: EsameComponent },
         {path:'pagina2', component: Pagina2Component},
         {path:'pagina3', component: Pagina3Component},
         {path:'pagina4', component: Pagina4Component},
