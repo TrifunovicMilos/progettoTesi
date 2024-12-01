@@ -7,6 +7,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { InfoDialogComponent } from '../info-dialog/info-dialog.component';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { SidebarService } from '../../servizi/sidebar.service';
+import { FirebaseService } from '../../servizi/firebase.service';
 
 @Component({
   selector: 'app-home',
@@ -19,8 +20,9 @@ export class HomeComponent implements OnInit {
 
   ruolo = '';
   isSidebarOpen = false;
+  esami! : any[];
 
-  constructor(private sidebarService: SidebarService, private dialog: MatDialog){}
+  constructor(private firebaseService: FirebaseService, private sidebarService: SidebarService, private dialog: MatDialog){}
 
   ngOnInit(): void {
     const auth = getAuth();
@@ -30,18 +32,29 @@ export class HomeComponent implements OnInit {
     onAuthStateChanged(auth, async (user) => {
       if(user)
         this.ruolo = user.email?.includes('docente') ? 'docente' : 'studente';
+        if (this.ruolo === 'studente') {
+          this.loadEsami();
+        }
       });
 
       this.sidebarService.sidebarState$.subscribe(state => {
         this.isSidebarOpen = state; 
-      })
+      });
+  }
 
+  async loadEsami() {
+    try {
+      this.esami = await this.firebaseService.getEsami() || [];
+    } catch (error) {
+      console.error('Errore nel recupero degli esami:', error);
     }
+  }
+  
 
   // per ora esami con titolo e descrizioni uguali
-  onClickInfo(): void {
+  onClickInfo(esame: any): void {
     const dialogRef = this.dialog.open(InfoDialogComponent, {
-      data: { title: 'Descrizione Corso', message: 'Questo corso fornisce le basi del calcolo differenziale e integrale per funzioni reali di una variabile. Si studiano limiti, derivate, integrali e le loro applicazioni, con particolare attenzione alla comprensione teorica e alla risoluzione di problemi pratici.' }
+      data: { title: 'Descrizione Corso', message: esame.descrizione }
     });
   }
 }
