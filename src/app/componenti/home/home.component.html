@@ -1,4 +1,4 @@
-<!-- pagina Home contente la lista di tutti gli esami (per ora sono una lista di 12 esami uguali) -->
+<!-- pagina Home contente la lista di tutti gli esami-->
 <!-- Ogni card (esame) mostra il titolo, docente, foto, info e opzioni per visualizzare la descrizione ed iscriversi-->
 <div *ngIf="ruolo === 'docente'">
   <p>Home che vede il professore</p>
@@ -6,24 +6,23 @@
 
 <div *ngIf="ruolo === 'studente'">
   <div class="cards-container">
-    <mat-card *ngFor="let i of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]" 
+    <mat-card *ngFor="let esame of esami" 
     [ngClass]="isSidebarOpen ? 'card-collapsed' : 'card'" appearance="outlined">
       <mat-card-header>
-        <div mat-card-avatar class="header-image"></div>
-        <mat-card-title>Esame Prova {{ i }}</mat-card-title>
-        <mat-card-subtitle>Prof. Nome Cognome {{ i }}</mat-card-subtitle>
+        <div mat-card-avatar [ngStyle]="{'background-image': 'url(' + esame.immagineUrl + ')', 'background-size': 'cover'}"></div>
+        <mat-card-title> {{ esame.titolo }}</mat-card-title>
+        <mat-card-subtitle> {{ esame.docente }}</mat-card-subtitle>
       </mat-card-header>
-      <img mat-card-image src="https://stem.elearning.unipd.it/pluginfile.php/871815/course/overviewfiles/prova.jpg"
-        alt="Immagine_Esame">
+      <img mat-card-image src="{{ esame.immagineUrl }}" alt="Immagine_Esame">
       <mat-card-content>
         <p>
-          Anno Accademico: 2023/2024<br>
-          Crediti formativi: 6<br>
-          Lingua: Italiano<br>
+          Anno Accademico: {{ esame.annoAccademico }}<br>
+          Crediti formativi: {{ esame.crediti }}<br>
+          Lingua: {{ esame.lingua }}<br>
         </p>
       </mat-card-content>
       <mat-card-actions>
-        <button mat-icon-button class="example-icon" aria-label="info" (click)="onClickInfo()">
+        <button mat-icon-button class="example-icon" aria-label="info" (click)="onClickInfo(esame)">
           <mat-icon>info</mat-icon>
         </button>
         <button mat-icon-button class="example-icon" aria-label="iscrizione">
@@ -33,3 +32,4 @@
     </mat-card>
   </div>
 </div>
+

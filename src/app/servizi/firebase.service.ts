@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Firestore, setDoc, doc, getDoc, updateDoc, onSnapshot } from '@angular/fire/firestore';
+import { Firestore, setDoc, doc, getDoc, updateDoc, onSnapshot, collection, getDocs } from '@angular/fire/firestore';
 import { inject } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 
@@ -48,6 +48,23 @@ export class FirebaseService {
     // percorso collezione -> documento (id)
     const userDocRef = doc(this.firestore, ruolo === 'docente' ? 'docenti' : 'studenti', id);
     await updateDoc(userDocRef, { [field]: value });
+  }
+
+  async getEsami(): Promise<any[]> {
+    const esamiColRef = collection(this.firestore, 'esami'); // Collezione degli esami
+    const esamiSnapshot = await getDocs(esamiColRef); // Ottieni tutti i documenti
+    return esamiSnapshot.docs.map(doc => doc.data()); // Restituisci i dati dei documenti
+  }
+
+  async getEsameById(id: string): Promise<any> {
+    const esameDocRef = doc(this.firestore, 'esami', id);
+    const docSnap = await getDoc(esameDocRef);
+
+    if (docSnap.exists()) {
+      return docSnap.data(); 
+    } else {
+      throw new Error('Esame non trovato.');
+    }
   }
   
   // chiamato dall' header di DasboardComponent, per poter aggiornare istantaneamente l'Avatar quando viene cambiato in Profilo
