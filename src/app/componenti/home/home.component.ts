@@ -8,11 +8,12 @@ import { InfoDialogComponent } from '../info-dialog/info-dialog.component';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { SidebarService } from '../../servizi/sidebar.service';
 import { FirebaseService } from '../../servizi/firebase.service';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [MatCardModule, MatButtonModule, CommonModule, MatIconModule],
+  imports: [MatCardModule, MatButtonModule, CommonModule, MatIconModule, RouterLink],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })
