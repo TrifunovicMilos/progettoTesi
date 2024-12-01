@@ -8,6 +8,7 @@ import { Pagina2Component } from './componenti/pagina2/pagina2.component';
 import { Pagina3Component } from './componenti/pagina3/pagina3.component';
 import { ProfiloComponent } from './componenti/profilo/profilo.component';
 import { Pagina4Component } from './componenti/pagina4/pagina4.component';
+import { EsameComponent } from './componenti/esame/esame.component';
 
 export const routes: Routes = [
     // a questo gruppo di pagina ci si puo accedere solo se loggati
@@ -16,6 +17,7 @@ export const routes: Routes = [
     {path: '', component: DashboardComponent, canActivate: [authGuard], children: [
         {path:'', redirectTo: 'home', pathMatch: 'full'},
         {path:'home', component: HomeComponent},
+        // { path: 'esame/:id', component: EsameComponent },
         {path:'pagina2', component: Pagina2Component},
         {path:'pagina3', component: Pagina3Component},
         {path:'pagina4', component: Pagina4Component},
