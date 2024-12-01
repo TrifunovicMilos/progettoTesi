@@ -52,7 +52,7 @@ export class HomeComponent implements OnInit {
   }
   
 
-  // mostri la descrizione dell'esame al click su "info"
+  // mostra la descrizione dell'esame al click su "info"
   onClickInfo(esame: any): void {
     const dialogRef = this.dialog.open(InfoDialogComponent, {
       data: { title: 'Descrizione Corso', message: esame.descrizione }
