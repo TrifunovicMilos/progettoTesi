@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { RouterLink, RouterOutlet, RouterLinkActive } from '@angular/router';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatIconModule } from '@angular/material/icon';
@@ -38,7 +38,12 @@ export class DashboardComponent implements OnInit{
   isSidebarOpen = false;
   isSidebarOpenWithClick = false; // true se l'utente decide di aprire tramite click. Se la apre passandoci con il mouse, rimane false
   
-  constructor(private authService: AuthService, private firebaseService: FirebaseService, private sidebarService: SidebarService, private dialog: MatDialog){}
+  constructor(private authService: AuthService, private firebaseService: FirebaseService, private sidebarService: SidebarService, private dialog: MatDialog, private cdr: ChangeDetectorRef){}
+
+  ngAfterViewChecked() {
+    // Forza il rilevamento dei cambiamenti, per risolvere ExpressionChangedAfterItHasBeenCheckedError in riga 58 del html
+    this.cdr.detectChanges();  
+  }
 
   ngOnInit(): void {
     const auth = getAuth();
