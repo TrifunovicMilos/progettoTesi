@@ -9,11 +9,13 @@ import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { SidebarService } from '../../servizi/sidebar.service';
 import { FirebaseService } from '../../servizi/firebase.service';
 import { RouterLink } from '@angular/router';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [MatCardModule, MatButtonModule, CommonModule, MatIconModule, RouterLink],
+  imports: [MatFormFieldModule, MatInputModule, MatCardModule, MatButtonModule, MatIconModule, CommonModule, RouterLink],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })
@@ -22,6 +24,7 @@ export class HomeComponent implements OnInit {
   ruolo = '';
   isSidebarOpen = false;
   esami! : any[];
+  esamiFiltered! : any[];
 
   constructor(private firebaseService: FirebaseService, private sidebarService: SidebarService, private dialog: MatDialog){}
 
@@ -47,9 +50,17 @@ export class HomeComponent implements OnInit {
   async loadEsami() {
     try {
       this.esami = await this.firebaseService.getEsami() || [];
+      this.esamiFiltered = [...this.esami];
     } catch (error) {
       console.log('Errore nel recupero degli esami');
     }
+  }
+
+  onInput(filter: string) {
+    this.esamiFiltered = this.esami.filter(esame => 
+      esame.titolo.toLowerCase().includes(filter.toLowerCase()) || 
+      esame.docente.toLowerCase().includes(filter.toLowerCase())
+    );
   }
   
 
