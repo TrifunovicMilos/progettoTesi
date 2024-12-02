@@ -15,7 +15,7 @@
     <p><img [src]="selectedAvatarUrl" width="60" style="margin-right: 8px;"></p>
     
     <!-- Lista di Avatar -->
-    <mat-form-field class="avatar-select">
+    <mat-form-field>
       <mat-label>Change Avatar</mat-label>
       <mat-select [(value)]="selectedAvatar" (selectionChange)="onSelect($event)">
         <mat-option [value]="'Default'">
