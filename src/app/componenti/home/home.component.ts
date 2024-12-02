@@ -20,7 +20,8 @@ import { MatInputModule } from '@angular/material/input';
   styleUrl: './home.component.css'
 })
 export class HomeComponent implements OnInit {
-
+  
+  isLoading = true;
   ruolo = '';
   isSidebarOpen = false;
   esami! : any[];
@@ -53,6 +54,8 @@ export class HomeComponent implements OnInit {
       this.esamiFiltered = [...this.esami];
     } catch (error) {
       console.log('Errore nel recupero degli esami');
+    } finally {
+      this.isLoading = false;
     }
   }
 
