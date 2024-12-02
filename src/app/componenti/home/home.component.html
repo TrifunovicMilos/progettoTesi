@@ -13,11 +13,11 @@
     <mat-card *ngFor="let esame of esamiFiltered" 
     [ngClass]="isSidebarOpen ? 'card-collapsed' : 'card'" appearance="outlined">
       <mat-card-header>
-        <div mat-card-avatar [ngStyle]="{'background-image': 'url(' + esame.immagineUrl + ')', 'background-size': 'cover'}"></div>
-        <mat-card-title> {{ esame.titolo }}</mat-card-title>
-        <mat-card-subtitle> {{ esame.docente }}</mat-card-subtitle>
+        <div mat-card-avatar [ngStyle]="{'background-image': 'url(' + esame.imgUrl + ')', 'background-size': 'cover', 'background-position': 'center'}"></div>
+        <mat-card-title>{{ esame.titolo }}</mat-card-title>
+        <mat-card-subtitle>{{ esame.docente }}</mat-card-subtitle>
       </mat-card-header>
-      <img mat-card-image src="{{ esame.immagineUrl }}" alt="Immagine_Esame">
+      <img mat-card-image src="{{ esame.imgUrl }}" alt="Immagine_Esame">
       <mat-card-content>
         <p>
           Anno Accademico: {{ esame.annoAccademico }}<br>

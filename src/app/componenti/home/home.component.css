@@ -127,10 +127,12 @@ quindi isSidebarOpen non ha più impatto sulla classi */
 
 mat-card-title {
   font-size: 17px;
+  font-weight: bold;
 }
 
 mat-card-subtitle {
   font-size: 15px;
+  font-weight: normal;
 }
 
 mat-card-content {
