@@ -1,3 +1,12 @@
+mat-form-field {
+  width: 270px; 
+  padding-right: 20px; 
+  padding-top: 20px;
+  display: block;
+  margin-right: auto;
+  margin-left: auto;
+}
+
 .cards-container {
   display: flex;
   flex-wrap: wrap;

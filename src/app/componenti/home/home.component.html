@@ -5,8 +5,12 @@
 </div>
 
 <div *ngIf="ruolo === 'studente'">
+  <mat-form-field appearance="outline">
+    <mat-icon matPrefix>search</mat-icon>
+    <input matInput placeholder="cerca per nome o docente" (keyup)="onInput($any($event.target).value)">
+  </mat-form-field>
   <div class="cards-container">
-    <mat-card *ngFor="let esame of esami" 
+    <mat-card *ngFor="let esame of esamiFiltered" 
     [ngClass]="isSidebarOpen ? 'card-collapsed' : 'card'" appearance="outlined">
       <mat-card-header>
         <div mat-card-avatar [ngStyle]="{'background-image': 'url(' + esame.immagineUrl + ')', 'background-size': 'cover'}"></div>
