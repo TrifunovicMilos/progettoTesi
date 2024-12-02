@@ -4,7 +4,11 @@
   <p>Home che vede il professore</p>
 </div>
 
-<div *ngIf="ruolo === 'studente'">
+<div *ngIf="ruolo === 'studente' && isLoading" class="loading-container">
+  <p>Caricamento in corso...</p>
+</div>
+
+<div *ngIf="ruolo === 'studente' && !isLoading">
   <mat-form-field appearance="outline">
     <mat-icon matPrefix>search</mat-icon>
     <input matInput placeholder="cerca per nome o docente" (keyup)="onInput($any($event.target).value)">
