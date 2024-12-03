@@ -51,7 +51,7 @@ export class FirebaseService {
     await updateDoc(userDocRef, { [field]: value });
   }
 
-  async addEsame(titolo: string, docente: string, descrizione: string, imgUrl:string, annoAccademico: string, crediti: number, lingua: string): Promise<void> {
+  async addEsame(titolo: string, docente: string, descrizione: string, imgUrl:string, annoAccademico: string, crediti: number, lingua: string): Promise<any> {
     const esamiColRef = collection(this.firestore, 'esami');
     
     try {
@@ -65,9 +65,24 @@ export class FirebaseService {
         lingua: lingua,
       });
       console.log('Esame aggiunto con ID: ', docRef.id);
+      return docRef;
     } catch (error) {
       console.error('Errore durante l\'aggiunta dell\'esame: ', error);
       throw new Error('Errore nell\'aggiunta dell\'esame');
+    }
+  }
+
+  async addEsameToUser(id: string, ruolo: string, esameId: string): Promise<void> {
+    const userDocRef = doc(this.firestore, ruolo === 'docente' ? 'docenti' : 'studenti', id);
+    const docSnap = await getDoc(userDocRef);
+  
+    if (docSnap.exists()) {
+ 
+      await updateDoc(userDocRef, {
+        esami: [...docSnap.data()['esami'], esameId]  
+      });
+    } else {
+      throw new Error('Docente non trovato');
     }
   }
   
