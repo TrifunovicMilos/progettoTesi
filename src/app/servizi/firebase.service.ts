@@ -50,18 +50,18 @@ export class FirebaseService {
     await updateDoc(userDocRef, { [field]: value });
   }
 
-  async addEsame(titolo: string, descrizione: string, imgUrl:string, annoAccademico: string, crediti: number, lingua: string): Promise<void> {
+  async addEsame(titolo: string, docente: string, descrizione: string, imgUrl:string, annoAccademico: string, crediti: number, lingua: string): Promise<void> {
     const esamiColRef = collection(this.firestore, 'esami');
     
     try {
       const docRef = await addDoc(esamiColRef, {
         titolo: titolo,
+        docente: docente,
         descrizione: descrizione,
         imgUrl: imgUrl,
         annoAccademico: annoAccademico,
         crediti: crediti,
         lingua: lingua,
-        docente: "Pinco Pallino"
       });
       console.log('Esame aggiunto con ID: ', docRef.id);
     } catch (error) {
