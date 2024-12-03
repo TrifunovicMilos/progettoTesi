@@ -11,6 +11,7 @@ import { FirebaseService } from '../../servizi/firebase.service';
 import { RouterLink } from '@angular/router';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { CreateExamDialogComponent } from '../create-exam-dialog/create-exam-dialog.component';
 
 @Component({
   selector: 'app-home',
@@ -73,4 +74,14 @@ export class HomeComponent implements OnInit {
       data: { title: 'Descrizione Corso', message: esame.descrizione }
     });
   }
+
+  openCreateExamDialog(): void {
+    const dialogRef = this.dialog.open(CreateExamDialogComponent, {
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log('Il dialog è stato chiuso');
+    });
+  }
+
 }
