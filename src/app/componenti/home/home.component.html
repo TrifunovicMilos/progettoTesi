@@ -1,4 +1,8 @@
-<div *ngIf="ruolo === 'docente'" class="welcome-container">
+<div *ngIf="isLoading" class="loading-container">
+  <p>Caricamento in corso...</p>
+</div>
+
+<div *ngIf="ruolo === 'docente'&& !isLoading" class="welcome-container">
 
   <div class="welcome-header">
     <img 
@@ -7,8 +11,8 @@
       class="welcome-image"
     />
     <div class="welcome-text">
-      <h3>Benvenuto, Nome Cognome!</h3>
-      <p>Stai gestendo <strong>x</strong> esami.</p>
+      <h3>Benvenuto, {{nome}} {{cognome}}!</h3>
+      <p>Stai gestendo <strong>{{esamiGestiti}}</strong> esami.</p>
     </div>
   </div>
   
@@ -20,10 +24,6 @@
 
 <!-- pagina Home contente la lista di tutti gli esami-->
 <!-- Ogni card (esame) mostra il titolo, docente, foto, info e opzioni per visualizzare la descrizione ed iscriversi-->
-
-<div *ngIf="ruolo === 'studente' && isLoading" class="loading-container">
-  <p>Caricamento in corso...</p>
-</div>
 
 <div *ngIf="ruolo === 'studente' && !isLoading">
   <mat-form-field [ngClass]="isSidebarOpen ? 'adaptedForm' : ''" appearance="outline">
