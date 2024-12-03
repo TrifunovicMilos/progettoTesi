@@ -1,8 +1,25 @@
+<div *ngIf="ruolo === 'docente'" class="welcome-container">
+
+  <div class="welcome-header">
+    <img 
+      src="assets/sfondi/educator.svg" 
+      alt="Immagine Educazione" 
+      class="welcome-image"
+    />
+    <div class="welcome-text">
+      <h3>Benvenuto, Nome Cognome!</h3>
+      <p>Stai gestendo <strong>x</strong> esami.</p>
+    </div>
+  </div>
+  
+  <div class="action-buttons">
+    <button mat-raised-button routerLink="/pagina2">Visualizza Esami</button>
+    <button mat-flat-button (click)="openCreateExamDialog()">Crea Esame</button>
+  </div>
+</div>
+
 <!-- pagina Home contente la lista di tutti gli esami-->
 <!-- Ogni card (esame) mostra il titolo, docente, foto, info e opzioni per visualizzare la descrizione ed iscriversi-->
-<div *ngIf="ruolo === 'docente'">
-  <button mat-raised-button (click)="openCreateExamDialog()">Crea Esame</button>
-</div>
 
 <div *ngIf="ruolo === 'studente' && isLoading" class="loading-container">
   <p>Caricamento in corso...</p>
