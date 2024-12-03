@@ -8,6 +8,7 @@ import { MatInputModule } from '@angular/material/input';
 import { AuthService } from '../../auth/auth.service';
 import { MatSelectModule } from '@angular/material/select';
 import { FirebaseService } from '../../servizi/firebase.service';
+import { getAuth } from 'firebase/auth';
 
 @Component({
   selector: 'app-create-exam-dialog',
@@ -43,20 +44,35 @@ export class CreateExamDialogComponent {
   async createExam(): Promise<void> {
     if (this.createExamForm.valid) {
       const formData = this.createExamForm.value;
+      const auth = getAuth();
+      const user = auth.currentUser;
+  
+      if (user && user.email?.includes('docente')) {
+        const docenteUid = user.uid;
+  
+        try {
+          const userData = await this.firebaseService.getUserData(docenteUid, 'docente');
+          const nome = userData.nome;
+          const cognome = userData.cognome;
+          const docente = nome + " " + cognome;
 
-      try {
-        await this.firebaseService.addEsame(
-          formData.titolo, "Pinco Pallino", formData.descrizione, formData.imgUrl, 
-          formData.annoAccademico, formData.crediti, formData.lingua
+          const esameRef = await this.firebaseService.addEsame(
+            formData.titolo, docente, formData.descrizione, formData.imgUrl, 
+            formData.annoAccademico, formData.crediti, formData.lingua
           );
-        this.dialogRef.close();
-      } catch (error) {
-        console.error('Errore nell\'aggiunta dell\'esame: ', error);
+  
+          await this.firebaseService.addEsameToUser(docenteUid, 'docente', esameRef.id);
+  
+          this.dialogRef.close();
+        } catch (error) {
+          console.error('Errore nell\'aggiunta dell\'esame: ', error);
+        }
       }
     } else {
       console.log('Form non valido');
     }
   }
+  
 
   onClose(): void {
     this.dialogRef.close();
