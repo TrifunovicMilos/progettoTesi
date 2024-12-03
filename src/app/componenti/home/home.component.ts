@@ -23,7 +23,10 @@ import { CreateExamDialogComponent } from '../create-exam-dialog/create-exam-dia
 export class HomeComponent implements OnInit {
   
   isLoading = true;
+  nome = '';
+  cognome = '';
   ruolo = '';
+  esamiGestiti = 0;
   isSidebarOpen = false;
   esami! : any[];
   esamiFiltered! : any[];
@@ -36,12 +39,28 @@ export class HomeComponent implements OnInit {
     // devo conoscere il ruolo per sapere se mostrare o meno la lista di tutti gli esami nella piattaforma
     // per ora abbiamo scelto che i docenti non la vedono perché tanto non si possono iscrivere
     onAuthStateChanged(auth, async (user) => {
-      if(user)
+      if(user) {
         this.ruolo = user.email?.includes('docente') ? 'docente' : 'studente';
         if (this.ruolo === 'studente') {
           this.loadEsami();
         }
-      });
+        const uid = user.uid;
+
+        try {
+          const userData = await this.firebaseService.getUserData(uid, this.ruolo);
+          this.nome = userData.nome;
+          this.cognome = userData.cognome;
+          this.esamiGestiti = userData.esami.length;
+        } catch (error) {
+          console.log('Errore nel recupero dei dati utente');
+        } finally {
+          this.isLoading = false;
+        }
+      } else {
+        console.log('Utente non autenticato');
+        this.isLoading = false; // Disattiva il caricamento
+      }
+    });
 
       this.sidebarService.sidebarState$.subscribe(state => {
         this.isSidebarOpen = state; 
