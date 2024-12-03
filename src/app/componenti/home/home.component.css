@@ -9,9 +9,14 @@
 
 .welcome-container {
   text-align: center;
-  padding: 30px;
-  max-width: 700px;
-  margin: 40px auto;
+  margin-top: 40px;
+  margin-right: 20px;
+}
+
+@media (max-width: 770px) {
+  .welcome-container {
+    margin-right: auto;
+  }
 }
 
 .welcome-header {
