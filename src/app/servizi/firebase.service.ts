@@ -22,7 +22,8 @@ export class FirebaseService {
     await setDoc(userDocRef, {
       nome: nome,
       cognome: cognome,
-      email: email
+      email: email,
+      esami: []
     });
     console.log("Aggiunto ID = UID : " + uid + '\n' + "email: " + email + '\n' + 
     "nome: " + nome + '\n' + "cognome: " + cognome + '\n' + "ruolo: " + ruolo)
