@@ -9,7 +9,7 @@
 </div>
 
 <div *ngIf="ruolo === 'studente' && !isLoading">
-  <mat-form-field appearance="outline">
+  <mat-form-field [ngClass]="isSidebarOpen ? 'adaptedForm' : ''" appearance="outline">
     <mat-icon matPrefix>search</mat-icon>
     <input matInput placeholder="cerca per nome o docente" (keyup)="onInput($any($event.target).value)">
   </mat-form-field>
