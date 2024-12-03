@@ -1,7 +1,7 @@
 <!-- pagina Home contente la lista di tutti gli esami-->
 <!-- Ogni card (esame) mostra il titolo, docente, foto, info e opzioni per visualizzare la descrizione ed iscriversi-->
 <div *ngIf="ruolo === 'docente'">
-  <p>Home che vede il professore</p>
+  <button mat-raised-button (click)="openCreateExamDialog()">Crea Esame</button>
 </div>
 
 <div *ngIf="ruolo === 'studente' && isLoading" class="loading-container">
