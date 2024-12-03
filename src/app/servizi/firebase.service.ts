@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Firestore, setDoc, doc, getDoc, updateDoc, onSnapshot, collection, getDocs } from '@angular/fire/firestore';
+import { Firestore, setDoc, doc, getDoc, updateDoc, onSnapshot, collection, getDocs, addDoc } from '@angular/fire/firestore';
 import { inject } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 
@@ -48,6 +48,26 @@ export class FirebaseService {
     // percorso collezione -> documento (id)
     const userDocRef = doc(this.firestore, ruolo === 'docente' ? 'docenti' : 'studenti', id);
     await updateDoc(userDocRef, { [field]: value });
+  }
+
+  async addEsame(titolo: string, descrizione: string, imgUrl:string, annoAccademico: string, crediti: number, lingua: string): Promise<void> {
+    const esamiColRef = collection(this.firestore, 'esami');
+    
+    try {
+      const docRef = await addDoc(esamiColRef, {
+        titolo: titolo,
+        descrizione: descrizione,
+        imgUrl: imgUrl,
+        annoAccademico: annoAccademico,
+        crediti: crediti,
+        lingua: lingua,
+        docente: "Pinco Pallino"
+      });
+      console.log('Esame aggiunto con ID: ', docRef.id);
+    } catch (error) {
+      console.error('Errore durante l\'aggiunta dell\'esame: ', error);
+      throw new Error('Errore nell\'aggiunta dell\'esame');
+    }
   }
   
   // chiamata da HomeComponent nel caso il ruolo sia studente, per mostrare tutti gli esami disponibili
