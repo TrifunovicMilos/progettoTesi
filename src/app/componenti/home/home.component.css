@@ -45,12 +45,12 @@
   gap: 20px;
 }
 
-button {
+.buttonDoc {
   padding: 12px 20px;
   border-radius: 5px;
 }
 
-button:hover {
+.buttonDoc:hover {
   transform: translateY(-2px);
   transition: transform 0.2s ease;
 }
