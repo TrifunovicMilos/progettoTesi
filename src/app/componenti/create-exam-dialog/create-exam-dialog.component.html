@@ -1,18 +1,18 @@
 <!-- dialogo aperto dal docente al click di crea esame -->
-<h2 mat-dialog-title>Creazione Esame</h2>
+<h2 mat-dialog-title class="dialog-title">Creazione Esame</h2>
 <mat-dialog-content>
     <form [formGroup]="createExamForm" (ngSubmit)="createExam()">
         <!-- Titolo -->
-        <mat-form-field style="width: 100%; margin-top: 20px;">
+        <mat-form-field class="form-field">
             <mat-label>Titolo</mat-label>
-            <input matInput name="titolo" placeholder="Inserisci il titolo del corso" formControlName="titolo">
+            <input matInput name="titolo" placeholder="Inserisci il titolo dell'esame" formControlName="titolo">
             <mat-error *ngIf="createExamForm.get('titolo')?.hasError('required') && createExamForm.get('titolo')?.touched">
                 Il titolo è obbligatorio
             </mat-error>
         </mat-form-field>
 
         <!-- Descrizione -->
-        <mat-form-field style="width: 100%; margin-top: 20px;">
+        <mat-form-field class="form-field">
             <mat-label>Descrizione</mat-label>
             <textarea matInput name="descrizione" placeholder="Descrivi il corso" formControlName="descrizione"></textarea>
             <mat-error *ngIf="createExamForm.get('descrizione')?.hasError('required') && createExamForm.get('descrizione')?.touched">
@@ -21,7 +21,7 @@
         </mat-form-field>
 
         <!-- Crediti -->
-        <mat-form-field style="width: 100%; margin-top: 20px;">
+        <mat-form-field class="form-field">
             <mat-label>Crediti</mat-label>
             <input matInput name="crediti" type="number" placeholder="Inserisci il numero di crediti" formControlName="crediti">
             <mat-error *ngIf="createExamForm.get('crediti')?.hasError('required') && createExamForm.get('crediti')?.touched">
@@ -33,7 +33,7 @@
         </mat-form-field>
 
         <!-- Anno Accademico -->
-        <mat-form-field style="width: 100%; margin-top: 20px;">
+        <mat-form-field class="form-field">
             <mat-label>Anno Accademico</mat-label>
             <input matInput name="annoAccademico" placeholder="Esempio: 2021-2022" formControlName="annoAccademico">
             <mat-error *ngIf="createExamForm.get('annoAccademico')?.hasError('required') && createExamForm.get('annoAccademico')?.touched">
@@ -45,13 +45,12 @@
         </mat-form-field>
 
         <!-- Lingua -->
-        <mat-form-field style="width: 100%; margin-top: 20px;">
+        <mat-form-field class="form-field">
             <mat-label>Lingua</mat-label>
             <mat-select formControlName="lingua">
                 <mat-option value="italiano">Italiano</mat-option>
                 <mat-option value="english">English</mat-option>
                 <mat-option value="español">Español</mat-option>
-                <!-- Aggiungi altre lingue se necessario -->
             </mat-select>
             <mat-error *ngIf="createExamForm.get('lingua')?.hasError('required') && createExamForm.get('lingua')?.touched">
                 Seleziona una lingua
@@ -59,7 +58,7 @@
         </mat-form-field>
 
         <!-- URL Immagine -->
-        <mat-form-field style="width: 100%; margin-top: 20px;">
+        <mat-form-field class="form-field">
             <mat-label>URL Immagine</mat-label>
             <input matInput name="imgUrl" placeholder="Inserisci un URL valido per l'immagine" formControlName="imgUrl">
             <mat-error *ngIf="createExamForm.get('imgUrl')?.hasError('required') && createExamForm.get('imgUrl')?.touched">
@@ -70,7 +69,9 @@
             </mat-error>
         </mat-form-field>
 
-        <button mat-flat-button type="submit" [disabled]="!createExamForm.valid" style="margin-top: 20px;">Crea Corso</button>
+        <div class="dialog-actions">
+            <button mat-flat-button color="primary" type="submit" [disabled]="!createExamForm.valid">Crea Esame</button>
+        </div>
     </form>
 </mat-dialog-content>
 
