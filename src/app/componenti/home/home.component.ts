@@ -77,6 +77,8 @@ export class HomeComponent implements OnInit {
 
   openCreateExamDialog(): void {
     const dialogRef = this.dialog.open(CreateExamDialogComponent, {
+      width: '37%',
+      // panelClass: 'custom-dialog'
     });
 
     dialogRef.afterClosed().subscribe((result) => {
