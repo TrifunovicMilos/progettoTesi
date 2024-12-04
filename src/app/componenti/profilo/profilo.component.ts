@@ -1,11 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { FirebaseService } from '../../servizi/firebase.service';
-import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { CommonModule } from '@angular/common';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
 import { MatOptionModule } from '@angular/material/core';
+import { UserService } from '../../servizi/user.service';
 
 @Component({
   selector: 'app-profilo',
@@ -25,33 +24,21 @@ export class ProfiloComponent implements OnInit {
   selectedAvatarUrl = '';
   isLoading = true; // Stato del caricamento
 
-  constructor(private firebaseService: FirebaseService) {}
+  constructor(private userService: UserService) {}
 
   ngOnInit(): void {
-    const auth = getAuth();
-
-    onAuthStateChanged(auth, async (user) => {
-      if (user) {
-        this.email = user.email ?? ''; // se null o undefined diventa strigna vuota
-        const uid = user.uid;
-        // ottengo il ruolo/collezione
-        this.ruolo = this.email.includes('docente') ? 'docente' : 'studente';
-
-        try {
-          const userData = await this.firebaseService.getUserData(uid, this.ruolo);
-          this.nome = userData.nome;
-          this.cognome = userData.cognome;
-          this.userAvatar = userData.avatar || 'Default'; 
-          this.selectedAvatar = userData.avatar || 'Default'; 
-          this.selectedAvatarUrl = this.getAvatarUrl();
-        } catch (error) {
-          console.log('Errore nel recupero dei dati utente');
-        } finally {
-          this.isLoading = false;
-        }
+    this.userService.getUserObservable().subscribe(userData => {
+      if (userData) {
+        this.email = userData.email;
+        this.ruolo = this.userService.getUserRole();
+        this.nome = userData.nome;
+        this.cognome = userData.cognome;
+        this.userAvatar = userData.avatar || 'Default';
+        this.selectedAvatar = userData.avatar || 'Default';
+        this.selectedAvatarUrl = this.getAvatarUrl();
+        this.isLoading = false;
       } else {
-        console.log('Utente non autenticato');
-        this.isLoading = false; // Disattiva il caricamento
+        this.isLoading = false; // Se l'utente non è autenticato, disabilita il caricamento
       }
     });
   }
@@ -79,20 +66,15 @@ export class ProfiloComponent implements OnInit {
   onConfirmChange(): void {
     console.log('Avatar cambiato a: ', this.selectedAvatar);
     this.userAvatar = this.selectedAvatar;
+    const uid = this.userService.getUser().uid;
 
-    const auth = getAuth();
-    const user = auth.currentUser;
-
-    if (user) {
-      const uid = user.uid;
-
-      this.firebaseService.updateUserField(uid, this.ruolo, 'avatar', this.selectedAvatar)
+    this.userService.updateUserField('avatar', this.selectedAvatar)
       .then(() => {
         console.log('Avatar aggiornato con successo!');
       })
       .catch((error) => {
         console.error('Errore nell\'aggiornamento dell\'avatar:', error);
       });
-    }
+
   }
 }
