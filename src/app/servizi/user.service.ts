@@ -71,13 +71,12 @@ export class UserService {
     }
   }
 
-  // Utility functions to handle user-specific actions
   async updateUserField(field: string, value: any): Promise<void> {
     if (!this.currentUser) return;
     const uid = this.currentUser.uid;
     const ruolo = this.getUserRole();
     await this.firebaseService.updateUserField(uid, ruolo, field, value);
-    this.loadUserData(uid); // Reload user data after update
+    this.loadUserData(uid); 
   }
 
 }
