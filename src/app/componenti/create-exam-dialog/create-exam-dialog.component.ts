@@ -5,10 +5,9 @@ import { MatButtonModule } from '@angular/material/button';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { AuthService } from '../../auth/auth.service';
 import { MatSelectModule } from '@angular/material/select';
 import { FirebaseService } from '../../servizi/firebase.service';
-import { getAuth } from 'firebase/auth';
+import { UserService } from '../../servizi/user.service';
 
 @Component({
   selector: 'app-create-exam-dialog',
@@ -23,6 +22,7 @@ export class CreateExamDialogComponent {
   constructor(
     public dialogRef: MatDialogRef<CreateExamDialogComponent>, 
     @Inject(MAT_DIALOG_DATA) public data: any,
+    private userService: UserService,
     private firebaseService: FirebaseService
   ) {
     this.createExamForm = new FormGroup({
@@ -44,36 +44,31 @@ export class CreateExamDialogComponent {
   async createExam(): Promise<void> {
     if (this.createExamForm.valid) {
       const formData = this.createExamForm.value;
-      const auth = getAuth();
-      const user = auth.currentUser;
+      const user = this.userService.getUser();
+      const ruolo = this.userService.getUserRole()
   
-      if (user && user.email?.includes('docente')) {
-        const docenteUid = user.uid;
-  
+      if (user && ruolo == 'docente') {
         try {
-          const userData = await this.firebaseService.getUserData(docenteUid, 'docente');
-          const nome = userData.nome;
-          const cognome = userData.cognome;
-          const docente = nome + " " + cognome;
-
+          const docente = `${user.nome} ${user.cognome}`;
           const esameRef = await this.firebaseService.addEsame(
             formData.titolo, docente, formData.descrizione, formData.imgUrl, 
             formData.annoAccademico, formData.crediti, formData.lingua
           );
   
-          await this.firebaseService.addEsameToUser(docenteUid, 'docente', esameRef.id);
+          await this.firebaseService.addEsameToUser(user.uid, ruolo, esameRef.id);
   
           this.dialogRef.close();
         } catch (error) {
           console.error('Errore nell\'aggiunta dell\'esame: ', error);
         }
+      } else {
+        console.log('Utente non autorizzato o non autenticato');
       }
     } else {
       console.log('Form non valido');
     }
   }
   
-
   onClose(): void {
     this.dialogRef.close();
   }
