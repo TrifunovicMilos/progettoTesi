@@ -12,9 +12,9 @@
     />
     <div class="welcome-text">
       <h3>Benvenuto, {{nome}} {{cognome}}!</h3>
-      <p *ngIf="esamiGestiti<1">Non stai gestendo <strong>nessun</strong> esame.</p>
-      <p *ngIf="esamiGestiti==1">Stai gestendo <strong>1</strong> esame.</p>
-      <p *ngIf="esamiGestiti>1">Stai gestendo <strong>{{esamiGestiti}}</strong> esami.</p>
+      <p *ngIf="numeroEsami<1">Non stai gestendo <strong>nessun</strong> esame.</p>
+      <p *ngIf="numeroEsami==1">Stai gestendo <strong>1</strong> esame.</p>
+      <p *ngIf="numeroEsami>1">Stai gestendo <strong>{{numeroEsami}}</strong> esami.</p>
     </div>
   </div>
   
