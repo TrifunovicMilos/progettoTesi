@@ -11,7 +11,7 @@ import { FirebaseService } from '../../servizi/firebase.service';
 import { RouterLink } from '@angular/router';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { CreateExamDialogComponent } from '../create-exam-dialog/create-exam-dialog.component';
+import { UserService } from '../../servizi/user.service';
 
 @Component({
   selector: 'app-i-miei-esami',
@@ -23,41 +23,22 @@ import { CreateExamDialogComponent } from '../create-exam-dialog/create-exam-dia
 export class IMieiEsamiComponent {
   
   isLoading = true;
-  nome = '';
-  cognome = '';
   ruolo = '';
-  esamiGestiti = 0;
   isSidebarOpen = false;
-  esamiID! : [];
-  esami! : any[];
-  esamiFiltered! : any[];
+  esamiID! : []; // i docenti e studenti nel loro array di esami contengono gli ID degli esami
+  esami! : any[]; // tutti gli esami che gestisce il docente o ai quali lo studente è iscritto
+  esamiFiltered! : any[]; // lo studente cerca per nome o docente, docente solo per nome 
 
-  constructor(private firebaseService: FirebaseService, private sidebarService: SidebarService, private dialog: MatDialog){}
+  constructor(private userService: UserService, private firebaseService: FirebaseService, private sidebarService: SidebarService, private dialog: MatDialog){}
 
   ngOnInit(): void {
-    const auth = getAuth();
-    
-    // devo conoscere il ruolo per sapere se mostrare o meno la lista di tutti gli esami nella piattaforma
-    // per ora abbiamo scelto che i docenti non la vedono perché tanto non si possono iscrivere
-    onAuthStateChanged(auth, async (user) => {
-      if(user) {
-        
-        this.ruolo = user.email?.includes('docente') ? 'docente' : 'studente';
-        const uid = user.uid;
-
-        try {
-          const userData = await this.firebaseService.getUserData(uid, this.ruolo);
-          this.esamiID = userData.esami || []; 
-          this.loadEsami();
-        } catch (error) {
-          console.log('Errore nel recupero dei dati utente');
-        } finally {
-          this.isLoading = false;
-        }
-      } else {
-        console.log('Utente non autenticato');
-        this.isLoading = false; // Disattiva il caricamento
+    this.userService.getUserObservable().subscribe(userData => {
+      if (userData) {
+        this.ruolo = this.userService.getUserRole();
+        this.esamiID = userData.esami || [];
+        this.loadEsami();
       }
+      this.isLoading = false;
     });
 
       this.sidebarService.sidebarState$.subscribe(state => {
@@ -74,6 +55,7 @@ export class IMieiEsamiComponent {
     this.esamiFiltered = [...this.esami];
   }
 
+  // lo studente cerca gli esami per nome o docente
   onInput(filter: string) {
     this.esamiFiltered = this.esami.filter(esame => 
       esame.titolo.toLowerCase().includes(filter.toLowerCase()) || 
@@ -81,13 +63,13 @@ export class IMieiEsamiComponent {
     );
   }
 
+  // il docente cerca gli esami per nome
   onInputNome(filter: string) {
     this.esamiFiltered = this.esami.filter(esame => 
       esame.titolo.toLowerCase().includes(filter.toLowerCase())
     );
   }
   
-
   // mostra la descrizione dell'esame al click su "info"
   onClickInfo(esame: any): void {
     const dialogRef = this.dialog.open(InfoDialogComponent, {
