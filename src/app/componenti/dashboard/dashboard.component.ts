@@ -48,6 +48,7 @@ export class DashboardComponent implements OnInit{
       if (userData) {
         this.nome = userData.nome;
         this.cognome = userData.cognome;
+        this.ruolo = this.userService.getUserRole();
         this.avatar = userData.avatar || 'Default';
         this.avatarUrl = this.getAvatarUrl();
       }
