@@ -35,23 +35,19 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
     this.userService.getUserObservable().subscribe(userData => {
-      if (userData) {
-        this.nome = userData.nome;
-        this.cognome = userData.cognome;
-        this.ruolo = this.userService.getUserRole();
-        this.numeroEsami = userData.esami.length;
-        if (this.ruolo === 'studente') {
-          this.loadEsami();
-        }
-        this.isLoading = false;
-      } else {
-        this.isLoading = false; 
+      this.nome = userData.nome;
+      this.cognome = userData.cognome;
+      this.ruolo = this.userService.getUserRole();
+      this.numeroEsami = userData.esami.length;
+      if (this.ruolo === 'studente') {
+        this.loadEsami();
       }
+      this.isLoading = false;
     });
 
-      this.sidebarService.sidebarState$.subscribe(state => {
-        this.isSidebarOpen = state; 
-      });
+    this.sidebarService.sidebarState$.subscribe(state => {
+      this.isSidebarOpen = state; 
+    });
   }
   
   // recupero degli esami da firestore
