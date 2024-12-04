@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { FirebaseService } from '../../servizi/firebase.service';
 
 @Component({
@@ -13,7 +13,7 @@ export class EsameComponent {
   esameId! : string;
   esameData : any;
 
-  constructor(private route: ActivatedRoute, private firebaseService: FirebaseService) {}
+  constructor(private route: ActivatedRoute, private firebaseService: FirebaseService, private router: Router) {}
 
   ngOnInit() {
     this.esameId = this.route.snapshot.paramMap.get('id') || "";
@@ -25,11 +25,11 @@ export class EsameComponent {
       this.esameData = await this.firebaseService.getEsameById(this.esameId);
       console.log(this.esameData); 
     } catch (error: any) {
+      this.router.navigate(['404'])
       if(error.message == 'Esame non trovato.')
         console.log(error.message)
       else
         console.log('Errore recupero esame')
-
     }
   }
 

@@ -28,14 +28,16 @@ export class ProfiloComponent implements OnInit {
 
   ngOnInit(): void {
     this.userService.getUserObservable().subscribe(userData => {
-      this.email = userData.email;
-      this.ruolo = this.userService.getUserRole();
-      this.nome = userData.nome;
-      this.cognome = userData.cognome;
-      this.userAvatar = userData.avatar || 'Default';
-      this.selectedAvatar = userData.avatar || 'Default';
-      this.selectedAvatarUrl = this.getAvatarUrl();
-      this.isLoading = false;
+      if(userData) {
+        this.email = userData.email;
+        this.ruolo = this.userService.getUserRole();
+        this.nome = userData.nome;
+        this.cognome = userData.cognome;
+        this.userAvatar = userData.avatar || 'Default';
+        this.selectedAvatar = userData.avatar || 'Default';
+        this.selectedAvatarUrl = this.getAvatarUrl();
+        this.isLoading = false;
+      }
     });
   }
 
