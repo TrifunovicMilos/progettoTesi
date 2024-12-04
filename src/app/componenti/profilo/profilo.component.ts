@@ -22,24 +22,20 @@ export class ProfiloComponent implements OnInit {
   userAvatar = ''; // avatar associato all'utente
   selectedAvatar = ''; // avatar selezionato al momento nel mat-select
   selectedAvatarUrl = '';
-  isLoading = true; // Stato del caricamento
+  isLoading = false; // Stato del caricamento, per ora metto sempre false perche si carica sempre veloce
 
   constructor(private userService: UserService) {}
 
   ngOnInit(): void {
     this.userService.getUserObservable().subscribe(userData => {
-      if (userData) {
-        this.email = userData.email;
-        this.ruolo = this.userService.getUserRole();
-        this.nome = userData.nome;
-        this.cognome = userData.cognome;
-        this.userAvatar = userData.avatar || 'Default';
-        this.selectedAvatar = userData.avatar || 'Default';
-        this.selectedAvatarUrl = this.getAvatarUrl();
-        this.isLoading = false;
-      } else {
-        this.isLoading = false; // Se l'utente non è autenticato, disabilita il caricamento
-      }
+      this.email = userData.email;
+      this.ruolo = this.userService.getUserRole();
+      this.nome = userData.nome;
+      this.cognome = userData.cognome;
+      this.userAvatar = userData.avatar || 'Default';
+      this.selectedAvatar = userData.avatar || 'Default';
+      this.selectedAvatarUrl = this.getAvatarUrl();
+      this.isLoading = false;
     });
   }
 
@@ -75,6 +71,5 @@ export class ProfiloComponent implements OnInit {
       .catch((error) => {
         console.error('Errore nell\'aggiornamento dell\'avatar:', error);
       });
-
   }
 }
