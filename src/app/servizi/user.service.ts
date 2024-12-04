@@ -28,8 +28,9 @@ export class UserService {
       }
     });
   }
-
-  private async loadUserData(uid: string): Promise<void> {
+  
+  // non è metodo privato perché lo chiamo anche in create-exam-dialog
+  async loadUserData(uid: string): Promise<void> {
     const ruolo = this.currentUser?.email?.includes('docente') ? 'docente' : 'studente';
     try {
       const userData = await this.firebaseService.getUserData(uid, ruolo);

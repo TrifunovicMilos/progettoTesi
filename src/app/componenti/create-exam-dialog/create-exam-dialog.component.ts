@@ -55,6 +55,10 @@ export class CreateExamDialogComponent {
       );
   
       await this.firebaseService.addEsameToUser(this.data.docenteUid, 'docente', esameRef.id);
+
+      // aggiorna dati utente, in modo tale che cambi istantanemente, per es, il testo "stai gestendo X esami"
+      await this.userService.loadUserData(this.data.docenteUid); 
+      
       this.dialogRef.close();
       } catch (error) {
         console.error('Errore nell\'aggiunta dell\'esame: ', error);
