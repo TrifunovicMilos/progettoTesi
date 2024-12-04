@@ -5,13 +5,13 @@ import { MatCardModule } from '@angular/material/card';
 import { MatDialog } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { InfoDialogComponent } from '../info-dialog/info-dialog.component';
-import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { SidebarService } from '../../servizi/sidebar.service';
 import { FirebaseService } from '../../servizi/firebase.service';
 import { RouterLink } from '@angular/router';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { CreateExamDialogComponent } from '../create-exam-dialog/create-exam-dialog.component';
+import { UserService } from '../../servizi/user.service';
 
 @Component({
   selector: 'app-home',
@@ -26,39 +26,26 @@ export class HomeComponent implements OnInit {
   nome = '';
   cognome = '';
   ruolo = '';
-  esamiGestiti = 0;
+  numeroEsami = 0;
   isSidebarOpen = false;
   esami! : any[];
   esamiFiltered! : any[];
 
-  constructor(private firebaseService: FirebaseService, private sidebarService: SidebarService, private dialog: MatDialog){}
+  constructor(private userService: UserService, private firebaseService: FirebaseService, private sidebarService: SidebarService, private dialog: MatDialog){}
 
   ngOnInit(): void {
-    const auth = getAuth();
-    
-    // devo conoscere il ruolo per sapere se mostrare o meno la lista di tutti gli esami nella piattaforma
-    // per ora abbiamo scelto che i docenti non la vedono perché tanto non si possono iscrivere
-    onAuthStateChanged(auth, async (user) => {
-      if(user) {
-        this.ruolo = user.email?.includes('docente') ? 'docente' : 'studente';
+    this.userService.getUserObservable().subscribe(userData => {
+      if (userData) {
+        this.nome = userData.nome;
+        this.cognome = userData.cognome;
+        this.ruolo = this.userService.getUserRole();
+        this.numeroEsami = userData.esami.length;
         if (this.ruolo === 'studente') {
           this.loadEsami();
         }
-        const uid = user.uid;
-
-        try {
-          const userData = await this.firebaseService.getUserData(uid, this.ruolo);
-          this.nome = userData.nome;
-          this.cognome = userData.cognome;
-          this.esamiGestiti = userData.esami.length;
-        } catch (error) {
-          console.log('Errore nel recupero dei dati utente');
-        } finally {
-          this.isLoading = false;
-        }
+        this.isLoading = false;
       } else {
-        console.log('Utente non autenticato');
-        this.isLoading = false; // Disattiva il caricamento
+        this.isLoading = false; 
       }
     });
 
@@ -74,9 +61,7 @@ export class HomeComponent implements OnInit {
       this.esamiFiltered = [...this.esami];
     } catch (error) {
       console.log('Errore nel recupero degli esami');
-    } finally {
-      this.isLoading = false;
-    }
+    } 
   }
 
   onInput(filter: string) {
