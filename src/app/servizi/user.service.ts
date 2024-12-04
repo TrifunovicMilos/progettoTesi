@@ -52,6 +52,10 @@ export class UserService {
     return this.currentUser !== null;
   }
 
+  getUserUID(): string | null {
+  return this.currentUser ? this.currentUser.uid : null;
+}
+
   getUserRole(): string {
     return this.currentUser?.email?.includes('docente') ? 'docente' : 'studente';
   }
