@@ -26,6 +26,7 @@ export class HomeComponent implements OnInit {
   nome = '';
   cognome = '';
   ruolo = '';
+  uid = '';
   numeroEsami = 0;
   isSidebarOpen = false;
   esami! : any[];
@@ -35,12 +36,15 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
     this.userService.getUserObservable().subscribe(userData => {
-      this.nome = userData.nome;
-      this.cognome = userData.cognome;
-      this.ruolo = this.userService.getUserRole();
-      this.numeroEsami = userData.esami.length;
-      if (this.ruolo === 'studente') {
-        this.loadEsami();
+      if (userData) {
+        this.nome = userData.nome || '';
+        this.cognome = userData.cognome || '';
+        this.ruolo = this.userService.getUserRole();
+        this.numeroEsami = userData.esami?.length || 0;
+        this.uid = this.userService.getUserUID() || '';
+        if (this.ruolo === 'studente') {
+          this.loadEsami();
+        }
       }
       this.isLoading = false;
     });
@@ -79,6 +83,7 @@ export class HomeComponent implements OnInit {
     const dialogRef = this.dialog.open(CreateExamDialogComponent, {
       width: '37%',
       // panelClass: 'custom-dialog'
+      data: { docenteUid: this.uid, docente: `${this.nome} ${this.cognome}` }
     });
 
     dialogRef.afterClosed().subscribe((result) => {
