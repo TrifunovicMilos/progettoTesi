@@ -5,7 +5,6 @@ import { MatCardModule } from '@angular/material/card';
 import { MatDialog } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { InfoDialogComponent } from '../info-dialog/info-dialog.component';
-import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { SidebarService } from '../../servizi/sidebar.service';
 import { FirebaseService } from '../../servizi/firebase.service';
 import { RouterLink } from '@angular/router';
@@ -20,7 +19,7 @@ import { UserService } from '../../servizi/user.service';
   templateUrl: './i-miei-esami.component.html',
   styleUrl: './i-miei-esami.component.css'
 })
-export class IMieiEsamiComponent {
+export class IMieiEsamiComponent implements OnInit{
   
   isLoading = true;
   ruolo = '';

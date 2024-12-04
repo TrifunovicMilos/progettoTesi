@@ -6,13 +6,11 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatListModule } from '@angular/material/list';
 import { CommonModule } from '@angular/common';
-import { AuthService } from '../../auth/auth.service';
 import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
-import { getAuth, onAuthStateChanged } from 'firebase/auth';
-import { FirebaseService } from '../../servizi/firebase.service';
 import { SidebarService } from '../../servizi/sidebar.service';
 import { routeTransition, slideInAnimation } from '../../animations';
+import { UserService } from '../../servizi/user.service';
 
 
 @Component({
@@ -38,7 +36,7 @@ export class DashboardComponent implements OnInit{
   isSidebarOpen = false;
   isSidebarOpenWithClick = false; // true se l'utente decide di aprire tramite click. Se la apre passandoci con il mouse, rimane false
   
-  constructor(private authService: AuthService, private firebaseService: FirebaseService, private sidebarService: SidebarService, private dialog: MatDialog, private cdr: ChangeDetectorRef){}
+  constructor(private userService: UserService, private sidebarService: SidebarService, private dialog: MatDialog, private cdr: ChangeDetectorRef){}
 
   ngAfterViewChecked() {
     // Forza il rilevamento dei cambiamenti, per risolvere ExpressionChangedAfterItHasBeenCheckedError in riga 58 del html
@@ -46,24 +44,12 @@ export class DashboardComponent implements OnInit{
   }
 
   ngOnInit(): void {
-    const auth = getAuth();
-
-    onAuthStateChanged(auth, async (user) => {
-      if (user) {
-        const uid = user.uid;
-        this.ruolo = user.email?.includes('docente') ? 'docente' : 'studente';
-        
-        // ascolta i cambiamenti nel db, per poter aggiornare i dati nell'header istantaneamente, quando vengono cambiati in Profilo
-        this.firebaseService.listenToUserData(uid, this.ruolo).subscribe((userData) => {
-          if (userData) {
-            this.nome = userData.nome;
-            this.cognome = userData.cognome;
-            this.avatar = userData.avatar || 'Default';
-            this.avatarUrl = this.getAvatarUrl();
-          }
-        });
-      } else {
-        console.log('Utente non autenticato');
+    this.userService.getUserObservable().subscribe(userData => {
+      if (userData) {
+        this.nome = userData.nome;
+        this.cognome = userData.cognome;
+        this.avatar = userData.avatar || 'Default';
+        this.avatarUrl = this.getAvatarUrl();
       }
     });
     
@@ -113,7 +99,7 @@ export class DashboardComponent implements OnInit{
     dialogRef.afterClosed().subscribe(result => {
       // se viene cliccato "Sì" ...
       if (result) {
-        this.authService.logout();  
+        this.userService.logout();
       }
     });
   }
