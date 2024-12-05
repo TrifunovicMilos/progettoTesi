@@ -10,7 +10,7 @@ import { FirebaseService } from '../../servizi/firebase.service';
 import { RouterLink } from '@angular/router';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { UserService } from '../../servizi/user.service';
+import { AuthService } from '../../auth/auth.service';
 
 @Component({
   selector: 'app-i-miei-esami',
@@ -28,12 +28,12 @@ export class IMieiEsamiComponent implements OnInit{
   esami! : any[]; // tutti gli esami che gestisce il docente o ai quali lo studente è iscritto
   esamiFiltered! : any[]; // lo studente cerca per nome o docente, docente solo per nome 
 
-  constructor(private userService: UserService, private firebaseService: FirebaseService, private sidebarService: SidebarService, private dialog: MatDialog){}
+  constructor(private authService: AuthService, private firebaseService: FirebaseService, private sidebarService: SidebarService, private dialog: MatDialog){}
 
   ngOnInit(): void {
-    this.userService.getUserObservable().subscribe(userData => {
+    this.authService.getUserObservable().subscribe(userData => {
       if (userData) {
-        this.ruolo = this.userService.getUserRole();
+        this.ruolo = this.authService.getUserRole();
         this.esamiID = userData.esami || [];
         this.loadEsami();
       }
