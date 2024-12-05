@@ -18,15 +18,13 @@ export class FirebaseService {
     
     // in base al ruolo determino la collezione (docenti o studenti) nella quale viene aggiunto l'utente
     // di default, l'ID del documento creato è casuale. Impongo IDdocumento (firestore) = UIDutente (firebase auth)
-    const userDocRef = doc(this.firestore, ruolo === 'docente' ? 'docenti' : 'studenti', uid); // Usa l'UID utente come ID del documento
+    const userDocRef = doc(this.firestore, ruolo === 'docente' ? 'docenti' : 'studenti', uid);
     await setDoc(userDocRef, {
       nome: nome,
       cognome: cognome,
       email: email,
       esami: []
     });
-    console.log("Aggiunto ID = UID : " + uid + '\n' + "email: " + email + '\n' + 
-    "nome: " + nome + '\n' + "cognome: " + cognome + '\n' + "ruolo: " + ruolo)
   }
 
   // funzione chiamata da profiloComponent
@@ -51,7 +49,9 @@ export class FirebaseService {
     await updateDoc(userDocRef, { [field]: value });
   }
 
-  async addEsame(titolo: string, docente: string, descrizione: string, imgUrl:string, annoAccademico: string, crediti: number, lingua: string): Promise<any> {
+  async addEsame(titolo: string, docente: string, descrizione: string, imgUrl:string, 
+    annoAccademico: string, crediti: number, lingua: string): Promise<any> {
+    
     const esamiColRef = collection(this.firestore, 'esami');
     
     try {
@@ -77,7 +77,6 @@ export class FirebaseService {
     const docSnap = await getDoc(userDocRef);
   
     if (docSnap.exists()) {
- 
       await updateDoc(userDocRef, {
         esami: [...docSnap.data()['esami'], esameId]  
       });
