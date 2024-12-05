@@ -4,7 +4,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
 import { MatOptionModule } from '@angular/material/core';
-import { UserService } from '../../servizi/user.service';
+import { AuthService } from '../../auth/auth.service';
+import { FirebaseService } from '../../servizi/firebase.service';
 
 @Component({
   selector: 'app-profilo',
@@ -24,13 +25,13 @@ export class ProfiloComponent implements OnInit {
   selectedAvatarUrl = '';
   isLoading = false; // Stato del caricamento, per ora metto sempre false perche si carica sempre veloce
 
-  constructor(private userService: UserService) {}
+  constructor(private authService: AuthService, private firebaseService: FirebaseService) {}
 
   ngOnInit(): void {
-    this.userService.getUserObservable().subscribe(userData => {
+    this.authService.getUserObservable().subscribe(userData => {
       if(userData) {
         this.email = userData.email;
-        this.ruolo = this.userService.getUserRole();
+        this.ruolo = this.authService.getUserRole();
         this.nome = userData.nome;
         this.cognome = userData.cognome;
         this.userAvatar = userData.avatar || 'Default';
@@ -64,9 +65,9 @@ export class ProfiloComponent implements OnInit {
   onConfirmChange(): void {
     console.log('Avatar cambiato a: ', this.selectedAvatar);
     this.userAvatar = this.selectedAvatar;
-    const uid = this.userService.getUser().uid;
+    const uid = this.authService.getUid();
 
-    this.userService.updateUserField('avatar', this.selectedAvatar)
+    this.authService.updateUserField('avatar', this.selectedAvatar)
       .then(() => {
         console.log('Avatar aggiornato con successo!');
       })
