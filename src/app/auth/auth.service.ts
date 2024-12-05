@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { FirebaseService } from '../servizi/firebase.service';
-import { getAuth, sendEmailVerification, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, sendPasswordResetEmail, onAuthStateChanged} from 'firebase/auth';
+import { getAuth, sendEmailVerification, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, sendPasswordResetEmail, onAuthStateChanged, User} from 'firebase/auth';
 import { Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
 
@@ -14,9 +14,9 @@ export class AuthService {
   // signInWithEmailAndPassword(auth: Auth, email: string, password: string)
   // entrambe ritornano un oggetto di credenziali dell'utente (UserCredential)
   private auth = getAuth();
+  private currentUser: User | null = null;
   private userSubject = new BehaviorSubject<any>(null);
-  private ruolo = '';
-  private uid = '';
+  private userData: any = null;
 
   isLoggedIn = false;
   private inactivityTimer: any = null;
@@ -38,11 +38,9 @@ export class AuthService {
     }
 
     onAuthStateChanged(this.auth, async (user) => {
+      this.currentUser = user;
       if (user) {
-        this.ruolo = this.getRole(user.email)
-        this.uid = user.uid;
-        const userData = await this.firebaseService.getUserData(user.uid, this.ruolo);
-        this.userSubject.next(userData);
+        this.loadUserData(user.uid)
       } else {
         this.userSubject.next(null);
         this.isLoggedIn = false;
@@ -50,6 +48,18 @@ export class AuthService {
     });
 
     this.startInactivityTimer();
+  }
+
+    // passo parametro perché viene chiamata anche da create-exam-component
+  async loadUserData(uid: string): Promise<void> {
+    const ruolo = this.currentUser?.email?.includes('docente') ? 'docente' : 'studente';
+    try {
+      const userData = await this.firebaseService.getUserData(uid, ruolo);
+      this.userData = userData
+      this.userSubject.next(userData); // Emit updated data to observers
+    } catch (error) {
+      console.log('Error fetching user data', error);
+    }
   }
 
   private startInactivityTimer() {
@@ -136,35 +146,24 @@ export class AuthService {
       console.log('Email per il reset della password inviata a: ', email);
   }
 
-  private getRole(email: string | null): string {
-    return email?.includes('docente') ? 'docente' : 'studente';
-  }
-
   getUserRole(): string {
-    return this.ruolo;
+    return this.currentUser?.email?.includes('docente') ? 'docente' : 'studente';
   }
 
   getUserObservable() {
     return this.userSubject.asObservable();
   }
 
-  getUid(): string {
-    return this.uid;
+  getUid(): string | null {
+    return this.currentUser ? this.currentUser.uid : null;
   }
 
   async updateUserField(field: string, value: any): Promise<void> {
-    await this.firebaseService.updateUserField(this.uid, this.ruolo, field, value);
-    this.loadUserData(this.uid); 
+    if (!this.currentUser) return;
+    const uid = this.currentUser.uid;
+    const ruolo = this.getUserRole();
+    await this.firebaseService.updateUserField(uid, ruolo, field, value);
+    this.loadUserData(uid); 
   }
   
-  // passo parametro perché viene chiamata anche da create-exam-component
-  async loadUserData(uid: string): Promise<void> {
-    try {
-      const userData = await this.firebaseService.getUserData(uid, this.ruolo);
-      this.userSubject.next(userData); // Emit updated data to observers
-    } catch (error) {
-      console.log('Error fetching user data', error);
-    }
-  }
-
 }
