@@ -5,7 +5,6 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
 import { MatOptionModule } from '@angular/material/core';
 import { AuthService } from '../../auth/auth.service';
-import { FirebaseService } from '../../servizi/firebase.service';
 
 @Component({
   selector: 'app-profilo',
@@ -25,7 +24,7 @@ export class ProfiloComponent implements OnInit {
   selectedAvatarUrl = '';
   isLoading = false; // Stato del caricamento, per ora metto sempre false perche si carica sempre veloce
 
-  constructor(private authService: AuthService, private firebaseService: FirebaseService) {}
+  constructor(private authService: AuthService) {}
 
   ngOnInit(): void {
     this.authService.getUserObservable().subscribe(userData => {
