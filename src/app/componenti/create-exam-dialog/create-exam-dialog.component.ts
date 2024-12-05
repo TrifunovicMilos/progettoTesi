@@ -7,8 +7,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { FirebaseService } from '../../servizi/firebase.service';
-import { UserService } from '../../servizi/user.service';
 import { Router } from '@angular/router';
+import { AuthService } from '../../auth/auth.service';
 
 @Component({
   selector: 'app-create-exam-dialog',
@@ -23,7 +23,7 @@ export class CreateExamDialogComponent {
   constructor(
     public dialogRef: MatDialogRef<CreateExamDialogComponent>, 
     @Inject(MAT_DIALOG_DATA) public data: { docenteUid: string, docente: string },
-    private userService: UserService,
+    private authService: AuthService,
     private firebaseService: FirebaseService,
     private router: Router
   ) {
@@ -57,7 +57,7 @@ export class CreateExamDialogComponent {
       await this.firebaseService.addEsameToUser(this.data.docenteUid, 'docente', esameRef.id);
 
       // aggiorna dati utente, in modo tale che cambi istantanemente, per es, il testo "stai gestendo X esami"
-      await this.userService.loadUserData(this.data.docenteUid); 
+      await this.authService.loadUserData(this.data.docenteUid); 
       
       this.dialogRef.close();
       } catch (error) {
