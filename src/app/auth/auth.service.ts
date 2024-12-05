@@ -1,20 +1,12 @@
 import { Injectable } from '@angular/core';
 import { FirebaseService } from '../servizi/firebase.service';
-import { getAuth, sendEmailVerification, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, sendPasswordResetEmail} from 'firebase/auth';
+import { getAuth, sendEmailVerification, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, sendPasswordResetEmail, onAuthStateChanged} from 'firebase/auth';
 import { Router } from '@angular/router';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
-
-// TODO: migliorare gestione della sessione, 
-// con localstorage al posto di sessionstorage il login viene mantenuto anche chiudendo e riaprendo broswer (anche riaprendolo dopo ore)
-// con sessionstorage non viene mantenuto, ma non viene mantentuto nemmeno aprendo una nuova tab nel browser
-// TODO: trovare una soluzione, voglio che aprendo nuove tab rimanga il login, ma non se riapro il browser
-// UPDATE -> soluzione temporanea (codice commentato con ***):
-// - salvare in localstorage l'istante dell'ultima interazione con la pagina
-// - se l'ultima interazione è stata fatta tanto tempo fa (30 min fa), mi rimanda al login
-// - altrimenti no. In questo modo, se riapro il browser entro 30min sarò comunque loggato automaticamente, ma non se lo riapro dopo 30 minuti.
 
 export class AuthService {
   // auth permette di interagire con firebase authentication, usando funzioni come:
@@ -22,7 +14,10 @@ export class AuthService {
   // signInWithEmailAndPassword(auth: Auth, email: string, password: string)
   // entrambe ritornano un oggetto di credenziali dell'utente (UserCredential)
   private auth = getAuth();
-  
+  private userSubject = new BehaviorSubject<any>(null);
+  private ruolo = '';
+  private uid = '';
+
   isLoggedIn = false;
   private inactivityTimer: any = null;
   private logoutTime = 30 * 60 * 1000; // numero di millisecondi, per testare provare con 10 secondi (logoutTime = 10 * 1000)
@@ -41,6 +36,18 @@ export class AuthService {
     } else {
       this.isLoggedIn = false;
     }
+
+    onAuthStateChanged(this.auth, async (user) => {
+      if (user) {
+        this.ruolo = this.getRole(user.email)
+        this.uid = user.uid;
+        const userData = await this.firebaseService.getUserData(user.uid, this.ruolo);
+        this.userSubject.next(userData);
+      } else {
+        this.userSubject.next(null);
+        this.isLoggedIn = false;
+      }
+    });
 
     this.startInactivityTimer();
   }
@@ -127,6 +134,37 @@ export class AuthService {
   async resetPassword(email: string): Promise<void> {
       await sendPasswordResetEmail(this.auth, email);
       console.log('Email per il reset della password inviata a: ', email);
+  }
+
+  private getRole(email: string | null): string {
+    return email?.includes('docente') ? 'docente' : 'studente';
+  }
+
+  getUserRole(): string {
+    return this.ruolo;
+  }
+
+  getUserObservable() {
+    return this.userSubject.asObservable();
+  }
+
+  getUid(): string {
+    return this.uid;
+  }
+
+  async updateUserField(field: string, value: any): Promise<void> {
+    await this.firebaseService.updateUserField(this.uid, this.ruolo, field, value);
+    this.loadUserData(this.uid); 
+  }
+  
+  // passo parametro perché viene chiamata anche da create-exam-component
+  async loadUserData(uid: string): Promise<void> {
+    try {
+      const userData = await this.firebaseService.getUserData(uid, this.ruolo);
+      this.userSubject.next(userData); // Emit updated data to observers
+    } catch (error) {
+      console.log('Error fetching user data', error);
+    }
   }
 
 }
