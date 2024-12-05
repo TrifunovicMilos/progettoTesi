@@ -11,7 +11,7 @@ import { RouterLink } from '@angular/router';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { CreateExamDialogComponent } from '../create-exam-dialog/create-exam-dialog.component';
-import { UserService } from '../../servizi/user.service';
+import { AuthService } from '../../auth/auth.service';
 
 @Component({
   selector: 'app-home',
@@ -32,16 +32,16 @@ export class HomeComponent implements OnInit {
   esami! : any[];
   esamiFiltered! : any[];
 
-  constructor(private userService: UserService, private firebaseService: FirebaseService, private sidebarService: SidebarService, private dialog: MatDialog){}
+  constructor(private authService: AuthService, private firebaseService: FirebaseService, private sidebarService: SidebarService, private dialog: MatDialog){}
 
   ngOnInit(): void {
-    this.userService.getUserObservable().subscribe(userData => {
+    this.authService.getUserObservable().subscribe(userData => {
       if (userData) {
         this.nome = userData.nome || '';
         this.cognome = userData.cognome || '';
-        this.ruolo = this.userService.getUserRole();
+        this.ruolo = this.authService.getUserRole();
         this.numeroEsami = userData.esami?.length || 0;
-        this.uid = this.userService.getUserUID() || '';
+        this.uid = this.authService.getUid() || '';
         if (this.ruolo === 'studente') {
           this.loadEsami();
         }
