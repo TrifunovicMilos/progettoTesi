@@ -10,7 +10,7 @@ import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.compone
 import { MatDialog } from '@angular/material/dialog';
 import { SidebarService } from '../../servizi/sidebar.service';
 import { routeTransition, slideInAnimation } from '../../animations';
-import { UserService } from '../../servizi/user.service';
+import { AuthService } from '../../auth/auth.service';
 
 
 @Component({
@@ -36,7 +36,7 @@ export class DashboardComponent implements OnInit{
   isSidebarOpen = false;
   isSidebarOpenWithClick = false; // true se l'utente decide di aprire tramite click. Se la apre passandoci con il mouse, rimane false
   
-  constructor(private userService: UserService, private sidebarService: SidebarService, private dialog: MatDialog, private cdr: ChangeDetectorRef){}
+  constructor(private authService: AuthService, private sidebarService: SidebarService, private dialog: MatDialog, private cdr: ChangeDetectorRef){}
 
   ngAfterViewChecked() {
     // Forza il rilevamento dei cambiamenti, per risolvere ExpressionChangedAfterItHasBeenCheckedError in riga 58 del html
@@ -44,11 +44,11 @@ export class DashboardComponent implements OnInit{
   }
 
   ngOnInit(): void {
-    this.userService.getUserObservable().subscribe(userData => {
+    this.authService.getUserObservable().subscribe(userData => {
       if (userData) {
         this.nome = userData.nome;
         this.cognome = userData.cognome;
-        this.ruolo = this.userService.getUserRole();
+        this.ruolo = this.authService.getUserRole();
         this.avatar = userData.avatar || 'Default';
         this.avatarUrl = this.getAvatarUrl();
       }
@@ -100,7 +100,7 @@ export class DashboardComponent implements OnInit{
     dialogRef.afterClosed().subscribe(result => {
       // se viene cliccato "Sì" ...
       if (result) {
-        this.userService.logout();
+        this.authService.logout();
       }
     });
   }
