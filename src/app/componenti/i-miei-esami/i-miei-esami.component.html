@@ -2,17 +2,21 @@
     <p>Caricamento in corso...</p>
 </div>
 
-<div *ngIf="esamiID.length==0">
+<div *ngIf="esami?.length==0">
     <p>Ancora nessun esame...</p>
 </div>
 
-<div *ngIf="!isLoading && esamiID.length!=0">
+<div *ngIf="!isLoading && esami?.length!=0">
     <mat-form-field [ngClass]="isSidebarOpen ? 'adaptedForm' : ''" 
     [ngStyle]="{ 'width': ruolo == 'docente' ? '200px' : '270px' }" appearance="outline">
       <mat-icon matPrefix>search</mat-icon>
       <input *ngIf="ruolo=='studente'" matInput placeholder="cerca per nome o docente" (keyup)="onInput($any($event.target).value)">
-      <input *ngIf="ruolo=='docente'" matInput placeholder="cerca per nome " (keyup)="onInputNome($any($event.target).value)">
+      <input *ngIf="ruolo!='studente'" matInput placeholder="cerca per nome " (keyup)="onInputNome($any($event.target).value)">
     </mat-form-field>
+    <button mat-flat-button color="primary" [ngClass]="isSidebarOpen ? 'adaptedButtonCreate' : 'buttonCreate'"
+      (click)="openCreateExamDialog()">
+      <mat-icon style="vertical-align: middle;">add</mat-icon>Nuovo esame
+    </button>
     <div class="cards-container">
       <mat-card *ngFor="let esame of esamiFiltered" 
       [ngClass]="isSidebarOpen ? 'card-collapsed' : 'card'" appearance="outlined">
