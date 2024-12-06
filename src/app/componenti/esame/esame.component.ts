@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FirebaseService } from '../../servizi/firebase.service';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-esame',
   standalone: true,
-  imports: [],
+  imports: [MatIconModule],
   templateUrl: './esame.component.html',
   styleUrl: './esame.component.css'
 })
