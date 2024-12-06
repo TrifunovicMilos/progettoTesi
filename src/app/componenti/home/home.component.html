@@ -27,7 +27,7 @@
 <!-- pagina Home contente la lista di tutti gli esami-->
 <!-- Ogni card (esame) mostra il titolo, docente, foto, info e opzioni per visualizzare la descrizione ed iscriversi-->
 
-<div *ngIf="ruolo === 'studente' && !isLoading">
+<div *ngIf="ruolo === 'studente' && !isLoading" style="margin-bottom: 20px;">
   <mat-form-field [ngClass]="isSidebarOpen ? 'adaptedForm' : ''" appearance="outline">
     <mat-icon matPrefix>search</mat-icon>
     <input matInput placeholder="cerca per nome o docente" (keyup)="onInput($any($event.target).value)">
