@@ -9,7 +9,7 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../auth/auth.service';
 import { MatDialog } from '@angular/material/dialog';
-import { ForgotPasswordDialogComponent } from '../forgot-password-dialog/forgot-password-dialog.component';
+import { ForgotPasswordDialogComponent } from '../dialoghi/forgot-password-dialog/forgot-password-dialog.component';
 import { passwordValidator } from '../../validators/password.validator';
 import { confirmPasswordValidator } from '../../validators/confirmPassword.validator';
 
