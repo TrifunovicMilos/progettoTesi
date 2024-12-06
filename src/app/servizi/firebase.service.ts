@@ -102,7 +102,7 @@ export class FirebaseService {
     const docSnap = await getDoc(esameDocRef);
 
     if (docSnap.exists()) {
-      return docSnap.data(); 
+      return { id, ...docSnap.data() };
     } else {
       throw new Error('Esame non trovato.');
     }
