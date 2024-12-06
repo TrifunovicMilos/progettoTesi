@@ -40,7 +40,7 @@
         <mat-card-title>{{ esame.titolo }}</mat-card-title>
         <mat-card-subtitle>{{ esame.docente }}</mat-card-subtitle>
       </mat-card-header>
-      <img mat-card-image src="{{ esame.imgUrl }}" alt="Immagine_Esame">
+      <img mat-card-image src="{{ esame.imgUrl }}" alt="Immagine_Esame" routerLink="/esami/{{esame.id }}" style="cursor: pointer;">
       <mat-card-content>
         <p>
           Anno Accademico: {{ esame.annoAccademico }}<br>
