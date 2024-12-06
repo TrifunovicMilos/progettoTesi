@@ -48,9 +48,15 @@
         <mat-form-field class="form-field">
             <mat-label>Lingua</mat-label>
             <mat-select formControlName="lingua">
-                <mat-option value="italiano">Italiano</mat-option>
-                <mat-option value="english">English</mat-option>
-                <mat-option value="español">Español</mat-option>
+                <mat-option value="italiano">
+                    <img src="assets/icone/italy.png" width="20" style="margin-right: 8px;" />Italiano
+                </mat-option>
+                <mat-option value="english">
+                    <img src="assets/icone/uk.png" width="20" style="margin-right: 8px;" />English
+                </mat-option>
+                <mat-option value="español">
+                    <img src="assets/icone/spain.png" width="20" style="margin-right: 8px;" />Español
+                </mat-option>
             </mat-select>
             <mat-error *ngIf="createExamForm.get('lingua')?.hasError('required') && createExamForm.get('lingua')?.touched">
                 Seleziona una lingua
