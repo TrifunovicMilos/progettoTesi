@@ -2,24 +2,24 @@
     <!-- Intestazione dell'esame -->
     <div class="exam-header">
         <img [src]="esameData?.imgUrl" alt="Immagine dell'esame" class="exam-image"/>
-        <div class="exam-info">
+        <div style="flex-grow: 1;">
             <h1 class="exam-title">{{ esameData?.titolo }}</h1>
-            <p class="exam-docente"><strong>Docente:</strong> {{ esameData?.docente }}</p>
-            <p class="exam-anno"><strong>Anno Accademico:</strong> {{ esameData?.annoAccademico }}</p>
-            <p class="exam-crediti"><strong>Crediti:</strong> {{ esameData?.crediti }}</p>
-            <p class="exam-lingua"><strong>Lingua:</strong> {{ esameData?.lingua }}</p>
+            <p class="exam-info"><strong>Docente:</strong> {{ esameData?.docente }}</p>
+            <p class="exam-info"><strong>Anno Accademico:</strong> {{ esameData?.annoAccademico }}</p>
+            <p class="exam-info"><strong>Crediti:</strong> {{ esameData?.crediti }}</p>
+            <p class="exam-info"><strong>Lingua:</strong> {{ esameData?.lingua }}</p>
         </div>
     </div>
 
     <!-- Descrizione dell'esame -->
     <div class="exam-description">
-        <h2>Descrizione dell'Esame</h2> <mat-icon>edit</mat-icon>
+        <h2>Descrizione dell'Esame</h2> 
         <p>{{ esameData?.descrizione }}</p>
     </div>
 
-    <!-- Test e prove -->
+    <!-- Test -->
     <div class="exam-tests">
-        <h2>Test e Prove</h2>
+        <h2>Test</h2>
         <ul class="test-list">
             <li><a href="" class="test-link">Prova intermedia 1</a></li>
             <li><a href="" class="test-link">Prova intermedia 2</a></li>
