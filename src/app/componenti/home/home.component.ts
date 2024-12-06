@@ -4,13 +4,13 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatDialog } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
-import { InfoDialogComponent } from '../info-dialog/info-dialog.component';
+import { InfoDialogComponent } from '../dialoghi/info-dialog/info-dialog.component';
 import { SidebarService } from '../../servizi/sidebar.service';
 import { FirebaseService } from '../../servizi/firebase.service';
 import { RouterLink } from '@angular/router';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { CreateExamDialogComponent } from '../create-exam-dialog/create-exam-dialog.component';
+import { CreateExamDialogComponent } from '../dialoghi/create-exam-dialog/create-exam-dialog.component';
 import { AuthService } from '../../auth/auth.service';
 
 @Component({
