@@ -1,0 +1,86 @@
+<!-- dialogo aperto dal docente al click di crea esame -->
+<h2 mat-dialog-title class="dialog-title">Creazione Esame</h2>
+<mat-dialog-content>
+    <form [formGroup]="createExamForm" (ngSubmit)="createExam()">
+        <!-- Titolo -->
+        <mat-form-field class="form-field">
+            <mat-label>Titolo</mat-label>
+            <input matInput name="titolo" placeholder="Inserisci il titolo dell'esame" formControlName="titolo">
+            <mat-error *ngIf="createExamForm.get('titolo')?.hasError('required') && createExamForm.get('titolo')?.touched">
+                Il titolo è obbligatorio
+            </mat-error>
+        </mat-form-field>
+
+        <!-- Descrizione -->
+        <mat-form-field class="form-field">
+            <mat-label>Descrizione</mat-label>
+            <textarea matInput name="descrizione" placeholder="Descrivi il corso" formControlName="descrizione"></textarea>
+            <mat-error *ngIf="createExamForm.get('descrizione')?.hasError('required') && createExamForm.get('descrizione')?.touched">
+                La descrizione è obbligatoria
+            </mat-error>
+        </mat-form-field>
+
+        <!-- Crediti -->
+        <mat-form-field class="form-field">
+            <mat-label>Crediti</mat-label>
+            <input matInput name="crediti" type="number" placeholder="Inserisci il numero di crediti" formControlName="crediti">
+            <mat-error *ngIf="createExamForm.get('crediti')?.hasError('required') && createExamForm.get('crediti')?.touched">
+                I crediti sono obbligatori
+            </mat-error>
+            <mat-error *ngIf="createExamForm.get('crediti')?.hasError('min')">
+                I crediti devono essere almeno 1
+            </mat-error>
+        </mat-form-field>
+
+        <!-- Anno Accademico -->
+        <mat-form-field class="form-field">
+            <mat-label>Anno Accademico</mat-label>
+            <input matInput name="annoAccademico" placeholder="Esempio: 2021-2022" formControlName="annoAccademico">
+            <mat-error *ngIf="createExamForm.get('annoAccademico')?.hasError('required') && createExamForm.get('annoAccademico')?.touched">
+                L'anno accademico è obbligatorio
+            </mat-error>
+            <mat-error *ngIf="createExamForm.get('annoAccademico')?.hasError('pattern')">
+                Formato non valido. Usa il formato YYYY-YYYY
+            </mat-error>
+        </mat-form-field>
+
+        <!-- Lingua -->
+        <mat-form-field class="form-field">
+            <mat-label>Lingua</mat-label>
+            <mat-select formControlName="lingua">
+                <mat-option value="italiano">
+                    <img src="assets/icone/italy.png" width="20" style="margin-right: 8px;" />Italiano
+                </mat-option>
+                <mat-option value="english">
+                    <img src="assets/icone/uk.png" width="20" style="margin-right: 8px;" />English
+                </mat-option>
+                <mat-option value="español">
+                    <img src="assets/icone/spain.png" width="20" style="margin-right: 8px;" />Español
+                </mat-option>
+            </mat-select>
+            <mat-error *ngIf="createExamForm.get('lingua')?.hasError('required') && createExamForm.get('lingua')?.touched">
+                Seleziona una lingua
+            </mat-error>
+        </mat-form-field>
+
+        <!-- URL Immagine -->
+        <mat-form-field class="form-field">
+            <mat-label>URL Immagine</mat-label>
+            <input matInput name="imgUrl" placeholder="Inserisci un URL valido per l'immagine" formControlName="imgUrl">
+            <mat-error *ngIf="createExamForm.get('imgUrl')?.hasError('required') && createExamForm.get('imgUrl')?.touched">
+                L'URL dell'immagine è obbligatorio
+            </mat-error>
+            <mat-error *ngIf="createExamForm.get('imgUrl')?.hasError('pattern')">
+                URL non valido
+            </mat-error>
+        </mat-form-field>
+
+        <div class="dialog-actions">
+            <button mat-flat-button color="primary" type="submit" [disabled]="!createExamForm.valid">Crea Esame</button>
+        </div>
+    </form>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+    <button mat-button (click)="onClose()">Chiudi</button>
+</mat-dialog-actions>
