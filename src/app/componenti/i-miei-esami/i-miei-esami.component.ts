@@ -11,6 +11,7 @@ import { RouterLink } from '@angular/router';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { AuthService } from '../../auth/auth.service';
+import { CreateExamDialogComponent } from '../create-exam-dialog/create-exam-dialog.component';
 
 @Component({
   selector: 'app-i-miei-esami',
@@ -22,9 +23,11 @@ import { AuthService } from '../../auth/auth.service';
 export class IMieiEsamiComponent implements OnInit{
   
   isLoading = true;
+  nome = '';
+  cognome = '';
   ruolo = '';
+  uid = '';
   isSidebarOpen = false;
-  esamiID! : []; // i docenti e studenti nel loro array di esami contengono gli ID degli esami
   esami! : any[]; // tutti gli esami che gestisce il docente o ai quali lo studente è iscritto
   esamiFiltered! : any[]; // lo studente cerca per nome o docente, docente solo per nome 
 
@@ -33,9 +36,12 @@ export class IMieiEsamiComponent implements OnInit{
   ngOnInit(): void {
     this.authService.getUserObservable().subscribe(userData => {
       if (userData) {
+        this.nome = userData.nome || '';
+        this.cognome = userData.cognome || '';
         this.ruolo = this.authService.getUserRole();
-        this.esamiID = userData.esami || [];
-        this.loadEsami();
+        const esamiID = userData.esami || [];
+        this.uid = this.authService.getUid() || '';
+        this.loadEsami(esamiID);
       }
       this.isLoading = false;
     });
@@ -45,8 +51,8 @@ export class IMieiEsamiComponent implements OnInit{
       });
   }
 
-  async loadEsami() {
-    const esamiPromises = this.esamiID.map(async (esameId: string) => {
+  async loadEsami(esamiID: string[]) {
+    const esamiPromises = esamiID.map(async (esameId: string) => {
       return await this.firebaseService.getEsameById(esameId);
     });
 
@@ -73,6 +79,18 @@ export class IMieiEsamiComponent implements OnInit{
   onClickInfo(esame: any): void {
     const dialogRef = this.dialog.open(InfoDialogComponent, {
       data: { title: 'Descrizione Corso', message: esame.descrizione }
+    });
+  }
+
+  openCreateExamDialog(): void {
+    const dialogRef = this.dialog.open(CreateExamDialogComponent, {
+      width: '37%',
+      // panelClass: 'custom-dialog'
+      data: { docenteUid: this.uid, docente: `${this.nome} ${this.cognome}` }
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log('Il dialog è stato chiuso');
     });
   }
 
