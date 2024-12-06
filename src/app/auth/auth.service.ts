@@ -133,7 +133,7 @@ export class AuthService {
       localStorage.removeItem('lastActive'); //***
       this.isLoggedIn = false;
       console.log('Logout effettuato con successo');
-      this.router.navigate(['/signin']);
+      this.router.navigate(['/login']);
     } catch (error) {
       console.error('Errore durante il logout:', error);
     }

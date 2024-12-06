@@ -24,7 +24,7 @@ export const routes: Routes = [
         {path:'pagina4', component: Pagina4Component},
         {path:'profilo', component: ProfiloComponent},
     ]},
-    {path: 'signin', component: LoginComponent},
+    {path: 'login', component: LoginComponent},
     {path: '404', component: NotfoundComponent},
     {path: '**', redirectTo: '404' },
 ];
