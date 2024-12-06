@@ -97,10 +97,6 @@
 }
 
 @media (max-width: 770px) {
-  .exam-header {
-    flex-direction: column; 
-    align-items: flex-start;
-  }
   .exam-title {
     font-size: 1.8rem; 
   }
