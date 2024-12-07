@@ -103,8 +103,6 @@ export class AuthService {
     // Aggiungi l'utente a Firestore
     // di default, l'ID del documento creato è casuale. Impongo IDdocumento (firestore) = UIDutente (firebase auth)
     await this.firebaseService.addUserToFirestore( user.uid, nome, cognome, email, ruolo);
-
-    console.log('Utente registrato con successo'); 
   }
 
   // funzione chiamata dalla sezione Login in LoginComponent al click del bottone "Accedi"
@@ -132,7 +130,6 @@ export class AuthService {
       localStorage.removeItem('user');
       localStorage.removeItem('lastActive'); //***
       this.isLoggedIn = false;
-      console.log('Logout effettuato con successo');
       this.router.navigate(['/login']);
     } catch (error) {
       console.error('Errore durante il logout:', error);
@@ -143,7 +140,6 @@ export class AuthService {
   // (finestra che si apre al click di "Password Dimenticata" nella sezione di Login)
   async resetPassword(email: string): Promise<void> {
       await sendPasswordResetEmail(this.auth, email);
-      console.log('Email per il reset della password inviata a: ', email);
   }
 
   getUserRole(): string {

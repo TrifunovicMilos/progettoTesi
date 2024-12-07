@@ -24,7 +24,6 @@ export class EsameComponent {
   async loadEsameDetails() {
     try {
       this.esameData = await this.firebaseService.getEsameById(this.esameId);
-      console.log(this.esameData); 
     } catch (error: any) {
       this.router.navigate(['404'])
       if(error.message == 'Esame non trovato.')

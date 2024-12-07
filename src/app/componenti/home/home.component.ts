@@ -85,10 +85,6 @@ export class HomeComponent implements OnInit {
       // panelClass: 'custom-dialog'
       data: { docenteUid: this.uid, docente: `${this.nome} ${this.cognome}` }
     });
-
-    dialogRef.afterClosed().subscribe((result) => {
-      console.log('Il dialog è stato chiuso');
-    });
   }
 
 }
