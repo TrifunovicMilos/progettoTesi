@@ -57,6 +57,11 @@
         </button>
       </mat-card-actions>
     </mat-card>
+
+    <div *ngIf="esamiFiltered?.length === 0" [ngClass]="isSidebarOpen ? 'no-resultsAdapted' : 'no-results'">
+      <p>Nessun esame trovato.</p>
+    </div>
+
   </div>
 </div>
 

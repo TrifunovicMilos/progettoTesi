@@ -5,6 +5,23 @@
   color: #666;
 }
 
+.link-home {
+  color: #007bff; 
+  font-weight: bold;
+  text-decoration: none;
+  transition: all 0.3s ease; 
+  cursor: pointer;
+}
+
+.link-home:hover {
+  color: #0056b3; 
+  text-decoration: underline; 
+}
+
+.link-home:focus {
+  outline: none; 
+}
+
 mat-form-field,
 .adaptedForm {
   padding-right: 20px;
@@ -189,4 +206,27 @@ img[mat-card-image] {
   margin: 0px 10px 10px;
   height: 200px;
   object-fit: cover;
+}
+
+.no-results, .no-resultsAdapted {
+  text-align: center;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  padding-right: 20px;
+  margin-top: 20px;
+  font-size: 1.2em;
+  color: #999;
+}
+
+@media (max-width: 1350px) {
+  .no-resultsAdapted {
+    padding-left: 5px;
+  }
+}
+
+@media (max-width: 770px) {
+  .no-results, .no-resultsAdapted {
+    padding-left: 10px;
+  }
 }
