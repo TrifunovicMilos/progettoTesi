@@ -21,7 +21,6 @@
   align-items: center;
 }
 
-
 button[mat-flat-button] {
   padding: 12px 24px;
   border-radius: 8px;
@@ -38,5 +37,3 @@ button[mat-button]:hover {
   background-color: #f8f9fa;
   transition: background-color 0.3s;
 }
-
-

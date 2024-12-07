@@ -10,10 +10,10 @@ div {
 /* 'testo password dimenticata?' */
 a {
   display: block;
-  width : 165px;  /* larghezza area cliccabile di "Password Dimenticata?", equivalente alla larghezza del testo */
+  width: 165px; /* larghezza area cliccabile di "Password Dimenticata?", equivalente alla larghezza del testo */
   text-align: center;
-  margin-left: auto; 
-  margin-right: auto; 
+  margin-left: auto;
+  margin-right: auto;
   margin-top: 8px;
   color: blue;
   text-decoration: underline;

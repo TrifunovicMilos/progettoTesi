@@ -1,186 +1,192 @@
 .loading-container {
-    text-align: center;
-    margin-top: 20px;
-    font-size: 1.2em;
-    color: #666;
-  }
+  text-align: center;
+  margin-top: 20px;
+  font-size: 1.2em;
+  color: #666;
+}
 
-  mat-form-field, .adaptedForm { 
-    padding-right: 20px; 
-    padding-top: 20px;
-    display: block;
-    margin-right: auto;
-    margin-left: auto;
-  }
-  
-  @media (max-width: 770px) {
-    mat-form-field {
-      padding-left: 10px;
-    }
-  }
-  
-  @media (max-width: 1350px) {
-    .adaptedForm {
-      padding-left: 5px;
-    }
-  }
+mat-form-field,
+.adaptedForm {
+  padding-right: 20px;
+  padding-top: 20px;
+  display: block;
+  margin-right: auto;
+  margin-left: auto;
+}
 
-  .buttonCreate, .adaptedButtonCreate {
-    border-radius: 5px;
-    margin-left: 20px;
+@media (max-width: 770px) {
+  mat-form-field {
+    padding-left: 10px;
   }
+}
 
-  @media (max-width: 1050px) {
-    .adaptedButtonCreate {
-      display: flex;
-      margin-left: auto;
-      margin-right: auto;
-    }
+@media (max-width: 1350px) {
+  .adaptedForm {
+    padding-left: 5px;
   }
+}
 
-  @media (max-width: 770px) {
-    .buttonCreate, .adaptedButtonCreate {
-      display: flex;
-      margin-left: auto;
-      margin-right: auto;
-    }
-  }
-  
-  .cards-container {
+.buttonCreate,
+.adaptedButtonCreate {
+  border-radius: 5px;
+  margin-left: 20px;
+}
+
+@media (max-width: 1050px) {
+  .adaptedButtonCreate {
     display: flex;
-    flex-wrap: wrap;
-    gap: 16px;
-    justify-content: flex-start;
-    padding: 20px;
+    margin-left: auto;
+    margin-right: auto;
   }
-  
-  .card:hover {
-    transform: scale(1.05);
-    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+@media (max-width: 770px) {
+  .buttonCreate,
+  .adaptedButtonCreate {
+    display: flex;
+    margin-left: auto;
+    margin-right: auto;
   }
-  
-  .card-collapsed:hover {
-    transform: scale(1.05);
-    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
-  }
-  
-  /* isSidebarOpen determina se le card sono collapsed o no (vedi l'html) */
-  
-  /* 4 card per riga su molto schermi larghissimi */
+}
+
+.cards-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  justify-content: flex-start;
+  padding: 20px;
+}
+
+.card:hover {
+  transform: scale(1.05);
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.card-collapsed:hover {
+  transform: scale(1.05);
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* isSidebarOpen determina se le card sono collapsed o no (vedi l'html) */
+
+/* 4 card per riga su molto schermi larghissimi */
+.card {
+  flex: 1 1 calc(25% - 16px);
+  max-width: calc(25% - 16px);
+  box-sizing: border-box;
+  transition: all 0.3s ease;
+  overflow: hidden;
+}
+
+/* 3 card per riga su molto schermi larghi con sidebar allargata */
+.card-collapsed {
+  flex: 1 1 calc(33.33% - 16px);
+  max-width: calc(33.33% - 16px);
+  box-sizing: border-box;
+  transition: all 0.3s ease;
+  overflow: hidden;
+}
+
+/* 3 card per riga su schermi larghi */
+@media (max-width: 1350px) {
   .card {
-    flex: 1 1 calc(25% - 16px); 
-    max-width: calc(25% - 16px); 
-    box-sizing: border-box;
-    transition: all 0.3s ease;
-    overflow: hidden;
+    flex: 1 1 calc(33.33% - 16px);
+    max-width: calc(33.33% - 16px);
   }
-  
-  /* 3 card per riga su molto schermi larghi con sidebar allargata */
+}
+
+/* 2 card per riga su schermi larghi con sidebar allargata */
+@media (max-width: 1350px) {
   .card-collapsed {
-    flex: 1 1 calc(33.33% - 16px); 
-    max-width: calc(33.33% - 16px); 
-    box-sizing: border-box;
-    transition: all 0.3s ease;
-    overflow: hidden;
+    flex: 1 1 calc(50% - 16px);
+    max-width: calc(50% - 16px);
   }
-  
-  /* 3 card per riga su schermi larghi */
-  @media (max-width: 1350px) {
-    .card {
-      flex: 1 1 calc(33.33% - 16px); 
-      max-width: calc(33.33% - 16px);
-    }
-  } 
-  
-  /* 2 card per riga su schermi larghi con sidebar allargata */
-  @media (max-width: 1350px) {
-    .card-collapsed {
-      flex: 1 1 calc(50% - 16px); 
-      max-width: calc(50% - 16px);
-    }
-  } 
-  
-  /* 2 card per riga su schermi medi */
-  @media (max-width: 1050px) {
-    .card {
-      flex: 1 1 calc(50% - 16px); 
-      max-width: calc(50% - 16px);
-    }
+}
+
+/* 2 card per riga su schermi medi */
+@media (max-width: 1050px) {
+  .card {
+    flex: 1 1 calc(50% - 16px);
+    max-width: calc(50% - 16px);
   }
-  
-  /* 1 card per riga su schermi medi con sidebar allargata */
-  @media (max-width: 1050px) {
-    .card-collapsed {
-      flex: 1 1 calc(100% - 16px); 
-      max-width: calc(100% - 16px);
-      margin-left: 100px;
-      margin-right: 115px;
-    }
+}
+
+/* 1 card per riga su schermi medi con sidebar allargata */
+@media (max-width: 1050px) {
+  .card-collapsed {
+    flex: 1 1 calc(100% - 16px);
+    max-width: calc(100% - 16px);
+    margin-left: 100px;
+    margin-right: 115px;
   }
-  
-  /* d'ora in poi la sidebar o non c'è o è allargata ma passa sopra il contenuto, 
+}
+
+/* d'ora in poi la sidebar o non c'è o è allargata ma passa sopra il contenuto, 
   quindi isSidebarOpen non ha più impatto sulla classi */
-  /* vedi dashboard.css, matdrawerclose (sidebar stretta) ha display:none sotto i 770px */
-  
-  /* 2 card per riga su schermi stretti*/
-  @media (max-width: 770px) {
-    .card, .card-collapsed {
-      flex: 1 1 calc(50% - 16px); 
-      max-width: calc(50% - 16px);
-      margin-left: 0;
-      margin-right: auto;
-    }
+/* vedi dashboard.css, matdrawerclose (sidebar stretta) ha display:none sotto i 770px */
+
+/* 2 card per riga su schermi stretti*/
+@media (max-width: 770px) {
+  .card,
+  .card-collapsed {
+    flex: 1 1 calc(50% - 16px);
+    max-width: calc(50% - 16px);
+    margin-left: 0;
+    margin-right: auto;
   }
-  
-  /* 
+}
+
+/* 
     d'ora in poi 1 card per riga con margini differenti, 
     poiché in alcuni casi 2 card sono troppe mentre 1 è troppo poco (diventa enorme la card), 
     quindi manimolo i margini
   */
-  @media (max-width: 650px) {
-    .card, .card-collapsed {
-      flex: 1 1 calc(100%); 
-      max-width: calc(100%);
-      margin-left: 50px;
-      margin-right: 60px;
-    }
+@media (max-width: 650px) {
+  .card,
+  .card-collapsed {
+    flex: 1 1 calc(100%);
+    max-width: calc(100%);
+    margin-left: 50px;
+    margin-right: 60px;
   }
-  
-  @media (max-width: 520px) {
-    .card, .card-collapsed {
-      flex: 1 1 calc(100%); 
-      max-width: calc(100%);
-      margin-left: 20px;
-      margin-right: 30px;
-    }
+}
+
+@media (max-width: 520px) {
+  .card,
+  .card-collapsed {
+    flex: 1 1 calc(100%);
+    max-width: calc(100%);
+    margin-left: 20px;
+    margin-right: 30px;
   }
-  
-  @media (max-width: 480px) {
-    .card, .card-collapsed {
-      flex: 1 1 calc(100%); 
-      max-width: calc(100%);
-      margin-left: 20px;
-      margin-right: 30px;
-    }
+}
+
+@media (max-width: 480px) {
+  .card,
+  .card-collapsed {
+    flex: 1 1 calc(100%);
+    max-width: calc(100%);
+    margin-left: 20px;
+    margin-right: 30px;
   }
-  
-  mat-card-title {
-    font-size: 17px;
-    font-weight: bold;
-  }
-  
-  mat-card-subtitle {
-    font-size: 15px;
-    font-weight: normal;
-  }
-  
-  mat-card-content {
-    font-size: 14px;
-  }
-  
-  img[mat-card-image] {
-    margin: 0px 10px 10px;
-    height: 200px;
-    object-fit: cover;
-  }
-  
+}
+
+mat-card-title {
+  font-size: 17px;
+  font-weight: bold;
+}
+
+mat-card-subtitle {
+  font-size: 15px;
+  font-weight: normal;
+}
+
+mat-card-content {
+  font-size: 14px;
+}
+
+img[mat-card-image] {
+  margin: 0px 10px 10px;
+  height: 200px;
+  object-fit: cover;
+}
