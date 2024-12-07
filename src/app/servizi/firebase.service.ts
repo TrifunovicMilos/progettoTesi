@@ -27,7 +27,6 @@ export class FirebaseService {
     });
   }
 
-  // funzione chiamata da profiloComponent
   async getUserData(id: string, ruolo: string): Promise<any> {
 
       // percorso collezione -> documento (id)
