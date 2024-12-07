@@ -2,14 +2,11 @@
   <p>Caricamento in corso...</p>
 </div>
 
-<div *ngIf="ruolo === 'docente'&& !isLoading" class="welcome-container">
-
+<!-- HOME DOCENTE, messaggio di benvenuto con scorciatoie per creare esami e visualizzare esami creati -->
+<div *ngIf="ruolo === 'docente' && !isLoading" class="welcome-container">
+  <!-- benvenuto -->
   <div class="welcome-header">
-    <img 
-      src="assets/sfondi/educator.svg" 
-      alt="Immagine Educazione" 
-      class="welcome-image"
-    />
+    <img src="assets/sfondi/educator.svg" alt="Immagine Educazione" class="welcome-image" />
     <div class="welcome-text">
       <h3>Benvenuto, {{nome}} {{cognome}}!</h3>
       <p *ngIf="numeroEsami<1">Non stai gestendo <strong>nessun</strong> esame.</p>
@@ -17,7 +14,7 @@
       <p *ngIf="numeroEsami>1">Stai gestendo <strong>{{numeroEsami}}</strong> esami.</p>
     </div>
   </div>
-  
+  <!-- scorciatoie -->
   <div class="action-buttons">
     <button class="buttonDoc" mat-raised-button routerLink="/my-exams">Visualizza Esami</button>
     <button class="buttonDoc" mat-flat-button (click)="openCreateExamDialog()">Crea Esame</button>
@@ -28,20 +25,36 @@
 <!-- Ogni card (esame) mostra il titolo, docente, foto, info e opzioni per visualizzare la descrizione ed iscriversi-->
 
 <div *ngIf="ruolo === 'studente' && !isLoading" style="margin-bottom: 20px;">
+  <!-- barra di ricerca -->
   <mat-form-field [ngClass]="isSidebarOpen ? 'adaptedForm' : ''" appearance="outline">
     <mat-icon matPrefix>search</mat-icon>
     <input matInput placeholder="cerca per nome o docente" (keyup)="onInput($any($event.target).value)">
   </mat-form-field>
+
+  <!-- mostro solo gli esami filtrati (se non digito nulla, coincidono con gli esami totali) -->
   <div class="cards-container">
-    <mat-card *ngFor="let esame of esamiFiltered" 
-    [ngClass]="isSidebarOpen ? 'card-collapsed' : 'card'" appearance="outlined">
+    <mat-card *ngFor="let esame of esamiFiltered" [ngClass]="isSidebarOpen ? 'card-collapsed' : 'card'"
+      appearance="outlined">
+
+      <!-- header card: avatar, titolo, docente -->
       <mat-card-header>
         <div mat-card-avatar [ngStyle]="{'background-image': 'url(' + esame.imgUrl + ')', 'background-size': 'cover', 'background-position': 'center'}"></div>
         <mat-card-title>{{ esame.titolo }}</mat-card-title>
         <mat-card-subtitle>{{ esame.docente }}</mat-card-subtitle>
+        <!-- lo studente riconosce facilmente gli esami a cui è gia iscritto -->
+        <div *ngIf="isSubscribed(esame)" class="iscritto-badge">
+          <mat-icon style="margin-right: 5px;">check_circle</mat-icon>
+          <span>Iscritto</span>
+        </div>
       </mat-card-header>
-      <img *ngIf="isSubscribed(esame)" mat-card-image src="{{ esame.imgUrl }}" alt="Immagine_Esame" routerLink="/esami/{{esame.id }}" style="cursor: pointer;">
-      <img *ngIf="!isSubscribed(esame)" mat-card-image src="{{ esame.imgUrl }}" alt="Immagine_Esame" (click) = "onSubscribe(esame)" style="cursor: pointer;">
+
+      <!-- clic sulla foto: mi porta alla pagina dell'esame se sono iscritto, altrimenti mi chiede di iscrivermi -->
+      <img *ngIf="isSubscribed(esame)" mat-card-image src="{{ esame.imgUrl }}" alt="Immagine_Esame"
+        routerLink="/esami/{{esame.id }}" style="cursor: pointer;">
+      <img *ngIf="!isSubscribed(esame)" mat-card-image src="{{ esame.imgUrl }}" alt="Immagine_Esame"
+        (click)="onSubscribe(esame)" style="cursor: pointer;">
+      
+      <!-- info sull'esame -->
       <mat-card-content>
         <p>
           Anno Accademico: {{ esame.annoAccademico }}<br>
@@ -49,23 +62,28 @@
           Lingua: {{ esame.lingua }}<br>
         </p>
       </mat-card-content>
+
+      <!-- bottoni -->
       <mat-card-actions>
         <button mat-icon-button class="example-icon" aria-label="info" (click)="onClickInfo(esame)">
           <mat-icon>info</mat-icon>
         </button>
-        <button *ngIf="isSubscribed(esame)" mat-icon-button class="example-icon" aria-label="iscrizione" routerLink="/esami/{{esame.id}}">
+        <!-- clic sul bottone: mi porta alla pagina dell'esame se sono iscritto, altrimenti mi chiede di iscrivermi -->
+        <button *ngIf="isSubscribed(esame)" mat-icon-button class="example-icon" aria-label="iscrizione"
+          routerLink="/esami/{{esame.id}}">
           <mat-icon>login</mat-icon>
         </button>
-        <button *ngIf="!isSubscribed(esame)" mat-icon-button class="example-icon" aria-label="iscrizione" (click) = "onSubscribe(esame)">
+        <button *ngIf="!isSubscribed(esame)" mat-icon-button class="example-icon" aria-label="iscrizione"
+          (click)="onSubscribe(esame)">
           <mat-icon>login</mat-icon>
         </button>
       </mat-card-actions>
     </mat-card>
-
+    
+    <!-- caso in cui la ricerca non ha prodotto alcun risultato-->
     <div *ngIf="esamiFiltered?.length === 0" [ngClass]="isSidebarOpen ? 'no-resultsAdapted' : 'no-results'">
       <p>Nessun esame trovato.</p>
     </div>
 
   </div>
 </div>
-
