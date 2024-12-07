@@ -1,4 +1,8 @@
-<div class="exam-container">
+<!-- <div *ngIf="isLoading" class="loading-container">
+    <p>Caricamento in corso...</p>
+</div>   -->
+
+<div *ngIf="!isLoading" class="exam-container">
     <!-- Intestazione dell'esame -->
     <div class="exam-header">
         <img [src]="esameData?.imgUrl" alt="Immagine dell'esame" class="exam-image"/>

@@ -10,6 +10,7 @@ import { ProfiloComponent } from './componenti/profilo/profilo.component';
 import { Pagina4Component } from './componenti/pagina4/pagina4.component';
 import { EsameComponent } from './componenti/esame/esame.component';
 import { IMieiEsamiComponent } from './componenti/i-miei-esami/i-miei-esami.component';
+import { EsameNegatoComponent } from './componenti/esame-negato/esame-negato.component';
 
 export const routes: Routes = [
     // a questo gruppo di pagina ci si puo accedere solo se loggati
@@ -26,6 +27,7 @@ export const routes: Routes = [
     ]},
     {path: 'login', component: LoginComponent},
     {path: '404', component: NotfoundComponent},
+    {path:'exam-denied', component: EsameNegatoComponent},
     {path: '**', redirectTo: '404' },
 ];
 

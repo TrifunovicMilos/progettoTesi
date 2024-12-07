@@ -33,8 +33,7 @@
 
   <!-- mostro solo gli esami filtrati (se non digito nulla, coincidono con gli esami totali) -->
   <div class="cards-container">
-    <mat-card *ngFor="let esame of esamiFiltered" [ngClass]="isSidebarOpen ? 'card-collapsed' : 'card'"
-      appearance="outlined">
+    <mat-card *ngFor="let esame of esamiFiltered" [ngClass]="isSidebarOpen ? 'card-collapsed' : 'card'" appearance="outlined">
 
       <!-- header card: avatar, titolo, docente -->
       <mat-card-header>
