@@ -41,9 +41,10 @@ export class IMieiEsamiComponent implements OnInit{
         this.ruolo = this.authService.getUserRole();
         const esamiID = userData.esami || [];
         this.uid = this.authService.getUid() || '';
-        this.loadEsami(esamiID);
+        this.loadEsami(esamiID).then(() => {
+          this.isLoading = false;
+        });
       }
-      this.isLoading = false;
     });
 
       this.sidebarService.sidebarState$.subscribe(state => {
