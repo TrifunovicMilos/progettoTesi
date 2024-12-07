@@ -16,6 +16,12 @@
   text-align: center;
 }
 
+.language-option {
+  display: flex;
+  align-items: center;
+}
+
+
 button[mat-flat-button] {
   padding: 12px 24px;
   border-radius: 8px;
