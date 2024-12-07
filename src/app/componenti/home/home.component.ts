@@ -7,11 +7,12 @@ import { MatIconModule } from '@angular/material/icon';
 import { InfoDialogComponent } from '../dialoghi/info-dialog/info-dialog.component';
 import { SidebarService } from '../../servizi/sidebar.service';
 import { FirebaseService } from '../../servizi/firebase.service';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { CreateExamDialogComponent } from '../dialoghi/create-exam-dialog/create-exam-dialog.component';
 import { AuthService } from '../../auth/auth.service';
+import { ConfirmDialogComponent } from '../dialoghi/confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'app-home',
@@ -29,10 +30,13 @@ export class HomeComponent implements OnInit {
   uid = '';
   numeroEsami = 0;
   isSidebarOpen = false;
-  esami! : any[];
-  esamiFiltered! : any[];
+  esami! : any[]; // tutti gli esami esistenti
+  esamiFiltered! : any[]; // risultato della ricerca
+  esamiIscrittiID! : any[]; // id degli esami a cui uno studente si è iscritto, 
+  // in modo tale che, al clic su un esame, so se farlo entrare nella pagina relatica oppure chiedergli prima di iscriversi
 
-  constructor(private authService: AuthService, private firebaseService: FirebaseService, private sidebarService: SidebarService, private dialog: MatDialog){}
+  constructor(private authService: AuthService, private firebaseService: FirebaseService, 
+    private sidebarService: SidebarService, private dialog: MatDialog, private router: Router){}
 
   ngOnInit(): void {
     this.authService.getUserObservable().subscribe(userData => {
@@ -40,10 +44,11 @@ export class HomeComponent implements OnInit {
         this.nome = userData.nome || '';
         this.cognome = userData.cognome || '';
         this.ruolo = this.authService.getUserRole();
-        this.numeroEsami = userData.esami?.length || 0;
+        this.numeroEsami = userData.esami?.length || 0; // per mostrare al docente quanti esami gestisce
         this.uid = this.authService.getUid() || '';
         if (this.ruolo === 'studente') {
-          this.loadEsami();
+          this.loadEsami(); // lo studente deve visualizzare tutti gli esami
+          this.esamiIscrittiID = userData.esami;
         }
       }
       this.isLoading = false;
@@ -84,6 +89,31 @@ export class HomeComponent implements OnInit {
       width: '37%',
       // panelClass: 'custom-dialog'
       data: { docenteUid: this.uid, docente: `${this.nome} ${this.cognome}` }
+    });
+  }
+
+  isSubscribed(esame: any): boolean{
+    return this.esamiIscrittiID.includes(esame.id);
+  }
+
+  onSubscribe(esame: any){
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      data: { title: "Iscrizione all'esame", message: `Vuoi iscriverti a ${esame.titolo}?` }
+    });
+
+    dialogRef.afterClosed().subscribe(async result => {
+      // se viene cliccato "Sì" ...
+      if (result) {
+        try{
+          await this.firebaseService.addEsameToUser(this.uid, 'studente', esame.id);
+          await this.authService.loadUserData(this.uid);
+        } catch (error) {
+          console.error('Errore nell\'aggiunta dell\'esame: ', error);
+        }
+        finally{
+          this.router.navigate([`esami/${esame.id}`]);
+        }
+      }
     });
   }
 
