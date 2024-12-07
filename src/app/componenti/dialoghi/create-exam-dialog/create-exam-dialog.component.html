@@ -6,7 +6,8 @@
         <mat-form-field class="form-field">
             <mat-label>Titolo</mat-label>
             <input matInput name="titolo" placeholder="Inserisci il titolo dell'esame" formControlName="titolo">
-            <mat-error *ngIf="createExamForm.get('titolo')?.hasError('required') && createExamForm.get('titolo')?.touched">
+            <mat-error
+                *ngIf="createExamForm.get('titolo')?.hasError('required') && createExamForm.get('titolo')?.touched">
                 Il titolo è obbligatorio
             </mat-error>
         </mat-form-field>
@@ -14,8 +15,10 @@
         <!-- Descrizione -->
         <mat-form-field class="form-field">
             <mat-label>Descrizione</mat-label>
-            <textarea matInput name="descrizione" placeholder="Descrivi il corso" formControlName="descrizione"></textarea>
-            <mat-error *ngIf="createExamForm.get('descrizione')?.hasError('required') && createExamForm.get('descrizione')?.touched">
+            <textarea matInput name="descrizione" placeholder="Descrivi il corso"
+                formControlName="descrizione"></textarea>
+            <mat-error
+                *ngIf="createExamForm.get('descrizione')?.hasError('required') && createExamForm.get('descrizione')?.touched">
                 La descrizione è obbligatoria
             </mat-error>
         </mat-form-field>
@@ -23,8 +26,10 @@
         <!-- Crediti -->
         <mat-form-field class="form-field">
             <mat-label>Crediti</mat-label>
-            <input matInput name="crediti" type="number" placeholder="Inserisci il numero di crediti" formControlName="crediti">
-            <mat-error *ngIf="createExamForm.get('crediti')?.hasError('required') && createExamForm.get('crediti')?.touched">
+            <input matInput name="crediti" type="number" placeholder="Inserisci il numero di crediti"
+                formControlName="crediti">
+            <mat-error
+                *ngIf="createExamForm.get('crediti')?.hasError('required') && createExamForm.get('crediti')?.touched">
                 I crediti sono obbligatori
             </mat-error>
             <mat-error *ngIf="createExamForm.get('crediti')?.hasError('min')">
@@ -36,7 +41,8 @@
         <mat-form-field class="form-field">
             <mat-label>Anno Accademico</mat-label>
             <input matInput name="annoAccademico" placeholder="Esempio: 2021-2022" formControlName="annoAccademico">
-            <mat-error *ngIf="createExamForm.get('annoAccademico')?.hasError('required') && createExamForm.get('annoAccademico')?.touched">
+            <mat-error
+                *ngIf="createExamForm.get('annoAccademico')?.hasError('required') && createExamForm.get('annoAccademico')?.touched">
                 L'anno accademico è obbligatorio
             </mat-error>
             <mat-error *ngIf="createExamForm.get('annoAccademico')?.hasError('pattern')">
@@ -49,16 +55,33 @@
             <mat-label>Lingua</mat-label>
             <mat-select formControlName="lingua">
                 <mat-option value="italiano">
-                    <img src="assets/icone/italy.png" width="20" style="margin-right: 8px;" />Italiano
+                    <div class="language-option">
+                        <img src="assets/icone/italy.png" width="20" style="margin-right: 8px;" />Italiano
+                    </div>
                 </mat-option>
                 <mat-option value="english">
-                    <img src="assets/icone/uk.png" width="20" style="margin-right: 8px;" />English
+                    <div class="language-option">
+                        <img src="assets/icone/uk.png" width="20" style="margin-right: 8px;" />English
+                    </div>
                 </mat-option>
                 <mat-option value="español">
-                    <img src="assets/icone/spain.png" width="20" style="margin-right: 8px;" />Español
+                    <div class="language-option">
+                        <img src="assets/icone/spain.png" width="20" style="margin-right: 8px;" />Español
+                    </div>
+                </mat-option>
+                <mat-option value="français">
+                    <div class="language-option">
+                        <img src="assets/icone/france.png" width="20" style="margin-right: 8px;" />Français
+                    </div>
+                </mat-option>
+                <mat-option value="deutsch">
+                    <div class="language-option">
+                        <img src="assets/icone/germany.png" width="20" style="margin-right: 8px;" />Deutsch
+                    </div>
                 </mat-option>
             </mat-select>
-            <mat-error *ngIf="createExamForm.get('lingua')?.hasError('required') && createExamForm.get('lingua')?.touched">
+            <mat-error
+                *ngIf="createExamForm.get('lingua')?.hasError('required') && createExamForm.get('lingua')?.touched">
                 Seleziona una lingua
             </mat-error>
         </mat-form-field>
@@ -67,7 +90,8 @@
         <mat-form-field class="form-field">
             <mat-label>URL Immagine</mat-label>
             <input matInput name="imgUrl" placeholder="Inserisci un URL valido per l'immagine" formControlName="imgUrl">
-            <mat-error *ngIf="createExamForm.get('imgUrl')?.hasError('required') && createExamForm.get('imgUrl')?.touched">
+            <mat-error
+                *ngIf="createExamForm.get('imgUrl')?.hasError('required') && createExamForm.get('imgUrl')?.touched">
                 L'URL dell'immagine è obbligatorio
             </mat-error>
             <mat-error *ngIf="createExamForm.get('imgUrl')?.hasError('pattern')">
