@@ -5,18 +5,95 @@
   color: #666;
 }
 
-.avatar-container {
-  display: flex;
-  align-items: center;
-  gap: 16px;
+.profile-container {
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  max-width: 600px;
+  margin: 0 auto;
 }
 
-mat-option {
+.profile-header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.profile-header h2 {
+  font-size: 1.8em;
+  color: #333;
+  font-weight: 600;
+  margin: 0;
+}
+
+.profile-info {
+  background-color: #fff;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+}
+
+.info-item {
+  margin-bottom: 12px;
+}
+
+.info-item strong {
+  color: #555;
+  font-weight: 600;
+}
+
+.info-item span {
+  color: #777;
+}
+
+.avatar-container {
   display: flex;
+  flex-direction: column;
   align-items: center;
+}
+
+.avatar-preview {
+  margin-bottom: 16px;
+}
+
+.avatar-img {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #ddd;
+}
+
+.avatar-select {
+  width: 50%;
+  margin-bottom: 20px;
 }
 
 .avatar-option {
   display: flex;
   align-items: center;
+}
+
+.avatar-thumb {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 8px;
+}
+
+.confirm-button {
+  width: 50%;
+  padding: 12px;
+  border-radius: 6px;
+  font-size: 1em;
+  font-weight: 600;
+}
+
+.loading-container {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 1.2em;
+  color: #666;
 }
