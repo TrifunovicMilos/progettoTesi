@@ -81,7 +81,7 @@ mat-drawer-container  {
 }
 
 /* su schermi piccoli, la sidebar o non c'è o è larga (e passa sopra il contentuto), non ha senso averne una stretta */
-@media (max-width: 770px) {
+@media (max-width: 780px) {
   .mat-drawer-close {
     display: none;
   }
@@ -124,7 +124,7 @@ mat-drawer-content {
 
 /* su schermi piccoli, la sidebar non ha effetto sulla posizione del contenuto */
 /* quindi .mat-drawer-content-left e .mat-drawer-content-right fanno le stesse cose */
-@media (max-width: 770px) {
+@media (max-width: 780px) {
   .mat-drawer-content-left, .mat-drawer-content-right  {
     margin-left: 0 !important;
     margin-right: -10px !important;

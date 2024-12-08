@@ -31,7 +31,7 @@ mat-form-field,
   margin-left: auto;
 }
 
-@media (max-width: 770px) {
+@media (max-width: 780px) {
   mat-form-field {
     padding-left: 10px;
   }
@@ -57,7 +57,7 @@ mat-form-field,
   }
 }
 
-@media (max-width: 770px) {
+@media (max-width: 780px) {
   .buttonCreate,
   .adaptedButtonCreate {
     display: flex;
@@ -140,10 +140,10 @@ mat-form-field,
 
 /* d'ora in poi la sidebar o non c'è o è allargata ma passa sopra il contenuto, 
   quindi isSidebarOpen non ha più impatto sulla classi */
-/* vedi dashboard.css, matdrawerclose (sidebar stretta) ha display:none sotto i 770px */
+/* vedi dashboard.css, matdrawerclose (sidebar stretta) ha display:none sotto i 780px */
 
 /* 2 card per riga su schermi stretti*/
-@media (max-width: 770px) {
+@media (max-width: 780px) {
   .card,
   .card-collapsed {
     flex: 1 1 calc(50% - 16px);
@@ -158,7 +158,7 @@ mat-form-field,
     poiché in alcuni casi 2 card sono troppe mentre 1 è troppo poco (diventa enorme la card), 
     quindi manimolo i margini
   */
-@media (max-width: 650px) {
+@media (max-width: 685px) {
   .card,
   .card-collapsed {
     flex: 1 1 calc(100%);
@@ -225,7 +225,7 @@ img[mat-card-image] {
   }
 }
 
-@media (max-width: 770px) {
+@media (max-width: 780px) {
   .no-results, .no-resultsAdapted {
     padding-left: 10px;
   }
