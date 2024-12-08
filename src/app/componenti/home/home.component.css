@@ -13,7 +13,7 @@
   margin-right: 20px;
 }
 
-@media (max-width: 770px) {
+@media (max-width: 780px) {
   .welcome-container {
     margin-right: 15px;
   }
@@ -78,7 +78,7 @@ mat-form-field,
   }
 }
 
-@media (max-width: 770px) {
+@media (max-width: 780px) {
   mat-form-field, .adaptedForm {
     padding-left: 10px;
   }
@@ -152,11 +152,35 @@ mat-form-field,
   }
 }
 
+@media (max-width: 1150px) {
+  mat-card-title  {
+    font-size: 14.7px !important ;
+  }
+}
+
+@media (max-width: 1150px) {
+  mat-card-subtitle  {
+    font-size: 14px !important ;
+  }
+}
+
 /* 2 card per riga su schermi medi */
 @media (max-width: 1050px) {
   .card {
     flex: 1 1 calc(50% - 16px);
     max-width: calc(50% - 16px);
+  }
+}
+
+@media (max-width: 1050px) {
+  mat-card-title  {
+    font-size: 16px !important;
+  }
+}
+
+@media (max-width: 1050px) {
+  mat-card-subtitle  {
+    font-size: 15px !important;
   }
 }
 
@@ -172,10 +196,10 @@ mat-form-field,
 
 /* d'ora in poi la sidebar o non c'è o è allargata ma passa sopra il contenuto, 
 quindi isSidebarOpen non ha più impatto sulla classi */
-/* vedi dashboard.css, matdrawerclose (sidebar stretta) ha display:none sotto i 770px */
+/* vedi dashboard.css, matdrawerclose (sidebar stretta) ha display:none sotto i 780px */
 
 /* 2 card per riga su schermi stretti*/
-@media (max-width: 770px) {
+@media (max-width: 780px) {
   .card,
   .card-collapsed {
     flex: 1 1 calc(50% - 16px);
@@ -190,7 +214,7 @@ quindi isSidebarOpen non ha più impatto sulla classi */
   poiché in alcuni casi 2 card sono troppe mentre 1 è troppo poco (diventa enorme la card), 
   quindi manimolo i margini
 */
-@media (max-width: 650px) {
+@media (max-width: 685px) {
   .card,
   .card-collapsed {
     flex: 1 1 calc(100%);
@@ -257,7 +281,7 @@ img[mat-card-image] {
   }
 }
 
-@media (max-width: 770px) {
+@media (max-width: 780px) {
   .no-results, .no-resultsAdapted {
     padding-left: 10px;
   }
