@@ -4,6 +4,7 @@
   <p>Caricamento in corso...</p>
 </div>
 
+<div [ngClass]="isSidebarOpen ? 'containerAdapted' : 'container'">
 <div *ngIf="!isLoading" class="profile-container">
   <div class="profile-header">
     <h2>Profilo Utente</h2>
@@ -46,8 +47,8 @@
       </mat-select>
     </mat-form-field>
     <!-- non posso cambiare avatar se l'avatar selezionato è quello che avevo già -->
-    <button mat-raised-button color="primary" class="confirm-button" [disabled]="selectedAvatar==userAvatar" (click)="onConfirmChange()">Conferma Cambio</button>
+    <button mat-raised-button color="primary" class="confirm-button" [disabled]="selectedAvatar==userAvatar"
+      (click)="onConfirmChange()">Conferma Cambio</button>
   </div>
 </div>
-    
-
+</div>

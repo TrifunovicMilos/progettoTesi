@@ -6,6 +6,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatOptionModule } from '@angular/material/core';
 import { AuthService } from '../../auth/auth.service';
 import { FirebaseService } from '../../servizi/firebase.service';
+import { SidebarService } from '../../servizi/sidebar.service';
 
 @Component({
   selector: 'app-profilo',
@@ -24,8 +25,9 @@ export class ProfiloComponent implements OnInit {
   selectedAvatar = ''; // avatar selezionato al momento nel mat-select
   selectedAvatarUrl = '';
   isLoading = false; // Stato del caricamento, per ora metto sempre false perche si carica sempre veloce
+  isSidebarOpen = false;
 
-  constructor(private authService: AuthService, private firebaseService: FirebaseService) {}
+  constructor(private authService: AuthService, private firebaseService: FirebaseService, private sidebarService: SidebarService) {}
 
   ngOnInit(): void {
     this.authService.getUserObservable().subscribe(userData => {
@@ -39,6 +41,10 @@ export class ProfiloComponent implements OnInit {
         this.selectedAvatarUrl = this.getAvatarUrl();
         this.isLoading = false;
       }
+    });
+
+    this.sidebarService.sidebarState$.subscribe(state => {
+      this.isSidebarOpen = state; 
     });
   }
 
