@@ -39,7 +39,7 @@
       <mat-card-header>
         <div mat-card-avatar [ngStyle]="{'background-image': 'url(' + esame.imgUrl + ')', 'background-size': 'cover', 'background-position': 'center'}"></div>
         <mat-card-title>{{ esame.titolo }}</mat-card-title>
-        <mat-card-subtitle>{{ esame.docente }}</mat-card-subtitle>
+        <mat-card-subtitle style="width: 90%;">{{ esame.docente }}</mat-card-subtitle>
         <!-- lo studente riconosce facilmente gli esami a cui è gia iscritto -->
         <div *ngIf="isSubscribed(esame)" class="iscritto-badge">
           <mat-icon style="margin-right: 5px;">check_circle</mat-icon>
