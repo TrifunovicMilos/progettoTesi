@@ -153,13 +153,4 @@ export class AuthService {
   getUid(): string | null {
     return this.currentUser ? this.currentUser.uid : null;
   }
-
-  async updateUserField(field: string, value: any): Promise<void> {
-    if (!this.currentUser) return;
-    const uid = this.currentUser.uid;
-    const ruolo = this.getUserRole();
-    await this.firebaseService.updateUserField(uid, ruolo, field, value);
-    this.loadUserData(uid); 
-  }
-  
 }

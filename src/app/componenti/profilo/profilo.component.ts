@@ -5,6 +5,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
 import { MatOptionModule } from '@angular/material/core';
 import { AuthService } from '../../auth/auth.service';
+import { FirebaseService } from '../../servizi/firebase.service';
 
 @Component({
   selector: 'app-profilo',
@@ -24,7 +25,7 @@ export class ProfiloComponent implements OnInit {
   selectedAvatarUrl = '';
   isLoading = false; // Stato del caricamento, per ora metto sempre false perche si carica sempre veloce
 
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService, private firebaseService: FirebaseService) {}
 
   ngOnInit(): void {
     this.authService.getUserObservable().subscribe(userData => {
@@ -66,9 +67,10 @@ export class ProfiloComponent implements OnInit {
     this.userAvatar = this.selectedAvatar;
     const uid = this.authService.getUid();
 
-    this.authService.updateUserField('avatar', this.selectedAvatar)
+    this.firebaseService.updateUserField(uid!, this.ruolo ,'avatar', this.selectedAvatar)
       .then(() => {
         console.log('Avatar aggiornato con successo!');
+        this.authService.loadUserData(uid!)
       })
       .catch((error) => {
         console.error('Errore nell\'aggiornamento dell\'avatar:', error);
