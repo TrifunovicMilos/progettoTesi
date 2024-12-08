@@ -5,6 +5,23 @@
   color: #666;
 }
 
+.container {
+  margin-right: 30px;
+  margin-left: 10px;
+}
+
+.containerAdapted {
+  margin-right: 25px;
+  margin-left: 10px;
+}
+
+@media (max-width: 780px) {
+  .container, .containerAdapted {
+    margin-right: 10px;
+    margin-left: auto;
+  }
+}
+
 .profile-container {
   padding: 20px;
   background-color: #f9f9f9;
