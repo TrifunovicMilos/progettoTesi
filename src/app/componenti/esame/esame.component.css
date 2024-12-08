@@ -23,7 +23,7 @@
   }
 }
 
-@media (max-width: 780px) {
+@media (max-width: 800px) {
   .exam-container {
     margin-left: 60px;
     margin-right: 70px;
@@ -102,7 +102,7 @@
   color: #1abc9c;
 }
 
-@media (max-width: 780px) {
+@media (max-width: 800px) {
   .exam-title {
     font-size: 1.8rem;
   }
