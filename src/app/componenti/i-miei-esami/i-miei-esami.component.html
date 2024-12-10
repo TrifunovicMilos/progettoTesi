@@ -19,22 +19,27 @@
     <input *ngIf="ruolo!='studente'" matInput placeholder="cerca per nome "
       (keyup)="onInputNome($any($event.target).value)">
   </mat-form-field>
+
   <button *ngIf="ruolo=='docente'" mat-flat-button color="primary" [ngClass]="isSidebarOpen ? 'adaptedButtonCreate' : 'buttonCreate'"
     (click)="openCreateExamDialog()">
     <mat-icon style="vertical-align: middle;">add</mat-icon>Nuovo esame
   </button>
+
   <div class="cards-container">
     <mat-card *ngFor="let esame of esamiFiltered" [ngClass]="isSidebarOpen ? 'card-collapsed' : 'card'"
       appearance="outlined">
+
       <mat-card-header>
         <div mat-card-avatar
           [ngStyle]="{'background-image': 'url(' + esame.imgUrl + ')', 'background-size': 'cover', 'background-position': 'center'}">
         </div>
-        <mat-card-title>{{ esame.titolo }}</mat-card-title>
+        <mat-card-title style="margin-top: 8px;">{{ esame.titolo }}</mat-card-title>
         <mat-card-subtitle *ngIf="ruolo=='studente'">{{ esame.docente }}</mat-card-subtitle>
       </mat-card-header>
+
       <img mat-card-image src="{{ esame.imgUrl }}" alt="Immagine_Esame" routerLink="/esami/{{esame.id }}"
         style="cursor: pointer;">
+
       <mat-card-content>
         <p>
           Anno Accademico: {{ esame.annoAccademico }}<br>
@@ -42,6 +47,7 @@
           Lingua: {{ esame.lingua }}<br>
         </p>
       </mat-card-content>
+
       <mat-card-actions>
         <button mat-icon-button class="example-icon" aria-label="info" (click)="onClickInfo(esame)">
           <mat-icon>info</mat-icon>
