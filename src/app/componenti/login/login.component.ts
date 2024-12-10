@@ -141,7 +141,6 @@ export class LoginComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe((result) => {
-      console.log('Il dialog è stato chiuso');
     });
   }
 
