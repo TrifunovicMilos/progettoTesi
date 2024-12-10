@@ -14,6 +14,18 @@
             <p class="exam-info"><strong>Lingua:</strong> {{ esameData?.lingua }}</p>
         </div>
     </div>
+    
+    <!-- Intestazione dell'esame su schermi più stretti-->
+    <div class="exam-header-small">
+        <h1 class="exam-title">{{ esameData?.titolo }}</h1>
+        <img [src]="esameData?.imgUrl" alt="Immagine dell'esame" class="exam-image"/>
+        <div class="exam-info-container">
+          <p class="exam-info"><strong>Docente:</strong> {{ esameData?.docente }}</p>
+          <p class="exam-info"><strong>Anno Accademico:</strong> {{ esameData?.annoAccademico }}</p>
+          <p class="exam-info"><strong>Crediti:</strong> {{ esameData?.crediti }}</p>
+          <p class="exam-info"><strong>Lingua:</strong> {{ esameData?.lingua }}</p>
+        </div>
+      </div>
 
     <!-- Descrizione dell'esame -->
     <div class="exam-description">
