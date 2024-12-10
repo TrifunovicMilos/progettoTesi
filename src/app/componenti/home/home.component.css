@@ -229,6 +229,37 @@ quindi isSidebarOpen non ha più impatto sulla classi */
   }
 }
 
+@media (max-width: 400px) {
+  .card,
+  .card-collapsed {
+    flex: 1 1 calc(100%);
+    max-width: calc(100%);
+    margin-left: 10px;
+    margin-right: 20px;
+  }
+}
+
+@media (max-width: 350px) {
+  .card,
+  .card-collapsed {
+    flex: 1 1 calc(100%);
+    max-width: calc(100%);
+    margin-left: 0px;
+    margin-right: 10px;
+  }
+}
+
+@media (max-width: 330px) {
+  .card,
+  .card-collapsed {
+    flex: 1 1 calc(100%);
+    max-width: calc(100%);
+    margin-left: -5px;
+    margin-right: 0px;
+    color: blue
+  }
+}
+
 mat-card-title {
   font-size: 17px;
   font-weight: bold;
