@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { FirebaseService } from '../../servizi/firebase.service';
 import { MatDialog } from '@angular/material/dialog';
 import { CreateDomandaDialogComponent } from '../dialoghi/create-domanda-dialog/create-domanda-dialog.component';
+import { AuthService } from '../../auth/auth.service';
 
 @Component({
   selector: 'app-domande',
@@ -17,7 +18,7 @@ export class DomandeComponent {
   domande: any[] = [];
   isLoading = true;
 
-  constructor(private route: ActivatedRoute, private router: Router, private firebaseService: FirebaseService, private dialog: MatDialog) {}
+  constructor(private route: ActivatedRoute, private router: Router, private authService:AuthService, private firebaseService: FirebaseService, private dialog: MatDialog) {}
 
   async ngOnInit() {
     this.esameId = this.route.snapshot.paramMap.get('idEsame') || "";
@@ -31,6 +32,20 @@ export class DomandeComponent {
       console.error('Errore nel recupero dei dati dell\'esame:', error);
       this.isLoading = false; 
     }
+
+    this.authService.getUserObservable().subscribe(userData => {
+      if (userData) {
+        const uid = this.authService.getUid() || '';
+        const ruolo = this.authService.getUserRole();
+        const esamiUtente = userData.esami || '';
+        
+        // se non sono il docente di questo esame visualizzo un errore
+        if(!(esamiUtente.includes(this.esameId) && ruolo === 'docente'))
+          this.router.navigate(['exam-denied'])
+        else
+          this.isLoading = false;
+      }
+    });
   }
 
   async loadDomande(domandeID: string[]) {
