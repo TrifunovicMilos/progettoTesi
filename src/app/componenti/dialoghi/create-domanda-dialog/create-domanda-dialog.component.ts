@@ -10,12 +10,13 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSelectModule } from '@angular/material/select';
 
+
 @Component({
   selector: 'app-create-domanda-dialog',
   standalone: true,
   imports: [CommonModule, MatDialogModule, MatFormFieldModule, FormsModule, ReactiveFormsModule, MatOptionModule, MatInputModule, MatButtonModule, MatSelectModule],
   templateUrl: './create-domanda-dialog.component.html',
-  styleUrl: './create-domanda-dialog.component.css'
+  styleUrl: './create-domanda-dialog.component.css',
 })
 export class CreateDomandaDialogComponent {
   createQuestionForm: FormGroup;
@@ -26,29 +27,30 @@ export class CreateDomandaDialogComponent {
     private firebaseService: FirebaseService,
     private router: Router
   ) {
-    // Inizializza il form
     this.createQuestionForm = new FormGroup({
-      testo: new FormControl('', [Validators.required]),
-      opzioni: new FormArray([new FormControl(''), new FormControl('')], [Validators.required]),
-      opzioneCorretta: new FormControl('', [Validators.required])
+      testoDomanda: new FormControl('', [Validators.required]),
+      opzioni: new FormArray([ new FormControl('', [Validators.required]), new FormControl('', [Validators.required]),]),
+      opzioneCorretta: new FormControl('', [Validators.required]),
     });
   }
 
-  get opzioni() {
-    return (this.createQuestionForm.get('opzioni') as FormArray);
+  get opzioni(): FormArray {
+    return this.createQuestionForm.get('opzioni') as FormArray;
   }
 
-  // Aggiungi una nuova opzione
-  addOpzione(): void {
-    this.opzioni.push(new FormControl(''));
+  getOpzioni(): string[] {
+    return this.opzioni.controls.map((control) => control.value);
   }
 
-  // Funzione per aggiungere la domanda
+  aggiungiOpzione(): void {
+    this.opzioni.push(new FormControl('', [Validators.required]));
+  }
+
   async addDomanda(): Promise<void> {
     if (this.createQuestionForm.valid) {
       const formData = this.createQuestionForm.value;
 
-      const testo = formData.testo;
+      const testo = formData.testoDomanda;
       const opzioni = formData.opzioni;
       const opzioneCorretta = formData.opzioneCorretta; 
 

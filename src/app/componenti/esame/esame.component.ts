@@ -16,7 +16,6 @@ export class EsameComponent {
   isLoading = true;
   esameId! : string;
   esameData : any;
-  uid: any;
   ruolo = '';
   esamiUtente! : any[]; // per controllare se il docente o studente può accedere alla pagina dell'esame
 
@@ -26,7 +25,6 @@ export class EsameComponent {
     this.esameId = this.route.snapshot.paramMap.get('id') || "";
     this.authService.getUserObservable().subscribe(userData => {
       if (userData) {
-        this.uid = this.authService.getUid() || '';
         this.ruolo = this.authService.getUserRole();
         this.esamiUtente = userData.esami || '';
         // se non ho questo esame nella lista (di esami a cui sono iscritto o che gestisco) visualizzo un errore
