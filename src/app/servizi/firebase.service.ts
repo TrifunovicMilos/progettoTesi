@@ -106,6 +106,27 @@ export class FirebaseService {
       throw new Error('Esame non trovato.');
     }
   }
+
+  async addDomandaToEsame(esameId: string, domanda: { testo: string, opzioni: string[], opzioneCorretta: string }): Promise<void> {
+    const esameDocRef = doc(this.firestore, 'esami', esameId);  
+  
+    const esameSnap = await getDoc(esameDocRef); 
+    if (!esameSnap.exists()) {
+      throw new Error('Esame non trovato');
+    }
+  
+    const esameData = esameSnap.data();
+    const domande = esameData?.['domande'] || []; 
+  
+    domande.push(domanda);
+  
+    await updateDoc(esameDocRef, {
+      domande: domande
+    });
+  
+    console.log('Domanda aggiunta con successo all\'esame');
+  }
+  
   
   // chiamato dall' header di DasboardComponent, per poter aggiornare istantaneamente l'Avatar quando viene cambiato in Profilo
   listenToUserData(id: string, ruolo: string) {
