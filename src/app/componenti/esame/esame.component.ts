@@ -17,6 +17,7 @@ export class EsameComponent {
   esameId! : string;
   esameData : any;
   uid: any;
+  ruolo = '';
   esamiUtente! : any[]; // per controllare se il docente o studente può accedere alla pagina dell'esame
 
   constructor(private route: ActivatedRoute, private authService: AuthService, private firebaseService: FirebaseService, private router: Router) {}
@@ -26,6 +27,7 @@ export class EsameComponent {
     this.authService.getUserObservable().subscribe(userData => {
       if (userData) {
         this.uid = this.authService.getUid() || '';
+        this.ruolo = this.authService.getUserRole();
         this.esamiUtente = userData.esami || '';
         // se non ho questo esame nella lista (di esami a cui sono iscritto o che gestisco) visualizzo un errore
         if(!this.esamiUtente.includes(this.esameId))

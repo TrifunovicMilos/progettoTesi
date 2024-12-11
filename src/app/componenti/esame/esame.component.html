@@ -43,7 +43,7 @@
         </ul>
     </div>
 
-    <div class="exam-tests">
+    <div *ngIf="ruolo === 'docente'" class="exam-tests">
         <h2>Domande</h2>
         <a class="test-link" [routerLink]="['/esami', esameId, 'domande']">Gestisci le domande</a>
     </div>
