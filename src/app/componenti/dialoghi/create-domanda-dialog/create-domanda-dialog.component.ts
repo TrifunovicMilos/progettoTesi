@@ -59,7 +59,7 @@ export class CreateDomandaDialogComponent {
 
         await this.firebaseService.addDomandaToEsame(domandaRef.id, this.data.esameId)
 
-        //aggiorna dati
+        // TODO: aggiorna dati istant
 
         this.dialogRef.close();
       } catch (error) {

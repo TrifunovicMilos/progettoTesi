@@ -26,7 +26,7 @@
     <mat-form-field class="form-field">
       <mat-label>Opzione Corretta</mat-label>
       <mat-select formControlName="opzioneCorretta">
-        <mat-option *ngFor="let opzione of opzioni.controls" [value]="opzione.value">
+        <mat-option *ngFor="let opzione of opzioni.controls; let i = index" [value]="i">
           {{ opzione.value }}
         </mat-option>
       </mat-select>
