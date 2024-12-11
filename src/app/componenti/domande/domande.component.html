@@ -1,0 +1,24 @@
+<!-- <div *ngIf="isLoading" class="loading-container">
+    <p>Caricamento in corso...</p>
+</div>   -->
+
+<div class="questions-container">
+    <h2>Domande per l'esame</h2>
+  
+    <!-- Lista delle domande -->
+    <ul class="question-list">
+      <li *ngFor="let domanda of domande" class="question-item">
+        <p><strong>{{ domanda.testo }}</strong></p>
+        <ul>
+          <li *ngFor="let opzione of domanda.opzioni" 
+          [ngStyle]="opzione === domanda.opzioneCorretta ? {'color': '#4CAF50', 'font-weight': 'bold'} : {}"> 
+            {{ opzione }}
+          </li>
+        </ul>
+      </li>
+    </ul>
+  
+    <!-- Bottone per aggiungere una nuova domanda -->
+    <button class="btn-add-question" (click)="openCreateDomandaDialog()">Aggiungi domanda</button>
+  </div>
+  
