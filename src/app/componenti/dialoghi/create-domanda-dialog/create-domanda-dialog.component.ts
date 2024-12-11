@@ -67,9 +67,6 @@ export class CreateDomandaDialogComponent {
       } catch (error) {
         console.error('Errore nell\'aggiunta della domanda: ', error);
       }
-      finally{
-        this.router.navigate([`esami/${this.data.esameId}`]);
-      } 
     } else {
       console.log('Form non valido');
     }
