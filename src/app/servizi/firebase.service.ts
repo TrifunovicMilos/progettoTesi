@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Firestore, setDoc, doc, getDoc, updateDoc, onSnapshot, collection, getDocs, addDoc } from '@angular/fire/firestore';
 import { inject } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -169,6 +169,32 @@ export class FirebaseService {
     });
 
     return userSubject.asObservable(); 
+  }
+
+  // Ascolta le modifiche in tempo reale alle domande di un esame
+  listenToDomandeInEsame(esameId: string) {
+    // Riferimento al documento specifico dell'esame
+    const esameDocRef = doc(this.firestore, 'esami', esameId);
+    const domandeSubject = new BehaviorSubject<string[]>([]); // Comincia con un array vuoto di domande
+  
+    // Ascolta i cambiamenti nel documento dell'esame
+    onSnapshot(esameDocRef, (docSnap) => {
+      if (docSnap.exists()) {
+        const data = docSnap.data();
+        if (data && Array.isArray(data['domande'])) {
+          // Se il campo 'domande' esiste ed è un array, emetti le domande aggiornate
+          domandeSubject.next(data['domande']);
+        } else {
+          domandeSubject.next([]); // Emetti un array vuoto se non ci sono domande
+        }
+      } else {
+        console.log('Documento non trovato.');
+        domandeSubject.next([]); // Emetti un array vuoto se il documento non esiste
+      }
+    });
+  
+    // Restituisci l'osservabile
+    return domandeSubject.asObservable();
   }
 }
 
