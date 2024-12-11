@@ -26,7 +26,7 @@
 @media (max-width: 840px) {
   .exam-container {
     margin-left: 40px;
-    margin-right: 50px;
+    margin-right: 60px;
   }
 }
 
@@ -177,13 +177,19 @@
   color: #34495e;
 }
 
+.exam-domande h2 {
+  font-size: 1.5rem;
+  margin-top: 30px;
+  color: #34495e;
+}
+
 .test-list {
   list-style-type: none;
   padding: 0;
   margin-top: 10px;
 }
 
-.test-link {
+.test-link, .domande-link {
   display: block;
   font-size: 1.1rem;
   color: #2980b9;
@@ -196,6 +202,10 @@
   color: #1abc9c;
 }
 
+.domande-link:hover {
+  color: orange
+}
+
 @media (max-width: 800px) {
   .exam-title {
     font-size: 1.8rem;
@@ -203,7 +213,7 @@
   .exam-info {
     font-size: 0.9rem;
   }
-  .test-link {
+  .test-link, .domande-link {
     font-size: 1rem;
   }
 }
@@ -221,7 +231,10 @@
   .exam-tests h2 {
     font-size: 1.4rem;
   }
-  .test-link {
+  .exam-domande h2 {
+    font-size: 1.4rem;
+  }
+  .test-link, .domande-link {
     font-size: 0.9rem;
   }
 }
@@ -239,7 +252,10 @@
   .exam-tests h2 {
     font-size: 1.3rem;
   }
-  .test-link {
+  .exam-domande h2 {
+    font-size: 1.3rem;
+  }
+  .test-link, .domande-link {
     font-size: 0.8rem;
   }
   .exam-info {
@@ -260,7 +276,10 @@
   .exam-tests h2 {
     font-size: 1.2rem;
   }
-  .test-link {
+  .exam-domande h2 {
+    font-size: 1.2rem;
+  }
+  .test-link, .domande-link {
     font-size: 0.7rem;
   }
   .exam-info {
