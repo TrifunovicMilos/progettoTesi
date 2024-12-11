@@ -19,21 +19,26 @@ export class DomandeComponent {
 
   constructor(private route: ActivatedRoute, private router: Router, private firebaseService: FirebaseService, private dialog: MatDialog) {}
 
-  ngOnInit() {
+  async ngOnInit() {
     this.esameId = this.route.snapshot.paramMap.get('idEsame') || "";
-    console.log('Esame ID:', this.esameId)
-    this.loadDomande().then(() => {
-      this.isLoading = false;
-    });
-  }
-
-  async loadDomande() {
     try {
       const esameData = await this.firebaseService.getEsameById(this.esameId);
-      this.domande = esameData.domande || [];
-    } catch (error: any) {
-      console.log(error);
+      const domandeID = esameData.domande || [];
+      this.loadDomande(domandeID).then(() => {
+        this.isLoading = false;
+      });
+    } catch (error) {
+      console.error('Errore nel recupero dei dati dell\'esame:', error);
+      this.isLoading = false; 
     }
+  }
+
+  async loadDomande(domandeID: string[]) {
+    const domandePromises = domandeID.map(async (domandaId: string) => {
+      return await this.firebaseService.getDomandaById(domandaId);
+    });
+
+    this.domande = await Promise.all(domandePromises);
   }
 
   openCreateDomandaDialog(): void {

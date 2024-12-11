@@ -76,8 +76,10 @@ export class FirebaseService {
     const docSnap = await getDoc(userDocRef);
   
     if (docSnap.exists()) {
+      const existingEsami = docSnap.data()['esami'] || [];
+
       await updateDoc(userDocRef, {
-        esami: [...docSnap.data()['esami'], esameId]  
+        esami: [...existingEsami, esameId]  
       });
     } else {
       throw new Error('Docente non trovato');
@@ -107,24 +109,46 @@ export class FirebaseService {
     }
   }
 
-  async addDomandaToEsame(esameId: string, domanda: { testo: string, opzioni: string[], opzioneCorretta: string }): Promise<void> {
-    const esameDocRef = doc(this.firestore, 'esami', esameId);  
+  async addDomanda(testo: string, opzioni: string[], opzioneCorretta: string): Promise<any> {
+    const domandeColRef = collection(this.firestore, 'domande'); 
   
-    const esameSnap = await getDoc(esameDocRef); 
-    if (!esameSnap.exists()) {
+    try {
+      const docRef = await addDoc(domandeColRef, {
+        testo: testo,
+        opzioni: opzioni,
+        opzioneCorretta: opzioneCorretta
+      });
+      console.log('Domanda aggiunta con ID: ', docRef.id);
+      return docRef;
+    } catch (error) {
+      console.error('Errore durante l\'aggiunta dell\'esame: ', error);
+      throw new Error('Errore nell\'aggiunta dell\'esame');
+    }
+  }
+
+  async addDomandaToEsame(domandaId: string, esameId: string): Promise<void> {
+    const esameDocRef = doc(this.firestore, 'esami', esameId);
+    const docSnap = await getDoc(esameDocRef);
+  
+    if (docSnap.exists()) {
+      const existingDomande = docSnap.data()['domande'] || [];
+      await updateDoc(esameDocRef, {
+        domande: [...existingDomande, domandaId]  
+      });
+    } else {
       throw new Error('Esame non trovato');
     }
-  
-    const esameData = esameSnap.data();
-    const domande = esameData?.['domande'] || []; 
-  
-    domande.push(domanda);
-  
-    await updateDoc(esameDocRef, {
-      domande: domande
-    });
-  
-    console.log('Domanda aggiunta con successo all\'esame');
+  }
+
+  async getDomandaById(id: string): Promise<any> {
+    const domandaDocRef = doc(this.firestore, 'domande', id);
+    const docSnap = await getDoc(domandaDocRef);
+
+    if (docSnap.exists()) {
+      return docSnap.data();
+    } else {
+      throw new Error('Domanda non trovata.');
+    }
   }
   
   
