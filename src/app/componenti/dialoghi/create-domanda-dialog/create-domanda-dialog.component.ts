@@ -48,20 +48,28 @@ export class CreateDomandaDialogComponent {
     if (this.createQuestionForm.valid) {
       const formData = this.createQuestionForm.value;
 
-      // Otteniamo l'opzione corretta dal testo
-      const domanda = {
-        testo: formData.testo,
-        opzioni: formData.opzioni,
-        opzioneCorretta: formData.opzioneCorretta  // questa sarà una stringa, il testo dell'opzione
-      };
+      const testo = formData.testo;
+      const opzioni = formData.opzioni;
+      const opzioneCorretta = formData.opzioneCorretta; 
 
-      try {
-        await this.firebaseService.addDomandaToEsame(this.data.esameId, domanda);
+      let domandaRef: any;
+
+      try{
+        domandaRef = await this.firebaseService.addDomanda(testo, opzioni, opzioneCorretta);
+
+        await this.firebaseService.addDomandaToEsame(domandaRef.id, this.data.esameId)
+
+        //aggiorna dati
+
         this.dialogRef.close();
-        this.router.navigate([`esami/${this.data.esameId}`]);
       } catch (error) {
-        console.error('Errore nell\'aggiunta della domanda:', error);
+        console.error('Errore nell\'aggiunta della domanda: ', error);
       }
+      finally{
+        this.router.navigate([`esami/${this.data.esameId}`]);
+      } 
+    } else {
+      console.log('Form non valido');
     }
   }
 
