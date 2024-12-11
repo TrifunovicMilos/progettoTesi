@@ -22,16 +22,12 @@ export class DomandeComponent {
 
   async ngOnInit() {
     this.esameId = this.route.snapshot.paramMap.get('idEsame') || "";
-    try {
-      const esameData = await this.firebaseService.getEsameById(this.esameId);
-      const domandeID = esameData.domande || [];
-      this.loadDomande(domandeID).then(() => {
-        this.isLoading = false;
-      });
-    } catch (error) {
-      console.error('Errore nel recupero dei dati dell\'esame:', error);
-      this.isLoading = false; 
-    }
+    
+    this.firebaseService.listenToDomandeInEsame(this.esameId).subscribe((domande) => {
+      const domandeID = domande;
+      this.loadDomande(domandeID)
+      this.isLoading = false
+    });
 
     this.authService.getUserObservable().subscribe(userData => {
       if (userData) {
