@@ -2,7 +2,7 @@
     <p>Caricamento in corso...</p>
 </div>   -->
 
-<div class="questions-container">
+<div *ngIf="!isLoading" class="questions-container">
     <h2>Domande per l'esame</h2>
   
     <!-- Lista delle domande -->
