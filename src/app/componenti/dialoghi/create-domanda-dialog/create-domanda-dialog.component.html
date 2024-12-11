@@ -1,0 +1,46 @@
+<h2 mat-dialog-title class="dialog-title">Crea Domanda</h2>
+<mat-dialog-content>
+  <form [formGroup]="createQuestionForm" (ngSubmit)="addDomanda()">
+    
+    <!-- Testo della domanda -->
+    <mat-form-field class="form-field">
+      <mat-label>Testo della Domanda</mat-label>
+      <input matInput name="testo" placeholder="Inserisci il testo della domanda" formControlName="testo">
+      <mat-error *ngIf="createQuestionForm.get('testo')?.hasError('required') && createQuestionForm.get('testo')?.touched">
+        Il testo della domanda è obbligatorio
+      </mat-error>
+    </mat-form-field>
+
+    <!-- Opzioni -->
+    <div formArrayName="opzioni">
+      <div *ngFor="let opzione of opzioni.controls; let i = index">
+        <mat-form-field class="form-field">
+          <mat-label>Opzione {{ i + 1 }}</mat-label>
+          <input matInput [formControlName]="i" placeholder="Inserisci un'opzione">
+        </mat-form-field>
+      </div>
+      <button mat-button (click)="addOpzione()">Aggiungi Opzione</button>
+    </div>
+
+    <!-- Opzione corretta (seleziona il testo dell'opzione corretta) -->
+    <mat-form-field class="form-field">
+      <mat-label>Opzione Corretta</mat-label>
+      <mat-select formControlName="opzioneCorretta">
+        <mat-option *ngFor="let opzione of opzioni.controls; let i = index" [value]="opzione.value">
+          {{ opzione.value }}
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="createQuestionForm.get('opzioneCorretta')?.hasError('required') && createQuestionForm.get('opzioneCorretta')?.touched">
+        Seleziona l'opzione corretta
+      </mat-error>
+    </mat-form-field>
+
+    <div class="dialog-actions">
+      <button mat-flat-button color="primary" type="submit" [disabled]="!createQuestionForm.valid">Aggiungi Domanda</button>
+    </div>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <button mat-button (click)="onClose()">Chiudi</button>
+</mat-dialog-actions>
