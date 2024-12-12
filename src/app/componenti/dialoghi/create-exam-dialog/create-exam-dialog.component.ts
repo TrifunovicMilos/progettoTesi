@@ -6,7 +6,7 @@ import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/materia
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
-import { FirebaseService } from '../../../servizi/firebase.service';
+import { FirebaseService } from '../../../servizi/firebase/firebase.service';
 import { Router } from '@angular/router';
 import { AuthService } from '../../../auth/auth.service';
 
@@ -49,12 +49,12 @@ export class CreateExamDialogComponent {
       let esameRef: any;
        
       try{
-        esameRef = await this.firebaseService.addEsame(
+        esameRef = await this.firebaseService.getExamService().addEsame(
         formData.titolo, this.data.docente, formData.descrizione, formData.imgUrl, 
         formData.annoAccademico, formData.crediti, formData.lingua
       );
   
-      await this.firebaseService.addEsameToUser(this.data.docenteUid, 'docente', esameRef.id);
+      await this.firebaseService.getExamService().addEsameToUser(this.data.docenteUid, 'docente', esameRef.id);
 
       // aggiorna dati utente, in modo tale che cambi istantanemente, per es, il testo "stai gestendo X esami"
       await this.authService.loadUserData(this.data.docenteUid); 

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { FirebaseService } from '../servizi/firebase.service';
+import { FirebaseService } from '../servizi/firebase/firebase.service';
 import { getAuth, sendEmailVerification, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, sendPasswordResetEmail, onAuthStateChanged, User} from 'firebase/auth';
 import { Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
@@ -54,11 +54,10 @@ export class AuthService {
   async loadUserData(uid: string): Promise<void> {
     const ruolo = this.currentUser?.email?.includes('docente') ? 'docente' : 'studente';
     try {
-      const userData = await this.firebaseService.getUserData(uid, ruolo);
+      const userData = await this.firebaseService.getUserService().getUserData(uid, ruolo);
       this.userData = userData
       this.userSubject.next(userData); // Emit updated data to observers
     } catch (error) {
-      console.log('Error fetching user data', error);
     }
   }
 
@@ -102,7 +101,7 @@ export class AuthService {
 
     // Aggiungi l'utente a Firestore
     // di default, l'ID del documento creato è casuale. Impongo IDdocumento (firestore) = UIDutente (firebase auth)
-    await this.firebaseService.addUserToFirestore( user.uid, nome, cognome, email, ruolo);
+    await this.firebaseService.getUserService().addUserToFirestore( user.uid, nome, cognome, email, ruolo);
   }
 
   // funzione chiamata dalla sezione Login in LoginComponent al click del bottone "Accedi"
