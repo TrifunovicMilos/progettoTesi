@@ -4,7 +4,7 @@ import { FormArray, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Va
 import { MatOptionModule } from '@angular/material/core';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { FirebaseService } from '../../../servizi/firebase.service';
+import { FirebaseService } from '../../../servizi/firebase/firebase.service';
 import { Router } from '@angular/router';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
@@ -57,9 +57,9 @@ export class CreateDomandaDialogComponent {
       let domandaRef: any;
 
       try{
-        domandaRef = await this.firebaseService.addDomanda(testo, opzioni, opzioneCorretta);
+        domandaRef = await this.firebaseService.getQuestionService().addDomanda(testo, opzioni, opzioneCorretta);
 
-        await this.firebaseService.addDomandaToEsame(domandaRef.id, this.data.esameId)
+        await this.firebaseService.getQuestionService().addDomandaToEsame(domandaRef.id, this.data.esameId)
 
         // TODO: aggiorna dati istant
 

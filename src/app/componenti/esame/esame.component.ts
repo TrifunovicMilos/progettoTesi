@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-import { FirebaseService } from '../../servizi/firebase.service';
+import { FirebaseService } from '../../servizi/firebase/firebase.service';
 import { MatIconModule } from '@angular/material/icon';
 import { AuthService } from '../../auth/auth.service';
 import { CommonModule } from '@angular/common';
@@ -40,7 +40,7 @@ export class EsameComponent {
 
   async loadEsameDetails() {
     try {
-      this.esameData = await this.firebaseService.getEsameById(this.esameId);
+      this.esameData = await this.firebaseService.getExamService().getEsameById(this.esameId);
     } catch (error: any) {
       this.router.navigate(['404'])
       if(error.message == 'Esame non trovato.')

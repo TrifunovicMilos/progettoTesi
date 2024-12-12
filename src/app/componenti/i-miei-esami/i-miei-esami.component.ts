@@ -6,7 +6,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { InfoDialogComponent } from '../dialoghi/info-dialog/info-dialog.component';
 import { SidebarService } from '../../servizi/sidebar.service';
-import { FirebaseService } from '../../servizi/firebase.service';
+import { FirebaseService } from '../../servizi/firebase/firebase.service';
 import { RouterLink } from '@angular/router';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -54,7 +54,7 @@ export class IMieiEsamiComponent implements OnInit{
 
   async loadEsami(esamiID: string[]) {
     const esamiPromises = esamiID.map(async (esameId: string) => {
-      return await this.firebaseService.getEsameById(esameId);
+      return await this.firebaseService.getExamService().getEsameById(esameId);
     });
 
     this.esami = await Promise.all(esamiPromises);

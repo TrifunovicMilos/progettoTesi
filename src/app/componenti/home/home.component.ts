@@ -6,7 +6,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { InfoDialogComponent } from '../dialoghi/info-dialog/info-dialog.component';
 import { SidebarService } from '../../servizi/sidebar.service';
-import { FirebaseService } from '../../servizi/firebase.service';
+import { FirebaseService } from '../../servizi/firebase/firebase.service';
 import { Router, RouterLink } from '@angular/router';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -62,7 +62,7 @@ export class HomeComponent implements OnInit {
   // recupero degli esami da firestore
   async loadEsami() {
     try {
-      this.esami = await this.firebaseService.getEsami() || [];
+      this.esami = await this.firebaseService.getExamService().getEsami() || [];
       this.esamiFiltered = [...this.esami];
     } catch (error) {
       console.log('Errore nel recupero degli esami');
@@ -105,7 +105,7 @@ export class HomeComponent implements OnInit {
       // se viene cliccato "Sì" ...
       if (result) {
         try{
-          await this.firebaseService.addEsameToUser(this.uid, 'studente', esame.id);
+          await this.firebaseService.getExamService().addEsameToUser(this.uid, 'studente', esame.id);
           await this.authService.loadUserData(this.uid);
         } catch (error) {
           console.error('Errore nell\'aggiunta dell\'esame: ', error);

@@ -33,7 +33,7 @@
         <div mat-card-avatar
           [ngStyle]="{'background-image': 'url(' + esame.imgUrl + ')', 'background-size': 'cover', 'background-position': 'center'}">
         </div>
-        <mat-card-title style="margin-top: 8px;">{{ esame.titolo }}</mat-card-title>
+        <mat-card-title [ngStyle]="{ 'margin': ruolo == 'docente' ? '8px' : '' }">{{ esame.titolo }}</mat-card-title>
         <mat-card-subtitle *ngIf="ruolo=='studente'">{{ esame.docente }}</mat-card-subtitle>
       </mat-card-header>
 

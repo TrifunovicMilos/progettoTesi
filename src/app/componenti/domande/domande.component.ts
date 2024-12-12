@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { FirebaseService } from '../../servizi/firebase.service';
+import { FirebaseService } from '../../servizi/firebase/firebase.service';
 import { MatDialog } from '@angular/material/dialog';
 import { CreateDomandaDialogComponent } from '../dialoghi/create-domanda-dialog/create-domanda-dialog.component';
 import { AuthService } from '../../auth/auth.service';
@@ -23,7 +23,7 @@ export class DomandeComponent {
   async ngOnInit() {
     this.esameId = this.route.snapshot.paramMap.get('idEsame') || "";
     
-    this.firebaseService.listenToDomandeInEsame(this.esameId).subscribe((domande) => {
+    this.firebaseService.getQuestionService().listenToDomandeInEsame(this.esameId).subscribe((domande) => {
       const domandeID = domande;
       this.loadDomande(domandeID)
       this.isLoading = false
@@ -46,7 +46,7 @@ export class DomandeComponent {
 
   async loadDomande(domandeID: string[]) {
     const domandePromises = domandeID.map(async (domandaId: string) => {
-      return await this.firebaseService.getDomandaById(domandaId);
+      return await this.firebaseService.getQuestionService().getDomandaById(domandaId);
     });
 
     this.domande = await Promise.all(domandePromises);
