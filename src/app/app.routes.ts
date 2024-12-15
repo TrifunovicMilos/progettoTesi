@@ -13,7 +13,7 @@ import { EsameNegatoComponent } from './componenti/esame-negato/esame-negato.com
 import { DomandeComponent } from './componenti/domande/domande.component';
 
 export const routes: Routes = [
-    // a questo gruppo di pagina ci si puo accedere solo se loggati
+    // Per accedere a questo gruppo di pagine è necessario essere loggati
     // Dashboard contiene Header (in alto) e Sidebar (a sinistra) fissi 
     // e, a destra, una delle pagine sottostanti (<routeroutlet> in dashboard.component.ts)
     {path: '', component: DashboardComponent, canActivate: [authGuard], children: [
