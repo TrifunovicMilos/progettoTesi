@@ -6,6 +6,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { CreateDomandaDialogComponent } from '../dialoghi/create-domanda-dialog/create-domanda-dialog.component';
 import { AuthService } from '../../auth/auth.service';
 import { FormsModule } from '@angular/forms';
+import { CreatePoolDialogComponent } from '../dialoghi/create-pool-dialog/create-pool-dialog.component';
 
 @Component({
   selector: 'app-domande',
@@ -20,7 +21,7 @@ export class DomandeComponent {
   selectedDomande: any[] = [];
   isLoading = true;
 
-  constructor(private route: ActivatedRoute, private router: Router, private authService:AuthService, private firebaseService: FirebaseService, private dialog: MatDialog) {}
+  constructor(private route: ActivatedRoute, private router: Router, private authService: AuthService, private firebaseService: FirebaseService, private dialog: MatDialog) {}
 
   async ngOnInit() {
     this.esameId = this.route.snapshot.paramMap.get('idEsame') || '';
@@ -68,17 +69,13 @@ export class DomandeComponent {
     this.selectedDomande = this.domande.filter((domanda) => domanda.selected);
   }
 
-  async createPool() {
+  openCreatePoolDialog(): void {
     const selectedDomandeIds = this.selectedDomande.map(domanda => domanda.id);
-    
-    try {
-      // Chiamata al servizio per creare il pool
-      await this.firebaseService.getExamService().createDomandePool(this.esameId, selectedDomandeIds);
-      alert('Pool creato con successo!');
-    } catch (error) {
-      console.error('Errore nella creazione del pool:', error);
-      alert('Errore nella creazione del pool.');
-    }
+
+    const dialogRef = this.dialog.open(CreatePoolDialogComponent, {
+      width: '37%',
+      data: { esameId: this.esameId, domandeId: selectedDomandeIds }
+    });
   }
 
 }
