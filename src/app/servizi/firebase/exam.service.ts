@@ -10,29 +10,24 @@ export class ExamService {
   private firestore: Firestore = inject(Firestore);
   constructor() {}
 
-  async addEsame(titolo: string, docente: string, descrizione: string, imgUrl:string, 
+  async addEsame(titolo: string, docente: string, descrizione: string, imgUrl: string, 
     annoAccademico: string, crediti: number, lingua: string): Promise<any> {
-      
+
     const esamiColRef = collection(this.firestore, 'esami');
 
-    try {
-      const docRef = await addDoc(esamiColRef, {
-        titolo: titolo,
-        docente: docente,
-        descrizione: descrizione,
-        imgUrl: imgUrl,
-        annoAccademico: annoAccademico,
-        crediti: crediti,
-        lingua: lingua,
-      });
-      console.log('Esame aggiunto con ID: ', docRef.id);
-      return docRef;
-    } catch (error) {
-      console.error("Errore durante l'aggiunta dell'esame: ", error);
-      throw new Error("Errore nell'aggiunta dell'esame");
-    }
+    const docRef = await addDoc(esamiColRef, {
+      titolo: titolo,
+      docente: docente,
+      descrizione: descrizione,
+      imgUrl: imgUrl,
+      annoAccademico: annoAccademico,
+      crediti: crediti,
+      lingua: lingua,
+    });
+    console.log('Esame aggiunto con ID: ', docRef.id);
+    return docRef;
   }
-
+  
   async addEsameToUser(id: string, ruolo: string, esameId: string): Promise<void> {
     const userDocRef = doc(this.firestore, ruolo === 'docente' ? 'docenti' : 'studenti', id);
     const docSnap = await getDoc(userDocRef);
@@ -58,8 +53,6 @@ export class ExamService {
     });
   }
 
-  // servirà per quando entro in un esame specifico, avrò probabilmente un EsameComponent dove potrò vedere i test relativi
-  // l'esame avrà root /esami/id
   async getEsameById(id: string): Promise<any> {
     const esameDocRef = doc(this.firestore, 'esami', id);
     const docSnap = await getDoc(esameDocRef);
@@ -76,30 +69,27 @@ export class ExamService {
     const esamiColRef = collection(this.firestore, 'esami');
     const poolColRef = collection(this.firestore, 'pool');
 
-    try {
-      // 1. Creiamo un nuovo documento nella collezione "pool" con gli ID delle domande
-      const poolDocRef = await addDoc(poolColRef, {nomePool: poolName, domande: domandeIds});
+    // 1. Creazione nuovo documento nella collezione "pool" con gli ID delle domande
+    const poolDocRef = await addDoc(poolColRef, {
+      nomePool: poolName,
+      domande: domandeIds,
+    });
 
-      console.log('Pool creato con ID:', poolDocRef.id);
+    console.log('Pool creato con ID:', poolDocRef.id);
 
-      // 2. Aggiungiamo l'ID del pool al documento dell'esame
-      const esameDocRef = doc(this.firestore, 'esami', esameId);
-      const esameDocSnap = await getDoc(esameDocRef);
+    // 2. Aggiunta dell'ID del pool al documento dell'esame
+    const esameDocRef = doc(this.firestore, 'esami', esameId);
+    const esameDocSnap = await getDoc(esameDocRef);
 
-      if (esameDocSnap.exists()) {
-        const existingPools = esameDocSnap.data()['pool'] || [];
-        await updateDoc(esameDocRef, {
-          pool: [...existingPools, poolDocRef.id], // Aggiungiamo l'ID del nuovo pool
-        });
+    if (esameDocSnap.exists()) {
+      const existingPools = esameDocSnap.data()['pool'] || [];
+      await updateDoc(esameDocRef, {
+        pool: [...existingPools, poolDocRef.id],
+      });
 
-        console.log(`Pool ${poolDocRef.id} aggiunto all'esame ${esameId}`);
-      } else {
-        throw new Error('Esame non trovato.');
-      }
-
-    } catch (error) {
-      console.error("Errore durante la creazione del pool:", error);
-      throw new Error("Errore nella creazione del pool.");
+      console.log(`Pool ${poolDocRef.id} aggiunto all'esame ${esameId}`);
+    } else {
+      throw new Error('Esame non trovato.');
     }
   }
 }

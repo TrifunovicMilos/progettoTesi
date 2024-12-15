@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Firestore, doc, getDoc, updateDoc, onSnapshot, collection, addDoc } from '@angular/fire/firestore';
+import { Firestore, doc, getDoc, updateDoc, onSnapshot, collection, addDoc, arrayRemove, deleteDoc } from '@angular/fire/firestore';
 import { inject } from '@angular/core';
 import { BehaviorSubject} from 'rxjs';
 
@@ -12,22 +12,16 @@ export class QuestionService {
   private firestore: Firestore = inject(Firestore);
   constructor() { }
 
-
   async addDomanda(testo: string, opzioni: string[], opzioneCorretta: string): Promise<any> {
-    const domandeColRef = collection(this.firestore, 'domande'); 
-  
-    try {
-      const docRef = await addDoc(domandeColRef, {
-        testo: testo,
-        opzioni: opzioni,
-        opzioneCorretta: opzioneCorretta
-      });
-      console.log('Domanda aggiunta con ID: ', docRef.id);
-      return docRef;
-    } catch (error) {
-      console.error('Errore durante l\'aggiunta dell\'esame: ', error);
-      throw new Error('Errore nell\'aggiunta dell\'esame');
-    }
+    const domandeColRef = collection(this.firestore, 'domande');
+
+    const docRef = await addDoc(domandeColRef, {
+      testo: testo,
+      opzioni: opzioni,
+      opzioneCorretta: opzioneCorretta,
+    });
+    console.log('Domanda aggiunta con ID: ', docRef.id);
+    return docRef;
   }
 
   async addDomandaToEsame(domandaId: string, esameId: string): Promise<void> {
@@ -44,6 +38,21 @@ export class QuestionService {
     }
   }
 
+  async removeDomandeFromEsame(domandeId: string[], esameId: string): Promise<void> {
+    const esameDocRef = doc(this.firestore, 'esami', esameId);
+
+    // Rimuovere le domande dall'elenco associato all'esame
+    await updateDoc(esameDocRef, {
+      domande: arrayRemove(...domandeId),
+    });
+
+    // Rimuovere i documenti delle domande dalla collezione "domande"
+    for (const domandaId of domandeId) {
+      const domandaDocRef = doc(this.firestore, 'domande', domandaId);
+      await deleteDoc(domandaDocRef);
+    }
+  }
+
   async getDomandaById(id: string): Promise<any> {
     const domandaDocRef = doc(this.firestore, 'domande', id);
     const docSnap = await getDoc(domandaDocRef);
@@ -54,9 +63,6 @@ export class QuestionService {
       throw new Error('Domanda non trovata.');
     }
   }
-  
-  
-
 
   // Ascolta le modifiche in tempo reale alle domande di un esame
   listenToDomandeInEsame(esameId: string) {
