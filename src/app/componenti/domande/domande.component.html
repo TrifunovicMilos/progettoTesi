@@ -7,12 +7,17 @@
 
     <div *ngIf="domande.length > 3" class="buttons-container-top">
       <!-- Bottone per aggiungere una nuova domanda -->
-      <button class="btn-add-question" (click)="openCreateDomandaDialog()">Aggiungi domanda</button>
+      <button class="btn-add-question" (click)="openCreateDomandaDialog()">
+        <mat-icon>add</mat-icon>Aggiungi domanda
+      </button>
   
       <!-- Bottone per Crea Pool e Elimina -->
-      <div *ngIf="selectedDomande.length > 0">
-        <button class="btn-create-pool" (click)="openCreatePoolDialog()">Crea Pool</button>
-      </div>
+      <button *ngIf="selectedDomande.length > 0" class="btn-create-pool" (click)="openCreatePoolDialog()">
+        <mat-icon>add_circle</mat-icon>Crea Pool
+        </button>
+      <button *ngIf="selectedDomande.length > 0" class="btn-remove" (click)="onRemove()">
+        <mat-icon>delete</mat-icon>Elimina
+      </button>
     </div>
   
     <!-- Lista delle domande -->
@@ -31,12 +36,17 @@
   
     <div class="buttons-container">
       <!-- Bottone per aggiungere una nuova domanda -->
-      <button class="btn-add-question" (click)="openCreateDomandaDialog()">Aggiungi domanda</button>
+      <button class="btn-add-question" (click)="openCreateDomandaDialog()">
+        <mat-icon>add</mat-icon>Aggiungi domanda
+      </button>
   
       <!-- Bottone per Crea Pool e Elimina -->
-      <div *ngIf="selectedDomande.length > 0">
-        <button class="btn-create-pool" (click)="openCreatePoolDialog()">Crea Pool</button>
-      </div>
+      <button *ngIf="selectedDomande.length > 0" class="btn-create-pool" (click)="openCreatePoolDialog()">
+        <mat-icon>add_circle</mat-icon>Crea Pool
+        </button>
+      <button *ngIf="selectedDomande.length > 0" class="btn-remove" (click)="onRemove()">
+        <mat-icon>delete</mat-icon>Elimina
+      </button>
     </div>
   </div>
   

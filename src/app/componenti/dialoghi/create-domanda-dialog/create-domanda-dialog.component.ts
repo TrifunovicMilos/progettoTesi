@@ -61,8 +61,6 @@ export class CreateDomandaDialogComponent {
 
         await this.firebaseService.getQuestionService().addDomandaToEsame(domandaRef.id, this.data.esameId)
 
-        // TODO: aggiorna dati istant
-
         this.dialogRef.close();
       } catch (error) {
         console.error('Errore nell\'aggiunta della domanda: ', error);
