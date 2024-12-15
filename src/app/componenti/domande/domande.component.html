@@ -4,6 +4,16 @@
 
 <div *ngIf="!isLoading" class="questions-container">
     <h2>Domande per l'esame</h2>
+
+    <div *ngIf="domande.length > 3" class="buttons-container-top">
+      <!-- Bottone per aggiungere una nuova domanda -->
+      <button class="btn-add-question" (click)="openCreateDomandaDialog()">Aggiungi domanda</button>
+  
+      <!-- Bottone per Crea Pool e Elimina -->
+      <div *ngIf="selectedDomande.length > 0">
+        <button class="btn-create-pool" (click)="openCreatePoolDialog()">Crea Pool</button>
+      </div>
+    </div>
   
     <!-- Lista delle domande -->
     <ul class="question-list">

@@ -33,7 +33,6 @@
   h2 {
     font-size: 1.5rem;
     color: #34495e;
-    margin-bottom: 20px;
   }
 
   @media (max-width: 400px) {
@@ -95,10 +94,17 @@
     transform: scale(1.1);
   }
 
-  .buttons-container {
+  .buttons-container, .buttons-container-top {
     display: flex;
     gap: 20px;
     margin-top: 20px;
+  }
+
+  .buttons-container-top{
+    display: flex;
+    gap: 20px;
+    margin-top: 0px;
+    margin-bottom: 20px;
   }
   
   .btn-add-question, .btn-create-pool {
