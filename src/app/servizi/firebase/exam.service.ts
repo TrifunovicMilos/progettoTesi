@@ -78,7 +78,7 @@ export class ExamService {
 
     try {
       // 1. Creiamo un nuovo documento nella collezione "pool" con gli ID delle domande
-      const poolDocRef = await addDoc(poolColRef, {poolName: poolName, domande: domandeIds});
+      const poolDocRef = await addDoc(poolColRef, {nomePool: poolName, domande: domandeIds});
 
       console.log('Pool creato con ID:', poolDocRef.id);
 
