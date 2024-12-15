@@ -7,11 +7,13 @@ import { CreateDomandaDialogComponent } from '../dialoghi/create-domanda-dialog/
 import { AuthService } from '../../auth/auth.service';
 import { FormsModule } from '@angular/forms';
 import { CreatePoolDialogComponent } from '../dialoghi/create-pool-dialog/create-pool-dialog.component';
+import { MatIconModule } from '@angular/material/icon';
+import { ConfirmDialogComponent } from '../dialoghi/confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'app-domande',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, MatIconModule],
   templateUrl: './domande.component.html',
   styleUrl: './domande.component.css'
 })
@@ -67,6 +69,34 @@ export class DomandeComponent {
   // Gestisce il cambiamento nella selezione delle domande
   onSelectionChange() {
     this.selectedDomande = this.domande.filter((domanda) => domanda.selected);
+  }
+
+  onRemove(): void {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      data: { title: 'Conferma eliminazione', message: 'Sei sicuro di voler eliminare le domande selezionate?' }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      // se viene cliccato "Sì" ...
+      if (result) {
+        this.removeDomande();
+      }
+    });
+  }
+
+  // Metodo per rimuovere le domande selezionate
+  private async removeDomande() {
+    const selectedDomandeIds = this.selectedDomande.map((domanda) => domanda.id);
+
+    try {
+
+      await this.firebaseService.getQuestionService().removeDomandeFromEsame(selectedDomandeIds, this.esameId);
+
+      this.selectedDomande = [];
+      console.log('Domande rimosse con successo');
+    } catch (error) {
+      console.error('Errore nella rimozione delle domande:', error);
+    }
   }
 
   openCreatePoolDialog(): void {
