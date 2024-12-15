@@ -11,13 +11,7 @@ export class UserService {
   constructor() {}
 
   // fuzione chiamata da signUp() in AuthService, chiamata a sua volta dal click su "registrati" in LoginComponent
-  async addUserToFirestore(
-    uid: string,
-    nome: string,
-    cognome: string,
-    email: string,
-    ruolo: string
-  ) {
+  async addUserToFirestore(uid: string, nome: string, cognome: string, email: string, ruolo: string) {
     // in base al ruolo determino la collezione (docenti o studenti) nella quale viene aggiunto l'utente
     // di default, l'ID del documento creato è casuale. Impongo IDdocumento (firestore) = UIDutente (firebase auth)
     const userDocRef = doc(
@@ -46,11 +40,7 @@ export class UserService {
   }
 
   // funzione chiamata da profiloComponent per cambiare Avatar (field = avatar)
-  async updateUserField(
-    id: string,
-    ruolo: string,
-    field: string,
-    value: any
+  async updateUserField(id: string, ruolo: string, field: string, value: any
   ): Promise<void> {
     // percorso collezione -> documento (id)
     const userDocRef = doc(this.firestore, ruolo === 'docente' ? 'docenti' : 'studenti', id);
