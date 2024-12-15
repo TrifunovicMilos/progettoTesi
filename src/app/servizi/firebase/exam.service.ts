@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Firestore, doc, getDoc, updateDoc, collection, getDocs, addDoc, setDoc, writeBatch } from '@angular/fire/firestore';
+import { Firestore, doc, getDoc, updateDoc, collection, getDocs, addDoc,} from '@angular/fire/firestore';
 import { inject } from '@angular/core';
 
 @Injectable({
@@ -33,16 +33,8 @@ export class ExamService {
     }
   }
 
-  async addEsameToUser(
-    id: string,
-    ruolo: string,
-    esameId: string
-  ): Promise<void> {
-    const userDocRef = doc(
-      this.firestore,
-      ruolo === 'docente' ? 'docenti' : 'studenti',
-      id
-    );
+  async addEsameToUser(id: string, ruolo: string, esameId: string): Promise<void> {
+    const userDocRef = doc(this.firestore, ruolo === 'docente' ? 'docenti' : 'studenti', id);
     const docSnap = await getDoc(userDocRef);
 
     if (docSnap.exists()) {
