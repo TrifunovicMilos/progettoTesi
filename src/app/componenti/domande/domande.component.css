@@ -76,8 +76,32 @@
     font-weight: bold;
     color: #2ecc71;
   }
+
+  .styled-checkbox {
+    width: 18px;
+    height: 18px;
+    margin-right: 15px;
+    accent-color: #2980b9; /* colore del checkbox */
+    border-radius: 4px;
+    transition: transform 0.2s;
+  }
   
-  .btn-add-question {
+  .styled-checkbox:checked {
+    background-color: #2980b9;
+    border-color: #2980b9;
+  }
+
+  .styled-checkbox:hover {
+    transform: scale(1.1);
+  }
+
+  .buttons-container {
+    display: flex;
+    gap: 20px;
+    margin-top: 20px;
+  }
+  
+  .btn-add-question, .btn-create-pool {
     display: inline-block;
     margin-top: 20px;
     padding: 10px 20px;
@@ -89,7 +113,15 @@
     transition: background-color 0.3s;
   }
   
-  .btn-add-question:hover {
+  .btn-add-question:hover, .btn-create-pool:hover {
     background-color: #1abc9c;
+    transform: scale(1.05);
   }
   
+  .btn-create-pool {
+    background-color: #27ae60;
+  }
+  
+  .btn-create-pool:hover {
+    background-color: #2ecc71;
+  }
