@@ -25,10 +25,7 @@ export class DomandeComponent {
   async ngOnInit() {
     this.esameId = this.route.snapshot.paramMap.get('idEsame') || '';
 
-    this.firebaseService
-      .getQuestionService()
-      .listenToDomandeInEsame(this.esameId)
-      .subscribe((domande) => {
+    this.firebaseService.getQuestionService().listenToDomandeInEsame(this.esameId).subscribe((domande) => {
         const domandeID = domande;
         this.loadDomande(domandeID);
         this.isLoading = false;
@@ -50,10 +47,8 @@ export class DomandeComponent {
 
   async loadDomande(domandeID: string[]) {
     const domandePromises = domandeID.map(async (domandaId: string) => {
-      const domanda = await this.firebaseService
-        .getQuestionService()
-        .getDomandaById(domandaId);
-
+      
+      const domanda = await this.firebaseService.getQuestionService().getDomandaById(domandaId);
       domanda.selected = false; 
       return domanda;
     });
@@ -64,7 +59,7 @@ export class DomandeComponent {
   openCreateDomandaDialog(): void {
     const dialogRef = this.dialog.open(CreateDomandaDialogComponent, {
       width: '37%',
-      data: { esameId: this.esameId },
+      data: { esameId: this.esameId }
     });
   }
 
