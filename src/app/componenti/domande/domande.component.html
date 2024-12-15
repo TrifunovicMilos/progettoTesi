@@ -8,6 +8,7 @@
     <!-- Lista delle domande -->
     <ul class="question-list">
       <li *ngFor="let domanda of domande" class="question-item">
+        <input type="checkbox" [(ngModel)]="domanda.selected" (change)="onSelectionChange()" class="styled-checkbox">
         <p><strong>{{ domanda.testo }}</strong></p>
         <ul>
           <li *ngFor="let opzione of domanda.opzioni" 
@@ -18,7 +19,14 @@
       </li>
     </ul>
   
-    <!-- Bottone per aggiungere una nuova domanda -->
-    <button class="btn-add-question" (click)="openCreateDomandaDialog()">Aggiungi domanda</button>
+    <div class="buttons-container">
+      <!-- Bottone per aggiungere una nuova domanda -->
+      <button class="btn-add-question" (click)="openCreateDomandaDialog()">Aggiungi domanda</button>
+  
+      <!-- Bottone per Crea Pool e Elimina -->
+      <div *ngIf="selectedDomande.length > 0">
+        <button class="btn-create-pool" (click)="openCreatePoolDialog()">Crea Pool</button>
+      </div>
+    </div>
   </div>
   
