@@ -22,13 +22,14 @@
     }
   }
 
-  @media (max-width: 600px) {
+  @media (max-width: 800px) {
     .questions-container {
       display: flex;
       flex-direction: column;
       align-items: center;
     }
   }
+  
   
   h2 {
     font-size: 1.5rem;
@@ -105,6 +106,16 @@
     gap: 20px;
     margin-top: 0px;
     margin-bottom: 20px;
+  }
+
+  @media (max-width: 600px) {
+    .buttons-container, .buttons-container-top {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0px;
+      margin-top: 0px;
+    }
   }
   
   mat-icon {
