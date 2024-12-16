@@ -7,10 +7,10 @@ import { HomeComponent } from './componenti/home/home.component';
 import { Pagina3Component } from './componenti/pagina3/pagina3.component';
 import { ProfiloComponent } from './componenti/profilo/profilo.component';
 import { Pagina4Component } from './componenti/pagina4/pagina4.component';
-import { EsameComponent } from './componenti/esame/esame.component';
+import { EsameComponent } from './componenti/gestione_esame/esame/esame.component';
 import { IMieiEsamiComponent } from './componenti/i-miei-esami/i-miei-esami.component';
-import { EsameNegatoComponent } from './componenti/esame-negato/esame-negato.component';
-import { DomandeComponent } from './componenti/domande/domande.component';
+import { EsameNegatoComponent } from './componenti/gestione_esame/esame-negato/esame-negato.component';
+import { DomandeComponent } from './componenti/gestione_esame/domande/domande.component';
 
 export const routes: Routes = [
     // Per accedere a questo gruppo di pagine è necessario essere loggati
