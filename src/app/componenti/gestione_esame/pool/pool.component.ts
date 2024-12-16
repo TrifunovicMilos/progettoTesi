@@ -6,7 +6,6 @@ import { MatDialog } from '@angular/material/dialog';
 import { CreateDomandaDialogComponent } from '../../dialoghi/create-domanda-dialog/create-domanda-dialog.component';
 import { AuthService } from '../../../auth/auth.service';
 import { FormsModule } from '@angular/forms';
-import { CreatePoolDialogComponent } from '../../dialoghi/create-pool-dialog/create-pool-dialog.component';
 import { MatIconModule } from '@angular/material/icon';
 import { ConfirmDialogComponent } from '../../dialoghi/confirm-dialog/confirm-dialog.component';
 
@@ -96,6 +95,31 @@ export class PoolComponent {
     } catch (error) {
       console.error('Errore nella rimozione delle domande:', error);
     }
+  }
+
+  onRemovePool(): void {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      data: { title: 'Conferma eliminazione', message: 'Sei sicuro di voler eliminare il pool?' }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      // se viene cliccato "Sì" ...
+      if (result) {
+        this.removePool();
+      }
+    });
+  }
+
+  private async removePool() {
+
+    try {
+      await this.firebaseService.getQuestionService().removePool(this.poolId, this.esameId);
+      console.log('Pool rimosso con successo');
+      this.router.navigate(['/esami', this.esameId]);
+    } catch (error) {
+      console.error('Errore nella rimozione del pool:', error);
+    }
+
   }
 
 }
