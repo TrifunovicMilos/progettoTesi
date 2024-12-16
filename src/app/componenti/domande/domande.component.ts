@@ -90,7 +90,7 @@ export class DomandeComponent {
 
     try {
 
-      await this.firebaseService.getQuestionService().removeDomandeFromEsame(selectedDomandeIds, this.esameId);
+      await this.firebaseService.getQuestionService().removeDomande(selectedDomandeIds, this.esameId);
 
       this.selectedDomande = [];
       console.log('Domande rimosse con successo');

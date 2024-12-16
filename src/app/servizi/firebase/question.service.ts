@@ -38,7 +38,7 @@ export class QuestionService {
     }
   }
 
-  async removeDomandeFromEsame(domandeId: string[], esameId: string): Promise<void> {
+  async removeDomande(domandeId: string[], esameId: string): Promise<void> {
     const esameDocRef = doc(this.firestore, 'esami', esameId);
 
     // Rimuovere le domande dall'elenco associato all'esame
