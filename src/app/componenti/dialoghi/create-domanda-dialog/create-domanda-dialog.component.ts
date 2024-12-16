@@ -23,7 +23,7 @@ export class CreateDomandaDialogComponent {
 
   constructor(
     public dialogRef: MatDialogRef<CreateDomandaDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: { esameId: string },
+    @Inject(MAT_DIALOG_DATA) public data: { esameId: string, poolId: string },
     private firebaseService: FirebaseService,
     private router: Router
   ) {
@@ -60,6 +60,9 @@ export class CreateDomandaDialogComponent {
         domandaRef = await this.firebaseService.getQuestionService().addDomanda(testo, opzioni, opzioneCorretta);
 
         await this.firebaseService.getQuestionService().addDomandaToEsame(domandaRef.id, this.data.esameId)
+
+        if (this.data.poolId) // se la creazione è invocata da un pool... aggiungo la domanda anche al pool
+        await this.firebaseService.getQuestionService().addDomandaToPool(domandaRef.id, this.data.poolId);
 
         this.dialogRef.close();
       } catch (error) {

@@ -38,18 +38,45 @@ export class QuestionService {
     }
   }
 
+  async addDomandaToPool(domandaId: string, poolId: string): Promise<void> {
+    const poolDocRef = doc(this.firestore, 'pool', poolId);
+    const docSnap = await getDoc(poolDocRef);
+
+    if (docSnap.exists()) {
+      const existingDomande = docSnap.data()['domande'] || [];
+      await updateDoc(poolDocRef, {
+        domande: [...existingDomande, domandaId]
+      });
+    } else {
+      throw new Error('Pool non trovato');
+    }
+  }
+
   async removeDomande(domandeId: string[], esameId: string): Promise<void> {
     const esameDocRef = doc(this.firestore, 'esami', esameId);
+    const esameSnap = await getDoc(esameDocRef);
 
-    // Rimuovere le domande dall'elenco associato all'esame
-    await updateDoc(esameDocRef, {
-      domande: arrayRemove(...domandeId),
-    });
+    if (esameSnap.exists()) {
+      const esameData = esameSnap.data();
+      const poolIds = esameData['pool'] || [];
 
-    // Rimuovere i documenti delle domande dalla collezione "domande"
-    for (const domandaId of domandeId) {
-      const domandaDocRef = doc(this.firestore, 'domande', domandaId);
-      await deleteDoc(domandaDocRef);
+      // Rimuove la domanda dai pool associati all'esame
+      for (const poolId of poolIds) {
+        await this.removeDomandeFromPool(domandeId, poolId);
+      }
+
+      // Rimuove le domande dall'elenco associato all'esame
+      await updateDoc(esameDocRef, {
+        domande: arrayRemove(...domandeId),
+      });
+
+      // Rimuovere i documenti delle domande dalla collezione "domande"
+      for (const domandaId of domandeId) {
+        const domandaDocRef = doc(this.firestore, 'domande', domandaId);
+        await deleteDoc(domandaDocRef);
+      }
+    } else {
+      throw new Error('Esame non trovato');
     }
   }
 
