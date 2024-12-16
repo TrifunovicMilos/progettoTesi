@@ -47,4 +47,9 @@
         <h2>Domande</h2>
         <a class="domande-link" [routerLink]="['/esami', esameId, 'domande']">Gestisci le domande</a>
     </div>
+
+    <div *ngIf="ruolo === 'docente'" class="exam-pool">
+        <h2>Pool</h2>
+        <a *ngFor="let pool of pools" class="pool-link" [routerLink]="['/esami', esameId, 'pool', pool.id]">{{pool.nomePool}}</a>
+    </div>
 </div>

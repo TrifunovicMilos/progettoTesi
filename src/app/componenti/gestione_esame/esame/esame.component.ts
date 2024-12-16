@@ -18,6 +18,7 @@ export class EsameComponent {
   esameData : any;
   ruolo = '';
   esamiUtente! : any[]; // per controllare se il docente o studente può accedere alla pagina dell'esame
+  pools: any[] = [];
 
   constructor(private route: ActivatedRoute, private authService: AuthService, private firebaseService: FirebaseService, private router: Router) {}
 
@@ -41,6 +42,9 @@ export class EsameComponent {
   async loadEsameDetails() {
     try {
       this.esameData = await this.firebaseService.getExamService().getEsameById(this.esameId);
+      const poolIds = this.esameData.pool || [];
+      console.log(poolIds)
+      this.loadPools(poolIds);
     } catch (error: any) {
       this.router.navigate(['404'])
       if(error.message == 'Esame non trovato.')
@@ -48,6 +52,18 @@ export class EsameComponent {
       else
         console.log('Errore recupero esame')
     }
+  
+  }
+
+  async loadPools(poolID: string[]) {
+    const poolPromises = poolID.map(async (poolId: string) => {
+      
+      const pool = await this.firebaseService.getQuestionService().getPoolById(poolId);
+      return pool;
+    });
+
+    this.pools = await Promise.all(poolPromises);
+    console.log("Pools:", this.pools);
   }
 
 }

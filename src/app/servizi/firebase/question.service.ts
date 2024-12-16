@@ -64,6 +64,17 @@ export class QuestionService {
     }
   }
 
+  async getPoolById(id: string): Promise<any> {
+    const poolDocRef = doc(this.firestore, 'pool', id);
+    const docSnap = await getDoc(poolDocRef);
+
+    if (docSnap.exists()) {
+      return { id, ...docSnap.data() };
+    } else {
+      throw new Error('Pool non trovato.');
+    }
+  }
+
   // Ascolta le modifiche in tempo reale alle domande di un esame
   listenToDomandeInEsame(esameId: string) {
     // Riferimento al documento specifico dell'esame
@@ -87,6 +98,27 @@ export class QuestionService {
     });
   
     // Restituisci l'osservabile
+    return domandeSubject.asObservable();
+  }
+
+  listenToDomandeInPool(poolId: string) {
+    const poolDocRef = doc(this.firestore, 'pool', poolId);
+    const domandeSubject = new BehaviorSubject<string[]>([]);
+
+    onSnapshot(poolDocRef, (docSnap) => {
+      if (docSnap.exists()) {
+        const data = docSnap.data();
+        if (data && Array.isArray(data['domande'])) {
+          domandeSubject.next(data['domande']);
+        } else {
+          domandeSubject.next([]);
+        }
+      } else {
+        console.log('Documento non trovato.');
+        domandeSubject.next([]);
+      }
+    });
+
     return domandeSubject.asObservable();
   }
 }

@@ -183,13 +183,19 @@
   color: #34495e;
 }
 
+.exam-pool h2 {
+  font-size: 1.5rem;
+  margin-top: 30px;
+  color: #34495e;
+}
+
 .test-list {
   list-style-type: none;
   padding: 0;
   margin-top: 10px;
 }
 
-.test-link, .domande-link {
+.test-link, .domande-link, .pool-link {
   display: block;
   font-size: 1.1rem;
   color: #2980b9;
@@ -206,6 +212,10 @@
   color: orange
 }
 
+.pool-link:hover {
+  color: brown
+}
+
 @media (max-width: 800px) {
   .exam-title {
     font-size: 1.8rem;
@@ -213,7 +223,7 @@
   .exam-info {
     font-size: 0.9rem;
   }
-  .test-link, .domande-link {
+  .test-link, .domande-link, .pool-link {
     font-size: 1rem;
   }
 }
@@ -234,7 +244,10 @@
   .exam-domande h2 {
     font-size: 1.4rem;
   }
-  .test-link, .domande-link {
+  .exam-pool h2 {
+    font-size: 1.4rem;
+  }
+  .test-link, .domande-link, .pool-link {
     font-size: 0.9rem;
   }
 }
@@ -255,7 +268,10 @@
   .exam-domande h2 {
     font-size: 1.3rem;
   }
-  .test-link, .domande-link {
+  .exam-pool h2 {
+    font-size: 1.3rem;
+  }
+  .test-link, .domande-link, .pool-link {
     font-size: 0.8rem;
   }
   .exam-info {
@@ -279,7 +295,10 @@
   .exam-domande h2 {
     font-size: 1.2rem;
   }
-  .test-link, .domande-link {
+  .exam-pool h2 {
+    font-size: 1.2rem;
+  }
+  .test-link, .domande-link, .pool-link {
     font-size: 0.7rem;
   }
   .exam-info {

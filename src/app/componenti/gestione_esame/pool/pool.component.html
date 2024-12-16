@@ -1,0 +1,46 @@
+<!-- <div *ngIf="isLoading" class="loading-container">
+    <p>Caricamento in corso...</p>
+</div>   -->
+
+<div *ngIf="!isLoading" class="questions-container">
+    <h2>Domande nel Pool</h2>
+
+    <div *ngIf="domande.length > 3" class="buttons-container-top">
+      <!-- Bottone per aggiungere una nuova domanda -->
+      <button class="btn-add-question" (click)="openCreateDomandaDialog()">
+        <mat-icon>add</mat-icon>Aggiungi domanda
+      </button>
+  
+      <!-- Elimina -->
+      <button *ngIf="selectedDomande.length > 0" class="btn-remove" (click)="onRemove()">
+        <mat-icon>delete</mat-icon>Elimina
+      </button>
+    </div>
+  
+    <!-- Lista delle domande -->
+    <ul class="question-list">
+      <li *ngFor="let domanda of domande" class="question-item">
+        <input type="checkbox" [(ngModel)]="domanda.selected" (change)="onSelectionChange()" class="styled-checkbox">
+        <p><strong>{{ domanda.testo }}</strong></p>
+        <ul>
+          <li *ngFor="let opzione of domanda.opzioni" 
+          [ngStyle]="opzione === domanda.opzioneCorretta ? {'color': '#4CAF50', 'font-weight': 'bold'} : {}"> 
+            {{ opzione }}
+          </li>
+        </ul>
+      </li>
+    </ul>
+  
+    <div class="buttons-container">
+      <!-- Bottone per aggiungere una nuova domanda -->
+      <button class="btn-add-question" (click)="openCreateDomandaDialog()">
+        <mat-icon>add</mat-icon>Aggiungi domanda
+      </button>
+  
+      <!-- Elimina -->
+      <button *ngIf="selectedDomande.length > 0" class="btn-remove" (click)="onRemove()">
+        <mat-icon>delete</mat-icon>Elimina
+      </button>
+    </div>
+  </div>
+  
