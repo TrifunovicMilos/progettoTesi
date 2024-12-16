@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-import { FirebaseService } from '../../servizi/firebase/firebase.service';
+import { FirebaseService } from '../../../servizi/firebase/firebase.service';
 import { MatIconModule } from '@angular/material/icon';
-import { AuthService } from '../../auth/auth.service';
+import { AuthService } from '../../../auth/auth.service';
 import { CommonModule } from '@angular/common';
 
 @Component({
