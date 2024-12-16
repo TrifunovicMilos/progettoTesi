@@ -60,7 +60,12 @@ export class PoolComponent {
     this.domande = await Promise.all(domandePromises);
   }
 
-  openCreateDomandaDialog(): void {}
+  openCreateDomandaDialog(): void {
+    const dialogRef = this.dialog.open(CreateDomandaDialogComponent, {
+      width: '37%',
+      data: { esameId: this.esameId, poolId: this.poolId }
+    });
+  }
 
   onSelectionChange() {
     this.selectedDomande = this.domande.filter((domanda) => domanda.selected);
