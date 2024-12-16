@@ -43,7 +43,6 @@ export class EsameComponent {
     try {
       this.esameData = await this.firebaseService.getExamService().getEsameById(this.esameId);
       const poolIds = this.esameData.pool || [];
-      console.log(poolIds)
       this.loadPools(poolIds);
     } catch (error: any) {
       this.router.navigate(['404'])
@@ -63,7 +62,6 @@ export class EsameComponent {
     });
 
     this.pools = await Promise.all(poolPromises);
-    console.log("Pools:", this.pools);
   }
 
 }

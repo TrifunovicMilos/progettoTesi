@@ -53,6 +53,15 @@ export class QuestionService {
     }
   }
 
+  async removeDomandeFromPool(domandeId: string[], poolId: string): Promise<void> {
+    const poolDocRef = doc(this.firestore, 'pool', poolId);
+
+    // Rimuove le domande dal pool
+    await updateDoc(poolDocRef, {
+      domande: arrayRemove(...domandeId),
+    });
+  }
+
   async getDomandaById(id: string): Promise<any> {
     const domandaDocRef = doc(this.firestore, 'domande', id);
     const docSnap = await getDoc(domandaDocRef);

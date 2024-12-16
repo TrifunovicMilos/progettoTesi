@@ -66,8 +66,31 @@ export class PoolComponent {
     this.selectedDomande = this.domande.filter((domanda) => domanda.selected);
   }
 
-  onRemove(): void {}
+  onRemove(): void {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      data: { title: 'Conferma eliminazione', message: 'Sei sicuro di voler eliminare le domande selezionate?' }
+    });
 
-  private async removeDomande() {}
+    dialogRef.afterClosed().subscribe(result => {
+      // se viene cliccato "Sì" ...
+      if (result) {
+        this.removeDomande();
+      }
+    });
+  }
+
+  private async removeDomande() {
+    const selectedDomandeIds = this.selectedDomande.map((domanda) => domanda.id);
+
+    try {
+
+      await this.firebaseService.getQuestionService().removeDomandeFromPool(selectedDomandeIds, this.poolId);
+
+      this.selectedDomande = [];
+      console.log('Domande rimosse con successo');
+    } catch (error) {
+      console.error('Errore nella rimozione delle domande:', error);
+    }
+  }
 
 }
