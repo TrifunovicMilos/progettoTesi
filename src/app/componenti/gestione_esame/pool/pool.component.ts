@@ -11,14 +11,15 @@ import { MatIconModule } from '@angular/material/icon';
 import { ConfirmDialogComponent } from '../../dialoghi/confirm-dialog/confirm-dialog.component';
 
 @Component({
-  selector: 'app-domande',
+  selector: 'app-pool',
   standalone: true,
   imports: [CommonModule, FormsModule, MatIconModule],
-  templateUrl: './domande.component.html',
-  styleUrl: './domande.component.css'
+  templateUrl: './pool.component.html',
+  styleUrl: './pool.component.css'
 })
-export class DomandeComponent {
+export class PoolComponent {
   esameId!: string;
+  poolId!: string;
   domande: any[] = [];
   selectedDomande: any[] = [];
   isLoading = true;
@@ -27,8 +28,9 @@ export class DomandeComponent {
 
   async ngOnInit() {
     this.esameId = this.route.snapshot.paramMap.get('idEsame') || '';
+    this.poolId = this.route.snapshot.paramMap.get('idPool') || '';
 
-    this.firebaseService.getQuestionService().listenToDomandeInEsame(this.esameId).subscribe((domande) => {
+    this.firebaseService.getQuestionService().listenToDomandeInPool(this.poolId).subscribe((domande) => {
         this.loadDomande(domande);
         this.isLoading = false;
       });
@@ -58,53 +60,14 @@ export class DomandeComponent {
     this.domande = await Promise.all(domandePromises);
   }
 
-  openCreateDomandaDialog(): void {
-    const dialogRef = this.dialog.open(CreateDomandaDialogComponent, {
-      width: '37%',
-      data: { esameId: this.esameId }
-    });
-  }
+  openCreateDomandaDialog(): void {}
 
-  // Gestisce il cambiamento nella selezione delle domande
   onSelectionChange() {
     this.selectedDomande = this.domande.filter((domanda) => domanda.selected);
   }
 
-  onRemove(): void {
-    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
-      data: { title: 'Conferma eliminazione', message: 'Sei sicuro di voler eliminare le domande selezionate?' }
-    });
+  onRemove(): void {}
 
-    dialogRef.afterClosed().subscribe(result => {
-      // se viene cliccato "Sì" ...
-      if (result) {
-        this.removeDomande();
-      }
-    });
-  }
-
-  // Metodo per rimuovere le domande selezionate
-  private async removeDomande() {
-    const selectedDomandeIds = this.selectedDomande.map((domanda) => domanda.id);
-
-    try {
-
-      await this.firebaseService.getQuestionService().removeDomande(selectedDomandeIds, this.esameId);
-
-      this.selectedDomande = [];
-      console.log('Domande rimosse con successo');
-    } catch (error) {
-      console.error('Errore nella rimozione delle domande:', error);
-    }
-  }
-
-  openCreatePoolDialog(): void {
-    const selectedDomandeIds = this.selectedDomande.map(domanda => domanda.id);
-
-    const dialogRef = this.dialog.open(CreatePoolDialogComponent, {
-      width: '37%',
-      data: { esameId: this.esameId, domandeId: selectedDomandeIds }
-    });
-  }
+  private async removeDomande() {}
 
 }
