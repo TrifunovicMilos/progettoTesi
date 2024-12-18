@@ -81,6 +81,8 @@ export class QuestionService {
   }
 
   async removePool(poolId: string, esameId: string): Promise<void> {
+    console.log("EsameId: "+esameId)
+    console.log("PoolID: "+poolId)
     const poolDocRef = doc(this.firestore, 'pool', poolId);
     const esameDocRef = doc(this.firestore, 'esami', esameId);
 
@@ -89,11 +91,8 @@ export class QuestionService {
 
     // Rimuove l'id del pool dall'array "pool" dell'esame
     await updateDoc(esameDocRef, {
-      domande: arrayRemove(...poolId),
+      pool: arrayRemove(poolId),
     });
-
-
-
   }
 
   async removeDomandeFromPool(domandeId: string[], poolId: string): Promise<void> {
