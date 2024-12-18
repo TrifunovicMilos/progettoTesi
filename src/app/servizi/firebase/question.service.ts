@@ -81,8 +81,6 @@ export class QuestionService {
   }
 
   async removePool(poolId: string, esameId: string): Promise<void> {
-    console.log("EsameId: "+esameId)
-    console.log("PoolID: "+poolId)
     const poolDocRef = doc(this.firestore, 'pool', poolId);
     const esameDocRef = doc(this.firestore, 'esami', esameId);
 
