@@ -24,7 +24,7 @@ export class ExamService {
       crediti: crediti,
       lingua: lingua,
     });
-    console.log('Esame aggiunto con ID: ', docRef.id);
+    // console.log('Esame aggiunto con ID: ', docRef.id);
     return docRef;
   }
   
@@ -75,7 +75,7 @@ export class ExamService {
       domande: domandeIds,
     });
 
-    console.log('Pool creato con ID:', poolDocRef.id);
+    // console.log('Pool creato con ID:', poolDocRef.id);
 
     // 2. Aggiunta dell'ID del pool al documento dell'esame
     const esameDocRef = doc(this.firestore, 'esami', esameId);
@@ -87,7 +87,7 @@ export class ExamService {
         pool: [...existingPools, poolDocRef.id],
       });
 
-      console.log(`Pool ${poolDocRef.id} aggiunto all'esame ${esameId}`);
+      // console.log(`Pool ${poolDocRef.id} aggiunto all'esame ${esameId}`);
     } else {
       throw new Error('Esame non trovato.');
     }
