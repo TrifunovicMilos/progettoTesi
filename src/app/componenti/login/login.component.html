@@ -76,7 +76,7 @@
                         <!-- Il campo sotto si abbassa solo se l'errore ha due righe (caso errore 3) invece che una. -->
                         <!-- Se non lo abbasso, si vedrebbe solo una delle due righe dell'errore -->
                         <!-- Invece, tenere fisso il margin-top:20px non mi piaceva, lascia spazio vuoto -->
-                        <mat-form-field style="width: 100%;" [ngStyle]="registerPasswordError==3 ? {'margin-top': '20px'} : {}">
+                        <mat-form-field style="width: 100%;" [ngStyle]="registerPasswordError==3 && registerForm.get('password')?.touched? {'margin-top': '20px'} : {}">
                             <mat-label>Conferma Password</mat-label>
                             <input matInput name="confirmPassword" type="password" formControlName="confirmPassword">
                             <mat-error
