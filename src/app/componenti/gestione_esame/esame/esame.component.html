@@ -51,5 +51,6 @@
     <div *ngIf="ruolo === 'docente'" class="exam-pool">
         <h2>Pool</h2>
         <a *ngFor="let pool of pools" class="pool-link" [routerLink]="['/esami', esameId, 'pool', pool.id]">{{pool.nomePool}}</a>
+        <a *ngIf="pools.length == 0" class="no-pools" >Nessun pool creato</a>
     </div>
 </div>

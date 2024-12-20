@@ -195,13 +195,17 @@
   margin-top: 10px;
 }
 
-.test-link, .domande-link, .pool-link {
+.test-link, .domande-link, .pool-link, .no-pool {
   display: block;
   font-size: 1.1rem;
   color: #2980b9;
   text-decoration: none;
   margin-bottom: 10px;
   transition: color 0.3s;
+}
+
+.no-pool {
+  color: none;
 }
 
 .test-link:hover {
@@ -223,7 +227,7 @@
   .exam-info {
     font-size: 0.9rem;
   }
-  .test-link, .domande-link, .pool-link {
+  .test-link, .domande-link, .pool-link, .no-pool {
     font-size: 1rem;
   }
 }
@@ -247,7 +251,7 @@
   .exam-pool h2 {
     font-size: 1.4rem;
   }
-  .test-link, .domande-link, .pool-link {
+  .test-link, .domande-link, .pool-link, .no-pool {
     font-size: 0.9rem;
   }
 }
@@ -271,7 +275,7 @@
   .exam-pool h2 {
     font-size: 1.3rem;
   }
-  .test-link, .domande-link, .pool-link {
+  .test-link, .domande-link, .pool-link, .no-pool {
     font-size: 0.8rem;
   }
   .exam-info {
@@ -298,7 +302,7 @@
   .exam-pool h2 {
     font-size: 1.2rem;
   }
-  .test-link, .domande-link, .pool-link {
+  .test-link, .domande-link, .pool-link, .no-pool {
     font-size: 0.7rem;
   }
   .exam-info {

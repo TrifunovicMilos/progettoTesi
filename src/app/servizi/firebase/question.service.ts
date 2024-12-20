@@ -20,7 +20,7 @@ export class QuestionService {
       opzioni: opzioni,
       opzioneCorretta: opzioneCorretta,
     });
-    console.log('Domanda aggiunta con ID: ', docRef.id);
+    // console.log('Domanda aggiunta con ID: ', docRef.id);
     return docRef;
   }
 
