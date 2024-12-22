@@ -5,7 +5,7 @@
 <div *ngIf="!isLoading" class="exam-container">
     <!-- Intestazione dell'esame -->
     <div class="exam-header">
-        <img [src]="esameData?.imgUrl" alt="Immagine dell'esame" class="exam-image"/>
+        <img [src]="esameData?.imgUrl" alt="Immagine dell'esame" class="exam-image" />
         <div style="flex-grow: 1;">
             <h1 class="exam-title">{{ esameData?.titolo }}</h1>
             <p class="exam-info"><strong>Docente:</strong> {{ esameData?.docente }}</p>
@@ -14,28 +14,32 @@
             <p class="exam-info"><strong>Lingua:</strong> {{ esameData?.lingua }}</p>
         </div>
     </div>
-    
+
     <!-- Intestazione dell'esame su schermi più stretti-->
     <div class="exam-header-small">
         <h1 class="exam-title">{{ esameData?.titolo }}</h1>
-        <img [src]="esameData?.imgUrl" alt="Immagine dell'esame" class="exam-image"/>
+        <img [src]="esameData?.imgUrl" alt="Immagine dell'esame" class="exam-image" />
         <div class="exam-info-container">
-          <p class="exam-info"><strong>Docente:</strong> {{ esameData?.docente }}</p>
-          <p class="exam-info"><strong>Anno Accademico:</strong> {{ esameData?.annoAccademico }}</p>
-          <p class="exam-info"><strong>Crediti:</strong> {{ esameData?.crediti }}</p>
-          <p class="exam-info"><strong>Lingua:</strong> {{ esameData?.lingua }}</p>
+            <p class="exam-info"><strong>Docente:</strong> {{ esameData?.docente }}</p>
+            <p class="exam-info"><strong>Anno Accademico:</strong> {{ esameData?.annoAccademico }}</p>
+            <p class="exam-info"><strong>Crediti:</strong> {{ esameData?.crediti }}</p>
+            <p class="exam-info"><strong>Lingua:</strong> {{ esameData?.lingua }}</p>
         </div>
-      </div>
+    </div>
 
     <!-- Descrizione dell'esame -->
     <div class="exam-description">
-        <h2>Descrizione dell'esame</h2> 
+        <h2>Descrizione dell'esame</h2>
         <p>{{ esameData?.descrizione }}</p>
     </div>
 
     <!-- Test -->
     <div class="exam-tests">
-        <h2>Test</h2>
+        <h2>Test
+            <button *ngIf="ruolo=='docente'" mat-flat-button color="primary" (click)="openCreateTestDialog()">
+                <mat-icon style="vertical-align: middle;">add</mat-icon>Nuovo Test
+            </button>
+        </h2>
         <ul class="test-list">
             <li *ngFor="let test of tipiTest">
                 <a [routerLink]="['/esami', esameId, 'test', test.id]" class="test-link">
@@ -52,7 +56,8 @@
 
     <div *ngIf="ruolo === 'docente'" class="exam-pool">
         <h2>Pool</h2>
-        <a *ngFor="let pool of pools" class="pool-link" [routerLink]="['/esami', esameId, 'pool', pool.id]">{{pool.nomePool}}</a>
-        <a *ngIf="pools.length == 0" class="no-pools" >Nessun pool creato</a>
+        <a *ngFor="let pool of pools" class="pool-link"
+            [routerLink]="['/esami', esameId, 'pool', pool.id]">{{pool.nomePool}}</a>
+        <a *ngIf="pools.length == 0" class="no-pools">Nessun pool creato</a>
     </div>
 </div>

@@ -1,0 +1,22 @@
+<!-- <div *ngIf="isLoading" class="loading-container">
+    <p>Caricamento in corso...</p>
+</div>   -->
+
+<div *ngIf="!isLoading" class="test-container">
+    <!-- Intestazione del test -->
+    <div class="test-header">
+        <h1 class="test-title">{{ testData?.nomeTest }}</h1>
+        <p class="test-description">{{ testData?.descrizione }}</p>
+        <p class="test-info"><strong>Numero di domande:</strong> {{ testData?.numeroDomande }}</p>
+    </div>
+
+    <!-- Azioni (Elimina o Avvia Test) -->
+    <div class="test-actions">
+        <button *ngIf="ruolo=='docente'" mat-flat-button color="primary" class="delete-button">
+            <mat-icon style="vertical-align: middle;">delete</mat-icon>Elimina Test
+        </button>
+        <button *ngIf="ruolo=='studente'" mat-flat-button color="primary" class="start-button">
+            <mat-icon style="vertical-align: middle;">play_arrow</mat-icon>Avvia Test
+        </button>
+    </div>
+</div>

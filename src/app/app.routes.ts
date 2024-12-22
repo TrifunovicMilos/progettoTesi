@@ -12,6 +12,7 @@ import { IMieiEsamiComponent } from './componenti/i-miei-esami/i-miei-esami.comp
 import { EsameNegatoComponent } from './componenti/gestione_esame/esame-negato/esame-negato.component';
 import { DomandeComponent } from './componenti/gestione_esame/domande/domande.component';
 import { PoolComponent } from './componenti/gestione_esame/pool/pool.component';
+import { TipoTestComponent } from './componenti/gestione_esame/tipo-test/tipo-test.component';
 
 export const routes: Routes = [
     // Per accedere a questo gruppo di pagine è necessario essere loggati
@@ -23,6 +24,7 @@ export const routes: Routes = [
         {path: 'esami/:id', component: EsameComponent },
         {path: 'esami/:idEsame/domande', component: DomandeComponent},
         {path: 'esami/:idEsame/pool/:idPool', component: PoolComponent},
+        {path: 'esami/:idEsame/test/:idTipoTest', component: TipoTestComponent},
         {path: 'my-exams', component: IMieiEsamiComponent},
         {path: 'pagina3', component: Pagina3Component},
         {path: 'pagina4', component: Pagina4Component},

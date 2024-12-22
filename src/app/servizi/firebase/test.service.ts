@@ -51,7 +51,25 @@ export class TestService {
     }
   }
 
+  listenToTestInEsame(esameId: string) {
+    const esameDocRef = doc(this.firestore, 'esami', esameId);
+    const tipiTestSubject = new BehaviorSubject<string[]>([]);
 
+    onSnapshot(esameDocRef, (docSnap) => {
+      if (docSnap.exists()) {
+        const data = docSnap.data();
+        if (data && Array.isArray(data['tipiTest'])) {
+          tipiTestSubject.next(data['tipiTest']);
+        } else {
+          tipiTestSubject.next([]);
+        }
+      } else {
+        console.log('Documento non trovato.');
+        tipiTestSubject.next([]);
+      }
+    });
 
-
+    return tipiTestSubject.asObservable();
+  }
 }
+

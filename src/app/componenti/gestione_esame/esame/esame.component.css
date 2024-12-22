@@ -309,3 +309,16 @@
     font-size: 0.7rem;
   }
 }
+
+button {
+  border-radius: 5px;
+  margin-left: 20px;
+  background-color: #0f79c0 !important;
+  padding: 8px 16px;
+  transition: background-color 0.3s, transform 0.3s; 
+}
+
+button:hover {
+  background-color: #2980b9 !important; 
+  transform: scale(1.05); 
+}

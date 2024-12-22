@@ -4,11 +4,14 @@ import { FirebaseService } from '../../../servizi/firebase/firebase.service';
 import { MatIconModule } from '@angular/material/icon';
 import { AuthService } from '../../../auth/auth.service';
 import { CommonModule } from '@angular/common';
+import { MatDialog } from '@angular/material/dialog';
+import { CreateTestDialogComponent } from '../../dialoghi/create/create-test-dialog/create-test-dialog.component';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-esame',
   standalone: true,
-  imports: [MatIconModule, CommonModule, RouterLink],
+  imports: [MatIconModule, CommonModule, RouterLink, MatButtonModule],
   templateUrl: './esame.component.html',
   styleUrl: './esame.component.css'
 })
@@ -21,10 +24,16 @@ export class EsameComponent {
   pools: any[] = [];
   tipiTest: any[] = [];
 
-  constructor(private route: ActivatedRoute, private authService: AuthService, private firebaseService: FirebaseService, private router: Router) {}
+  constructor(private route: ActivatedRoute, private authService: AuthService, private firebaseService: FirebaseService, private router: Router, private dialog: MatDialog) {}
 
   ngOnInit() {
     this.esameId = this.route.snapshot.paramMap.get('id') || "";
+
+    this.firebaseService.getTestService().listenToTestInEsame(this.esameId).subscribe((tipiTest) => {
+      this.loadEsameDetails();
+      this.isLoading = false;
+    });
+
     this.authService.getUserObservable().subscribe(userData => {
       if (userData) {
         this.ruolo = this.authService.getUserRole();
@@ -75,6 +84,13 @@ export class EsameComponent {
     });
 
     this.tipiTest = await Promise.all(tipiTestPromises);
+  }
+
+  openCreateTestDialog(): void {
+    const dialogRef = this.dialog.open(CreateTestDialogComponent, {
+      width: '37%',
+      data: { esameId: this.esameId, pools: this.pools }
+    });
   }
 
 }
