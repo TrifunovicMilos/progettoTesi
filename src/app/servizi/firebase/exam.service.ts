@@ -64,32 +64,4 @@ export class ExamService {
     }
   }
 
-  // Metodo per creare un pool di domande e associarlo all'esame
-  async createDomandePool(poolName: string, esameId: string, domandeIds: string[]): Promise<void> {
-    const esamiColRef = collection(this.firestore, 'esami');
-    const poolColRef = collection(this.firestore, 'pool');
-
-    // 1. Creazione nuovo documento nella collezione "pool" con gli ID delle domande
-    const poolDocRef = await addDoc(poolColRef, {
-      nomePool: poolName,
-      domande: domandeIds,
-    });
-
-    // console.log('Pool creato con ID:', poolDocRef.id);
-
-    // 2. Aggiunta dell'ID del pool al documento dell'esame
-    const esameDocRef = doc(this.firestore, 'esami', esameId);
-    const esameDocSnap = await getDoc(esameDocRef);
-
-    if (esameDocSnap.exists()) {
-      const existingPools = esameDocSnap.data()['pool'] || [];
-      await updateDoc(esameDocRef, {
-        pool: [...existingPools, poolDocRef.id],
-      });
-
-      // console.log(`Pool ${poolDocRef.id} aggiunto all'esame ${esameId}`);
-    } else {
-      throw new Error('Esame non trovato.');
-    }
-  }
 }

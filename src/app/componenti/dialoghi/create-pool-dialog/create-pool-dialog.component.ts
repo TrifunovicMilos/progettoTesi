@@ -32,7 +32,7 @@ export class CreatePoolDialogComponent {
       const poolName = this.poolForm.get('poolName')?.value;
       try {
         // Chiamata al servizio per creare il pool
-        await this.firebaseService.getExamService().createDomandePool(poolName, this.data.esameId, this.data.domandeId);
+        await this.firebaseService.getQuestionService().createPool(poolName, this.data.esameId, this.data.domandeId);
 
         this.dialogRef.close();
 
