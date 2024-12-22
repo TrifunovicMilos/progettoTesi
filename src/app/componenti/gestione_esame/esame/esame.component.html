@@ -37,9 +37,11 @@
     <div class="exam-tests">
         <h2>Test</h2>
         <ul class="test-list">
-            <li><a href="" class="test-link">Prova intermedia 1</a></li>
-            <li><a href="" class="test-link">Prova intermedia 2</a></li>
-            <li><a href="" class="test-link">Prova di preparazione finale</a></li>
+            <li *ngFor="let test of tipiTest">
+                <a [routerLink]="['/esami', esameId, 'test', test.id]" class="test-link">
+                    {{ test.nomeTest }}
+                </a>
+            </li>
         </ul>
     </div>
 
