@@ -199,7 +199,7 @@
 .test-link,
 .domande-link,
 .pool-link,
-.no-pool {
+.no-elements {
   display: block;
   font-size: 1.1rem;
   color: #2980b9;
@@ -208,8 +208,8 @@
   transition: color 0.3s;
 }
 
-.no-pool {
-  color: none;
+.no-elements {
+  color: #2c3e50;;
 }
 
 .test-link:hover {
@@ -234,7 +234,7 @@
   .test-link,
   .domande-link,
   .pool-link,
-  .no-pool {
+  .no-elements {
     font-size: 1rem;
   }
 }
@@ -261,8 +261,8 @@
   .test-link,
   .domande-link,
   .pool-link,
-  .no-pool {
-    font-size: 0.9rem;
+  .no-elements {
+    font-size: 1rem;
   }
 }
 
@@ -271,7 +271,7 @@
     font-size: 1.4rem;
   }
   .exam-description p {
-    font-size: 0.9rem;
+    font-size: 1rem;
   }
   .exam-description h2 {
     font-size: 1.3rem;
@@ -288,8 +288,8 @@
   .test-link,
   .domande-link,
   .pool-link,
-  .no-pool {
-    font-size: 0.8rem;
+  .no-elements {
+    font-size: 0.9rem;
   }
   .exam-info {
     font-size: 0.8rem;
@@ -318,7 +318,7 @@
   .test-link,
   .domande-link,
   .pool-link,
-  .no-pool {
+  .no-elements {
     font-size: 0.7rem;
   }
   .exam-info {
@@ -326,28 +326,31 @@
   }
 }
 
-button,
+.new-test,
 .unsubscribe {
   border-radius: 5px;
-  margin-left: 20px;
-  background-color: #0f79c0 !important;
   padding: 8px 16px;
   transition: background-color 0.3s, transform 0.3s;
 }
 
+.new-test {
+  height: 35px;
+  background-color: #0f79c0 !important;
+  margin-left: 30px;
+}
+
 .unsubscribe {
-  margin-left: 0px;
   background-color: #cf3333 !important;
 }
 
-button:hover,
+.new-test:hover,
 .unsubscribe:hover {
   background-color: #2980b9 !important;
   transform: scale(1.05);
 }
 
 @media (max-width: 600px) {
-  button,
+  .new-test,
   .unsubscribe {
     font-size: 12px;
   }
