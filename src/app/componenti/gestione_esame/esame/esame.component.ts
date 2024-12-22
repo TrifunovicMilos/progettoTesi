@@ -7,6 +7,7 @@ import { CommonModule } from '@angular/common';
 import { MatDialog } from '@angular/material/dialog';
 import { CreateTestDialogComponent } from '../../dialoghi/create/create-test-dialog/create-test-dialog.component';
 import { MatButtonModule } from '@angular/material/button';
+import { ConfirmDialogComponent } from '../../dialoghi/confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'app-esame',
@@ -20,6 +21,7 @@ export class EsameComponent {
   esameId! : string;
   esameData : any;
   ruolo = '';
+  uid = '';
   esamiUtente! : any[]; // per controllare se il docente o studente può accedere alla pagina dell'esame
   pools: any[] = [];
   tipiTest: any[] = [];
@@ -36,6 +38,7 @@ export class EsameComponent {
 
     this.authService.getUserObservable().subscribe(userData => {
       if (userData) {
+        this.uid = this.authService.getUid() || '';
         this.ruolo = this.authService.getUserRole();
         this.esamiUtente = userData.esami || '';
         // se non ho questo esame nella lista (di esami a cui sono iscritto o che gestisco) visualizzo un errore
@@ -90,6 +93,27 @@ export class EsameComponent {
     const dialogRef = this.dialog.open(CreateTestDialogComponent, {
       width: '37%',
       data: { esameId: this.esameId, pools: this.pools }
+    });
+  }
+
+  onUnsubscribe(){
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      data: { title: "Disiscrizione dall'esame", message: `Sei sicuro di volerti disiscrivere da '${this.esameData.titolo}?'` }
+    });
+
+    dialogRef.afterClosed().subscribe(async result => {
+      // se viene cliccato "Sì" ...
+      if (result) {
+        try{
+          await this.firebaseService.getExamService().removeEsameFromUser(this.uid, 'studente', this.esameId);
+          await this.authService.loadUserData(this.uid);
+        } catch (error) {
+          console.error('Errore nella disiscrizone: ', error);
+        }
+        finally{
+          this.router.navigate([`home`]);
+        }
+      }
     });
   }
 
