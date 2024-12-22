@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Firestore, doc, getDoc, updateDoc, collection, getDocs, addDoc,} from '@angular/fire/firestore';
+import { Firestore, doc, getDoc, updateDoc, collection, getDocs, addDoc, arrayRemove,} from '@angular/fire/firestore';
 import { inject } from '@angular/core';
 
 @Injectable({
@@ -41,6 +41,14 @@ export class ExamService {
     } else {
       throw new Error('Docente non trovato');
     }
+  }
+
+  async removeEsameFromUser(id: string, ruolo: string, esameId: string): Promise<void> {
+    const userDocRef = doc(this.firestore, ruolo === 'docente' ? 'docenti' : 'studenti', id);
+    
+    await updateDoc(userDocRef, {
+      esami: arrayRemove(esameId),
+    });
   }
 
   // chiamata da HomeComponent nel caso il ruolo sia studente, per mostrare tutti gli esami disponibili

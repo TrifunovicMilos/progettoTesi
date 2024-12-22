@@ -60,4 +60,9 @@
             [routerLink]="['/esami', esameId, 'pool', pool.id]">{{pool.nomePool}}</a>
         <a *ngIf="pools.length == 0" class="no-pools">Nessun pool creato</a>
     </div>
+
+    <!-- unsubscribe -->
+    <button *ngIf="ruolo=='studente'" mat-flat-button color="primary" class="unsubscribe" (click)="onUnsubscribe()">
+        <mat-icon style="vertical-align: middle;">remove</mat-icon>Disiscriviti
+    </button>
 </div>
