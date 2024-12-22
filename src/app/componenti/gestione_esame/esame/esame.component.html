@@ -36,11 +36,12 @@
     <!-- Test -->
     <div class="exam-tests">
         <h2>Test
-            <button *ngIf="ruolo=='docente'" mat-flat-button color="primary" (click)="openCreateTestDialog()">
+            <button *ngIf="ruolo=='docente'" mat-flat-button color="primary" class="new-test" (click)="openCreateTestDialog()">
                 <mat-icon style="vertical-align: middle;">add</mat-icon>Nuovo Test
             </button>
         </h2>
         <ul class="test-list">
+            <a *ngIf="tipiTest.length == 0" class="no-elements">Nessun test disponibile</a>
             <li *ngFor="let test of tipiTest">
                 <a [routerLink]="['/esami', esameId, 'test', test.id]" class="test-link">
                     {{ test.nomeTest }}
@@ -58,7 +59,7 @@
         <h2>Pool</h2>
         <a *ngFor="let pool of pools" class="pool-link"
             [routerLink]="['/esami', esameId, 'pool', pool.id]">{{pool.nomePool}}</a>
-        <a *ngIf="pools.length == 0" class="no-pools">Nessun pool creato</a>
+        <a *ngIf="pools.length == 0" class="no-elements">Nessun pool creato</a>
     </div>
 
     <!-- unsubscribe -->
