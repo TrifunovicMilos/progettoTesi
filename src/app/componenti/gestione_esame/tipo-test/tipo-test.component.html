@@ -12,7 +12,7 @@
 
     <!-- Azioni (Elimina o Avvia Test) -->
     <div class="test-actions">
-        <button *ngIf="ruolo=='docente'" mat-flat-button color="primary" class="delete-button">
+        <button *ngIf="ruolo=='docente'" mat-flat-button color="primary" class="delete-button" (click)="onRemove()">
             <mat-icon style="vertical-align: middle;">delete</mat-icon>Elimina Test
         </button>
         <button *ngIf="ruolo=='studente'" mat-flat-button color="primary" class="start-button">

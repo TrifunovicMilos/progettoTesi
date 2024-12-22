@@ -51,6 +51,19 @@ export class TestService {
     }
   }
 
+  async removeTipoTest(tipoTestId: string, esameId: string): Promise<void> {
+    const tipoTestDocRef = doc(this.firestore, 'tipiTest', tipoTestId);
+    const esameDocRef = doc(this.firestore, 'esami', esameId);
+
+    // Rimuove il pool dalla collezione 'pool'
+    await deleteDoc(tipoTestDocRef);
+
+    // Rimuove l'id del pool dall'array "pool" dell'esame
+    await updateDoc(esameDocRef, {
+      tipiTest: arrayRemove(tipoTestId),
+    });
+  }
+
   listenToTestInEsame(esameId: string) {
     const esameDocRef = doc(this.firestore, 'esami', esameId);
     const tipiTestSubject = new BehaviorSubject<string[]>([]);

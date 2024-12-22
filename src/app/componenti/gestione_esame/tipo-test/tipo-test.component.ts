@@ -5,6 +5,8 @@ import { FirebaseService } from '../../../servizi/firebase/firebase.service';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { ConfirmDialogComponent } from '../../dialoghi/confirm-dialog/confirm-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-tipo-test',
@@ -20,7 +22,7 @@ export class TipoTestComponent implements OnInit{
   testData : any;
   ruolo = '';
 
-  constructor(private route: ActivatedRoute, private router: Router, private authService: AuthService, private firebaseService: FirebaseService) {}
+  constructor(private route: ActivatedRoute, private router: Router, private authService: AuthService, private firebaseService: FirebaseService, private dialog: MatDialog) {}
 
 
   ngOnInit() {
@@ -52,6 +54,31 @@ export class TipoTestComponent implements OnInit{
       else
         console.log('Errore recupero test')
     }
+  }
+
+  onRemove(): void {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      data: { title: 'Conferma eliminazione', message: 'Sei sicuro di voler eliminare il test?' }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      // se viene cliccato "Sì" ...
+      if (result) {
+        this.removeTest();
+      }
+    });
+  }
+
+  private async removeTest() {
+
+    try {
+      await this.firebaseService.getTestService().removeTipoTest(this.tipoTestId, this.esameId);
+      console.log('Test rimosso con successo');
+      this.router.navigate(['/esami', this.esameId]);
+    } catch (error) {
+      console.error('Errore nella rimozione del test:', error);
+    }
+
   }
 
 }
