@@ -10,7 +10,7 @@ import { FirebaseService } from '../../servizi/firebase/firebase.service';
 import { Router, RouterLink } from '@angular/router';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { CreateExamDialogComponent } from '../dialoghi/create-exam-dialog/create-exam-dialog.component';
+import { CreateExamDialogComponent } from '../dialoghi/create/create-exam-dialog/create-exam-dialog.component';
 import { AuthService } from '../../auth/auth.service';
 import { ConfirmDialogComponent } from '../dialoghi/confirm-dialog/confirm-dialog.component';
 

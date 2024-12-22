@@ -3,10 +3,10 @@ import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FirebaseService } from '../../../servizi/firebase/firebase.service';
 import { MatDialog } from '@angular/material/dialog';
-import { CreateDomandaDialogComponent } from '../../dialoghi/create-domanda-dialog/create-domanda-dialog.component';
+import { CreateDomandaDialogComponent } from '../../dialoghi/create/create-domanda-dialog/create-domanda-dialog.component';
 import { AuthService } from '../../../auth/auth.service';
 import { FormsModule } from '@angular/forms';
-import { CreatePoolDialogComponent } from '../../dialoghi/create-pool-dialog/create-pool-dialog.component';
+import { CreatePoolDialogComponent } from '../../dialoghi/create/create-pool-dialog/create-pool-dialog.component';
 import { MatIconModule } from '@angular/material/icon';
 import { ConfirmDialogComponent } from '../../dialoghi/confirm-dialog/confirm-dialog.component';
 
