@@ -6,9 +6,9 @@ import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/materia
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
-import { FirebaseService } from '../../../servizi/firebase/firebase.service';
+import { FirebaseService } from '../../../../servizi/firebase/firebase.service';
 import { Router } from '@angular/router';
-import { AuthService } from '../../../auth/auth.service';
+import { AuthService } from '../../../../auth/auth.service';
 
 @Component({
   selector: 'app-create-exam-dialog',

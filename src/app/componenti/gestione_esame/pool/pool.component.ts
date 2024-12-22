@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FirebaseService } from '../../../servizi/firebase/firebase.service';
 import { MatDialog } from '@angular/material/dialog';
-import { CreateDomandaDialogComponent } from '../../dialoghi/create-domanda-dialog/create-domanda-dialog.component';
+import { CreateDomandaDialogComponent } from '../../dialoghi/create/create-domanda-dialog/create-domanda-dialog.component';
 import { AuthService } from '../../../auth/auth.service';
 import { FormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
