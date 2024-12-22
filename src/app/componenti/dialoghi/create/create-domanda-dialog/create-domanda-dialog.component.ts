@@ -5,7 +5,6 @@ import { MatOptionModule } from '@angular/material/core';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { FirebaseService } from '../../../../servizi/firebase/firebase.service';
-import { Router } from '@angular/router';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSelectModule } from '@angular/material/select';
@@ -24,8 +23,7 @@ export class CreateDomandaDialogComponent {
   constructor(
     public dialogRef: MatDialogRef<CreateDomandaDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: { esameId: string, poolId: string },
-    private firebaseService: FirebaseService,
-    private router: Router
+    private firebaseService: FirebaseService
   ) {
     this.createQuestionForm = new FormGroup({
       testoDomanda: new FormControl('', [Validators.required]),

@@ -1,1 +1,56 @@
-<p>create-test-dialog works!</p>
+<h2 mat-dialog-title class="dialog-title">Creazione Test</h2>
+<mat-dialog-content>
+  <form [formGroup]="createTestForm" (ngSubmit)="createTest()">
+    
+    <!-- Nome del test -->
+    <mat-form-field class="form-field">
+      <mat-label>Nome del test</mat-label>
+      <input matInput formControlName="nomeTest" placeholder="Inserisci il nome del test" required>
+      <mat-error *ngIf="createTestForm.get('nomeTest')?.hasError('required') && createTestForm.get('nomeTest')?.touched">
+        Il nome del test è obbligatorio
+      </mat-error>
+    </mat-form-field>
+    
+    <!-- Descrizione del test -->
+    <mat-form-field class="form-field">
+      <mat-label>Descrizione</mat-label>
+      <textarea matInput formControlName="descrizione" placeholder="Inserisci una descrizione" required></textarea>
+      <mat-error *ngIf="createTestForm.get('descrizione')?.hasError('required') && createTestForm.get('descrizione')?.touched">
+        La descrizione è obbligatoria
+      </mat-error>
+    </mat-form-field>
+    
+    <!-- Seleziona pool -->
+    <mat-form-field class="form-field">
+      <mat-label>Seleziona il pool di domande</mat-label>
+      <mat-select formControlName="poolId" (selectionChange)="onPoolChange($event.value)" required>
+        <mat-option *ngFor="let pool of poolOptions" [value]="pool.id">
+          {{ pool.nomePool }}
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="createTestForm.get('poolId')?.hasError('required') && createTestForm.get('poolId')?.touched">
+        Seleziona un pool
+      </mat-error>
+    </mat-form-field>
+    
+    <!-- Numero di domande -->
+    <mat-form-field class="form-field">
+      <mat-label>Numero di domande</mat-label>
+      <input matInput formControlName="numeroDomande" type="number" min="1" required>
+      <mat-error *ngIf="createTestForm.get('numeroDomande')?.hasError('required') && createTestForm.get('numeroDomande')?.touched">
+        Il numero di domande è obbligatorio
+      </mat-error>
+      <mat-error *ngIf="createTestForm.get('numeroDomande')?.value > selectedPoolQuestions && createTestForm.get('numeroDomande')?.touched">
+        Il numero di domande non può essere maggiore di {{ selectedPoolQuestions }}
+      </mat-error>
+    </mat-form-field>
+    
+    <div class="dialog-actions">
+      <button mat-flat-button color="primary" type="submit" [disabled]="!createTestForm.valid">Crea Test</button>
+    </div>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <button mat-button (click)="onClose()">Chiudi</button>
+</mat-dialog-actions>
