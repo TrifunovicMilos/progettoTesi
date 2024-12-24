@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatRadioModule } from '@angular/material/radio';
@@ -31,6 +31,10 @@ export class TestComponent implements OnInit{
   risposte: { [key: string]: string } = {};
   risultato: { corrette: number } | null = null;
   voto = 0;
+  currentQuestionIndex: number = 0;
+
+  // Riferimento per tutte le domande
+  @ViewChildren('domandaRef') domandaRefs!: QueryList<ElementRef>;
 
   constructor(private route: ActivatedRoute, private router: Router, private firebaseService: FirebaseService, private authService: AuthService, private dialog: MatDialog) {}
 
@@ -86,7 +90,21 @@ export class TestComponent implements OnInit{
     return this.domande.every(domanda => this.risposte[domanda.id]);
   }
 
-  async inviaTest() {
+  onSubmit(): void {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      data: { title: 'Invio test', 
+      message: "Sei sicuro di voler inviare il test?. Una volta inviato, le risposte date non potranno più essere modificate." }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      // se viene cliccato "Sì" ...
+      if (result) {
+        this.inviaTest();
+      }
+    });
+  }
+
+  private async inviaTest() {
     let corrette = 0;
 
     // Correzione
@@ -131,6 +149,26 @@ export class TestComponent implements OnInit{
       console.error("Errore nell'avvio del test:", error);
     }
 
+  }
+
+  nextQuestion() {
+    if (this.currentQuestionIndex < this.domande.length - 1) {
+      this.currentQuestionIndex++;
+    }
+  }
+  
+  goToQuestion(index: number) {
+    this.currentQuestionIndex = index;
+  }
+
+  scrollToQuestion(index: number): void {
+    this.currentQuestionIndex = index;
+    // Ottieni il riferimento dell'elemento domanda selezionato
+    const domandaRef = this.domandaRefs.toArray()[index];
+    if (domandaRef) {
+      // Esegui lo scroll fino alla domanda
+      domandaRef.nativeElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
   }
 
 }
