@@ -100,8 +100,6 @@ export class TipoTestComponent implements OnInit{
 
     try {
       const testId = await this.firebaseService.getTestService().createTest(this.uid, this.tipoTestId);
-      console.log('Test avviato con successo');
-      console.log("testId: "+testId)
       this.router.navigate([`esami/${this.esameId}/test/${this.tipoTestId}/${testId}`]);
     } catch (error) {
       console.error("Errore nell'avvio del test:", error);
