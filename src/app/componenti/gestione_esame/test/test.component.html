@@ -80,7 +80,7 @@
         <!-- bottone prossima domanda, durante il test -->
         <button *ngIf="currentQuestionIndex < domande.length - 1 && !isCompleted" mat-flat-button color="primary" class="submit-button"
           (click)="nextQuestion()">
-          Avanti
+          <mat-icon style="vertical-align: middle;">arrow_forward_ios</mat-icon>Avanti
         </button>
         <!-- bottone invio test, durante il test -->
         <button *ngIf="currentQuestionIndex === domande.length - 1 && !isCompleted" mat-flat-button color="primary"
