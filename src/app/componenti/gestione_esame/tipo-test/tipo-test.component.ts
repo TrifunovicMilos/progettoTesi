@@ -20,6 +20,7 @@ export class TipoTestComponent implements OnInit{
   esameId!: string;
   tipoTestId!: string;
   testData : any;
+  uid! : string;
   ruolo = '';
 
   constructor(private route: ActivatedRoute, private router: Router, private authService: AuthService, private firebaseService: FirebaseService, private dialog: MatDialog) {}
@@ -31,6 +32,7 @@ export class TipoTestComponent implements OnInit{
 
     this.authService.getUserObservable().subscribe(userData => {
       if (userData) {
+        this.uid = this.authService.getUid() || '';
         this.ruolo = this.authService.getUserRole();
         const esamiUtente = userData.esami || '';
         // se non ho questo esame nella lista (di esami a cui sono iscritto o che gestisco) visualizzo un errore
@@ -77,6 +79,32 @@ export class TipoTestComponent implements OnInit{
       this.router.navigate(['/esami', this.esameId]);
     } catch (error) {
       console.error('Errore nella rimozione del test:', error);
+    }
+
+  }
+
+  onStart(): void {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      data: { title: 'Avvia Test', message: 'Sei sicuro di voler svolgere il test?' }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      // se viene cliccato "Sì" ...
+      if (result) {
+        this.startTest();
+      }
+    });
+  }
+
+  private async startTest() {
+
+    try {
+      const testId = await this.firebaseService.getTestService().createTest(this.uid, this.tipoTestId);
+      console.log('Test avviato con successo');
+      console.log("testId: "+testId)
+      this.router.navigate([`esami/${this.esameId}/test/${this.tipoTestId}/${testId}`]);
+    } catch (error) {
+      console.error("Errore nell'avvio del test:", error);
     }
 
   }

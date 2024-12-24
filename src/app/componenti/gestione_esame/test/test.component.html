@@ -1,0 +1,48 @@
+<div *ngIf="isLoading" class="loading-container">
+  <p>Caricamento in corso...</p>
+</div>
+
+<div *ngIf="!isLoading" class="test-container">
+
+  <mat-card class="test-header">
+    <h1>{{ nomeTest }}</h1>
+    <p class="test-description">{{ descrizione }}</p>
+  </mat-card>
+
+  <!-- Risultato-->
+  <mat-card *ngIf="risultato" class="test-result">
+    <h2>Risultato</h2>
+    <p>Risposte corrette: {{ risultato.corrette }} / {{ domande.length }}</p>
+    <p>Voto: {{ voto }} / 100</p>
+  </mat-card>
+
+  <mat-card class="test-body">
+    <form #testForm="ngForm">
+      <div *ngFor="let domanda of domande; let i = index" class="domanda-container">
+        <div class="domanda-header">
+          Domanda {{ i + 1 }}
+        </div>
+        <mat-card class="domanda-contenuto">
+          <p class="domanda-testo">{{ domanda.testo }}</p>
+          <mat-radio-group [(ngModel)]="risposte[domanda.id]" [name]="'domanda-' + domanda.id"
+            class="opzioni-container">
+            <mat-radio-button *ngFor="let opzione of domanda.opzioni" [value]="opzione" [ngClass]="{'correct': risposte[domanda.id] === opzione && opzione === domanda.opzioneCorretta && isCompleted, 
+              'incorrect': risposte[domanda.id] === opzione && opzione !== domanda.opzioneCorretta && isCompleted}"
+              class="opzione-radio" [disabled]="isCompleted">
+              {{ opzione }}
+            </mat-radio-button>
+          </mat-radio-group>
+        </mat-card>
+      </div>
+
+      <div class="actions">
+        <button *ngIf="!isCompleted" mat-flat-button color="primary" [disabled]="!isComplete()" class="submit-button" (click)="inviaTest()">
+          <mat-icon style="vertical-align: middle;">send</mat-icon>Invia Test
+        </button>
+        <button *ngIf="isCompleted" mat-flat-button color="primary" class="submit-button" (click)="onRetry()">
+          <mat-icon style="vertical-align: middle;">restart_alt</mat-icon>Nuovo tentativo
+        </button>
+      </div>
+    </form>
+  </mat-card>
+</div>

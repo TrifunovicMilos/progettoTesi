@@ -15,7 +15,7 @@
         <button *ngIf="ruolo=='docente'" mat-flat-button color="primary" class="delete-button" (click)="onRemove()">
             <mat-icon style="vertical-align: middle;">delete</mat-icon>Elimina Test
         </button>
-        <button *ngIf="ruolo=='studente'" mat-flat-button color="primary" class="start-button">
+        <button *ngIf="ruolo=='studente'" mat-flat-button color="primary" class="start-button" (click)="onStart()">
             <mat-icon style="vertical-align: middle;">play_arrow</mat-icon>Avvia Test
         </button>
     </div>
