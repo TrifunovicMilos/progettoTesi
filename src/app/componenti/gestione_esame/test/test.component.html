@@ -4,6 +4,22 @@
 
 <div *ngIf="!isLoading" class="test-container">
 
+  <!-- durante test, quando ho le domande su pagine diverese, la nav mi fa cambiare pagina -->
+  <div *ngIf="!isCompleted" class="nav-container">
+    <div *ngFor="let domanda of domande; let i = index" [ngClass]="{'selected': currentQuestionIndex === i}"
+      class="nav-item" (click)="goToQuestion(i)">
+      {{ i + 1 }}
+    </div>
+  </div>
+
+  <!-- a fine test, quando ho tutte le domande sulla stessa pagina, la nav mi fa scorrere su e giù -->
+  <div *ngIf="isCompleted" class="nav-container">
+    <div *ngFor="let domanda of domande; let i = index" [ngClass]="{'selected': currentQuestionIndex === i}"
+      class="nav-item" (click)="scrollToQuestion(i)">
+      {{ i + 1 }}
+    </div>
+  </div>
+
   <mat-card class="test-header">
     <h1>{{ nomeTest }}</h1>
     <p class="test-description">{{ descrizione }}</p>
@@ -18,16 +34,41 @@
 
   <mat-card class="test-body">
     <form #testForm="ngForm">
-      <div *ngFor="let domanda of domande; let i = index" class="domanda-container">
+
+      <!-- Visualizza tutte le domande sulla stessa pagina quando il test è completato -->
+      <div *ngIf="isCompleted">
+        <div *ngFor="let domanda of domande; let i = index" class="domanda-container" #domandaRef>
+          <div class="domanda-header">
+            Domanda {{ i + 1 }}
+          </div>
+          <mat-card class="domanda-contenuto">
+            <p class="domanda-testo">{{ domanda.testo }}</p>
+            <mat-radio-group [(ngModel)]="risposte[domanda.id]" [name]="'domanda-' + domanda.id"
+              class="opzioni-container">
+              <mat-radio-button *ngFor="let opzione of domanda.opzioni" [value]="opzione"
+                [ngClass]="{'correct': risposte[domanda.id] === opzione && opzione === domanda.opzioneCorretta && isCompleted, 
+                            'incorrect': risposte[domanda.id] === opzione && opzione !== domanda.opzioneCorretta && isCompleted}" class="opzione-radio" [disabled]="isCompleted">
+                {{ opzione }}
+              </mat-radio-button>
+            </mat-radio-group>
+          </mat-card>
+        </div>
+      </div>
+
+      <!-- Visualizza solo una domanda alla volta quando il test non è completato -->
+      <div *ngIf="!isCompleted" class="domanda-container">
         <div class="domanda-header">
-          Domanda {{ i + 1 }}
+          Domanda {{ currentQuestionIndex + 1 }}
         </div>
         <mat-card class="domanda-contenuto">
-          <p class="domanda-testo">{{ domanda.testo }}</p>
-          <mat-radio-group [(ngModel)]="risposte[domanda.id]" [name]="'domanda-' + domanda.id"
-            class="opzioni-container">
-            <mat-radio-button *ngFor="let opzione of domanda.opzioni" [value]="opzione" [ngClass]="{'correct': risposte[domanda.id] === opzione && opzione === domanda.opzioneCorretta && isCompleted, 
-              'incorrect': risposte[domanda.id] === opzione && opzione !== domanda.opzioneCorretta && isCompleted}"
+          <p class="domanda-testo">{{ domande[currentQuestionIndex]?.testo }}</p>
+          <mat-radio-group [(ngModel)]="risposte[domande[currentQuestionIndex]?.id]"
+            [name]="'domanda-' + domande[currentQuestionIndex]?.id" class="opzioni-container">
+            <mat-radio-button *ngFor="let opzione of domande[currentQuestionIndex]?.opzioni" [value]="opzione"
+              [ngClass]="{'correct': risposte[domande[currentQuestionIndex]?.id] === opzione && 
+                                          opzione === domande[currentQuestionIndex]?.opzioneCorretta && isCompleted, 
+                                          'incorrect': risposte[domande[currentQuestionIndex]?.id] === opzione && 
+                                          opzione !== domande[currentQuestionIndex]?.opzioneCorretta && isCompleted}"
               class="opzione-radio" [disabled]="isCompleted">
               {{ opzione }}
             </mat-radio-button>
@@ -36,11 +77,19 @@
       </div>
 
       <div class="actions">
-        <button *ngIf="!isCompleted" mat-flat-button color="primary" [disabled]="!isComplete()" class="submit-button" (click)="inviaTest()">
+        <!-- bottone prossima domanda, durante il test -->
+        <button *ngIf="currentQuestionIndex < domande.length - 1 && !isCompleted" mat-flat-button color="primary" class="submit-button"
+          (click)="nextQuestion()">
+          Avanti
+        </button>
+        <!-- bottone invio test, durante il test -->
+        <button *ngIf="currentQuestionIndex === domande.length - 1 && !isCompleted" mat-flat-button color="primary"
+          [disabled]="!isComplete()" class="submit-button" (click)="onSubmit()">
           <mat-icon style="vertical-align: middle;">send</mat-icon>Invia Test
         </button>
+        <!-- bottone ritenta test, a fine test -->
         <button *ngIf="isCompleted" mat-flat-button color="primary" class="submit-button" (click)="onRetry()">
-          <mat-icon style="vertical-align: middle;">restart_alt</mat-icon>Nuovo tentativo
+          <mat-icon style="vertical-align: middle;">restart_alt</mat-icon>Ritenta il test
         </button>
       </div>
     </form>

@@ -128,3 +128,33 @@
   background-color: #f8d7da;
   color: #721c24; 
 }
+
+.nav-container {
+  position: fixed;
+  right: 10px;
+  top: 20%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.nav-item {
+  width: 30px;
+  height: 30px;
+  background-color: #007bff;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.nav-item.selected {
+  background-color: #004080;
+}
+
+.nav-item:hover {
+  background-color: #0056b3;
+}
