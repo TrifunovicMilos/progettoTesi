@@ -39,9 +39,8 @@ export class IMieiEsamiComponent implements OnInit{
         this.nome = userData.nome || '';
         this.cognome = userData.cognome || '';
         this.ruolo = this.authService.getUserRole();
-        const esamiID = userData.esami || [];
         this.uid = this.authService.getUid() || '';
-        this.loadEsami(esamiID).then(() => {
+        this.loadEsami().then(() => {
           this.isLoading = false;
         });
       }
@@ -52,12 +51,8 @@ export class IMieiEsamiComponent implements OnInit{
       });
   }
 
-  async loadEsami(esamiID: string[]) {
-    const esamiPromises = esamiID.map(async (esameId: string) => {
-      return await this.firebaseService.getExamService().getEsameById(esameId);
-    });
-
-    this.esami = await Promise.all(esamiPromises);
+  async loadEsami() {
+    this.esami = await this.firebaseService.getExamService().getUserEsami(this.uid, this.ruolo);
     this.esamiFiltered = [...this.esami];
   }
 
