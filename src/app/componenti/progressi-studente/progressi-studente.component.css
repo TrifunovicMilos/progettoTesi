@@ -1,0 +1,53 @@
+.loading-container {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 1.2em;
+  color: #666;
+}
+
+
+.container {
+  padding: 20px;
+}
+
+.filter-container {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.mat-form-field {
+  width: 30%;
+}
+
+.dashboard {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.dashboard mat-card {
+  width: 45%;
+  margin-bottom: 20px;
+}
+
+.stats {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.stats div {
+  text-align: center;
+  padding: 10px;
+}
+
+.mat-table {
+  width: 100%;
+}
+
+.media-voti {
+  margin-top: 20px;
+  text-align: center;
+  font-weight: bold;
+}
