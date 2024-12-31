@@ -139,7 +139,7 @@ export class TestService {
     return testDocRef.id;
   }
 
-  async saveTest(testId: string, voto: number, data: any): Promise<void> {
+  async saveTest(testId: string, voto: number, data: string): Promise<void> {
     try {
       const testDocRef = doc(this.firestore, 'test', testId);
   
