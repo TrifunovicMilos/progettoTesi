@@ -80,7 +80,7 @@ export class ExamService {
       const userData = userSnap.data();
       const esamiIds = userData['esami'] || [];
         
-      const esamiPromises = esamiIds.map((testId: string) => this.getEsameById(testId));
+      const esamiPromises = esamiIds.map((esameId: string) => this.getEsameById(esameId));
       return Promise.all(esamiPromises);
     } else {
       throw new Error('Utente non trovato.');
