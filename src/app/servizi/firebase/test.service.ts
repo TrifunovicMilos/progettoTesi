@@ -62,6 +62,21 @@ export class TestService {
     }
   }
 
+  async getStudentTests(uid: string): Promise<any[]> {
+    const studentiDocRef = doc(this.firestore, 'studenti', uid);
+    const studenteSnap = await getDoc(studentiDocRef);
+  
+    if (studenteSnap.exists()) {
+      const studentData = studenteSnap.data();
+      const testIds = studentData['test'] || [];
+        
+      const testPromises = testIds.map((testId: string) => this.getTestById(testId));
+      return Promise.all(testPromises);
+    } else {
+      throw new Error('Studente non trovato.');
+    }
+  }
+
   async removeTipoTest(tipoTestId: string, esameId: string): Promise<void> {
     const tipoTestDocRef = doc(this.firestore, 'tipiTest', tipoTestId);
     const esameDocRef = doc(this.firestore, 'esami', esameId);
@@ -124,12 +139,12 @@ export class TestService {
     return testDocRef.id;
   }
 
-  async saveTest(testId: string, voto: number): Promise<void> {
+  async saveTest(testId: string, voto: number, data: any): Promise<void> {
     try {
       const testDocRef = doc(this.firestore, 'test', testId);
   
       // Aggiorna il documento del test aggiungendo il voto
-      await updateDoc(testDocRef, { voto });
+      await updateDoc(testDocRef, { voto, data: data });
     } catch (error) {
       console.error('Errore durante il salvataggio del test:', error);
       throw error;

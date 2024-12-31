@@ -72,4 +72,19 @@ export class ExamService {
     }
   }
 
+  async getUserEsami(uid: string, ruolo: string): Promise<any[]> {
+    const userDocRef = doc(this.firestore, ruolo === 'docente' ? 'docenti' : 'studenti', uid);
+    const userSnap = await getDoc(userDocRef);
+  
+    if (userSnap.exists()) {
+      const userData = userSnap.data();
+      const esamiIds = userData['esami'] || [];
+        
+      const esamiPromises = esamiIds.map((testId: string) => this.getEsameById(testId));
+      return Promise.all(esamiPromises);
+    } else {
+      throw new Error('Utente non trovato.');
+    }
+  }
+
 }
