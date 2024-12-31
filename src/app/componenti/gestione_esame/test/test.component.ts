@@ -114,10 +114,13 @@ export class TestComponent implements OnInit{
       }
     });
 
-    this.voto = 100*(corrette/this.domande.length);
+    this.voto = Math.round(100 * (corrette / this.domande.length) * 100) / 100;
+
+    // data e ora corrente
+    const data = new Date();
 
     // Salva il risultato nel database
-    await this.firebaseService.getTestService().saveTest(this.testId, this.voto);
+    await this.firebaseService.getTestService().saveTest(this.testId, this.voto, data.toUTCString());
 
     // Visualizza il risultato
     this.risultato = { corrette };
