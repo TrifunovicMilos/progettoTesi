@@ -97,7 +97,6 @@ export class ProgressiStudenteComponent implements OnInit {
       
       // Estrai i test più recenti
       this.realTestData = Array.from(latestTestsByTipoTest.values());
-      console.log(this.realTestData);
 
       // Estrai solo gli esami dei quali ho svolto test
       const esamiIds = [...new Set(this.testData.map(test => test.esame.id))];
