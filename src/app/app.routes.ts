@@ -6,7 +6,6 @@ import { authGuard } from './auth/auth.guard';
 import { HomeComponent } from './componenti/home/home.component';
 import { Pagina3Component } from './componenti/pagina3/pagina3.component';
 import { ProfiloComponent } from './componenti/profilo/profilo.component';
-import { Pagina4Component } from './componenti/pagina4/pagina4.component';
 import { EsameComponent } from './componenti/gestione_esame/esame/esame.component';
 import { IMieiEsamiComponent } from './componenti/i-miei-esami/i-miei-esami.component';
 import { EsameNegatoComponent } from './componenti/gestione_esame/esame-negato/esame-negato.component';
@@ -31,7 +30,6 @@ export const routes: Routes = [
         {path: 'my-exams', component: IMieiEsamiComponent},
         {path: 'progressi', component: ProgressiStudenteComponent},
         {path: 'pagina3', component: Pagina3Component},
-        {path: 'pagina4', component: Pagina4Component},
         {path: 'profilo', component: ProfiloComponent},
     ]},
     {path: 'login', component: LoginComponent},
