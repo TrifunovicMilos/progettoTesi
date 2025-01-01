@@ -4,12 +4,12 @@
 
 <div class="container" *ngIf="!isLoading">
 
-  <h3>Storico Test</h3>
-
-  <!-- Pulsante per aprire/chiudere la tabella -->
-  <button mat-raised-button color="accent" (click)="toggleTableVisibility()">
-    {{ isTableVisible ? 'Nascondi Tabella' : 'Mostra Tabella' }}
-  </button>
+  <div class="header-container">
+    <h2 class="title">Storico Test</h2>
+    <mat-slide-toggle color="accent" [(ngModel)]="isTableVisible" style="margin-left: 10px;">
+      {{ isTableVisible ? 'Nascondi' : 'Mostra' }}
+    </mat-slide-toggle>
+  </div>
 
   <div class="filter-container" *ngIf="isTableVisible">
     <mat-form-field appearance="fill">
