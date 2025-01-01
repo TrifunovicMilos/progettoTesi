@@ -4,6 +4,60 @@
 
 <div class="container" *ngIf="!isLoading">
 
+<div class="stats-container">
+  <!-- Test Totali -->
+  <div class="stat-item">
+    <p class="stat-title">Test Totali</p>
+    <p class="stat-value">{{ totalTests }}</p>
+  </div>
+
+  <!-- Media Totale -->
+  <div class="stat-item">
+    <p class="stat-title">Media Voti Totale</p>
+    <div class="circle-container">
+      <svg viewBox="0 0 36 36" class="circular-chart">
+        <path class="circle-bg"
+              d="M18 2.0845
+                 a 15.9155 15.9155 0 0 1 0 31.831
+                 a 15.9155 15.9155 0 0 1 0 -31.831" />
+        <path class="circle"
+              [attr.stroke-dasharray]="totalMediaVoti + ', 100'"
+              [attr.stroke]="getCircleColor(totalMediaVoti)"
+              d="M18 2.0845
+                 a 15.9155 15.9155 0 0 1 0 31.831
+                 a 15.9155 15.9155 0 0 1 0 -31.831" />
+      </svg>
+      <p class="circle-label">{{ totalMediaVoti | number:'1.0-0' }}%</p>
+    </div>
+  </div>
+
+  <!-- Diversi Tipi di Test -->
+  <div class="stat-item">
+    <p class="stat-title">Tipologie di Test</p>
+    <p class="stat-value">{{ differentTests }}</p>
+  </div>
+
+  <!-- Media Ultimi Tentativi -->
+  <div class="stat-item">
+    <p class="stat-title">Media Voti Effettiva</p>
+    <div class="circle-container">
+      <svg viewBox="0 0 36 36" class="circular-chart">
+        <path class="circle-bg"
+              d="M18 2.0845
+                 a 15.9155 15.9155 0 0 1 0 31.831
+                 a 15.9155 15.9155 0 0 1 0 -31.831" />
+        <path class="circle"
+              [attr.stroke-dasharray]="realMediaVoti + ', 100'"
+              [attr.stroke]="getCircleColor(realMediaVoti)"
+              d="M18 2.0845
+                 a 15.9155 15.9155 0 0 1 0 31.831
+                 a 15.9155 15.9155 0 0 1 0 -31.831" />
+      </svg>
+      <p class="circle-label">{{ realMediaVoti | number:'1.0-0' }}%</p>
+    </div>
+  </div>
+</div>
+
   <div class="header-container">
     <h2 class="title">Storico Test</h2>
     <mat-slide-toggle color="accent" [(ngModel)]="isTableVisible" style="margin-left: 10px;">
