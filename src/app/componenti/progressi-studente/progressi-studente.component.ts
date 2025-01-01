@@ -12,7 +12,7 @@ import { CommonModule } from '@angular/common';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
-import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 @Component({
   selector: 'app-progressi-studente',
@@ -27,9 +27,10 @@ export class ProgressiStudenteComponent implements OnInit {
 
   uid! : string;
 
-  esami: any[] = [];
+  esami: any[] = []; 
   tipiTest: any[] = [];
   testData: any[] = [];
+  realTestData: any[] = [];
   filteredTestData: any[] = [];
   filter = {
     esame: '',
@@ -41,9 +42,10 @@ export class ProgressiStudenteComponent implements OnInit {
   tipiTestForSelectedEsame: any[] = [];
 
   totalTests = 0;
+  differentTests = 0;
   totalMediaVoti = 0;
+  realMediaVoti = 0;
   filteredMediaVoti = 0;
-  mediaVoti = 0;
   displayedColumns: string[] = ['esame', 'tipoTest', 'data', 'voto'];
 
   constructor(private firebaseService: FirebaseService, private authService: AuthService, private router: Router) { }
@@ -85,6 +87,17 @@ export class ProgressiStudenteComponent implements OnInit {
         const esame = esami.find(e => Array.isArray(e.tipiTest) && e.tipiTest.includes(test.tipoTest.id));  
         test.esame = esame ? { id: esame.id, titolo: esame.titolo } : { id: '', titolo: 'Esame sconosciuto' };
       }
+
+      // Seleziona l'ultimo test per ogni tipo di test
+      const latestTestsByTipoTest = new Map<string, any>();
+      for (let test of this.testData) {
+          // Sovrascrivi la mappa: l'ultimo test è quello che rimane grazie all'ordine cronologico
+          latestTestsByTipoTest.set(test.tipoTest.id, test);
+      }
+      
+      // Estrai i test più recenti
+      this.realTestData = Array.from(latestTestsByTipoTest.values());
+      console.log(this.realTestData);
 
       // Estrai solo gli esami dei quali ho svolto test
       const esamiIds = [...new Set(this.testData.map(test => test.esame.id))];
@@ -147,10 +160,12 @@ export class ProgressiStudenteComponent implements OnInit {
     this.totalTests = this.testData.length;
     this.totalMediaVoti = this.testData.reduce((acc, test) => acc + test.voto, 0) / this.totalTests;
 
+    this.differentTests = this.realTestData.length;
+    this.realMediaVoti = this.realTestData.reduce((acc, test) => acc + test.voto, 0) / this.differentTests;
+
     const filteredTests = this.filteredTestData;
     this.filteredMediaVoti = filteredTests.reduce((acc, test) => acc + test.voto, 0) / filteredTests.length;
 
-    this.mediaVoti = this.filteredMediaVoti;
   }
 
 }
