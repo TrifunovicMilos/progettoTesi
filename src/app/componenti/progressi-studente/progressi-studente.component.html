@@ -3,71 +3,76 @@
 </div>
 
 <div class="container" *ngIf="!isLoading">
-  <mat-tab-group>
-    <!-- Tab Storico -->
-    <mat-tab label="Storico">
-      <div class="filter-container">
-        <mat-form-field appearance="fill">
-          <mat-label>Filtra per Esame</mat-label>
-          <mat-select [(value)]="filter.esame" (selectionChange)="onEsameChange()">
-            <mat-option *ngFor="let esame of esami" [value]="esame.id">{{ esame?.titolo }}</mat-option>
-          </mat-select>
-        </mat-form-field>
 
-        <!-- Filtra per Tipo Test solo se un esame è selezionato -->
-        <mat-form-field appearance="fill">
-          <mat-label>Filtra per Tipo Test</mat-label>
-          <mat-select [(value)]="filter.tipoTest" (selectionChange)="applyFilter()">
-            <mat-option *ngFor="let tipo of tipiTestForSelectedEsame" [value]="tipo.id">{{ tipo?.nomeTest
-              }}</mat-option>
-          </mat-select>
-        </mat-form-field>
+  <h3>Storico Test</h3>
 
-        <mat-form-field appearance="fill">
-          <mat-label>Filtra per Data</mat-label>
-          <input matInput [matDatepicker]="picker" [(ngModel)]="filter.data" (dateChange)="applyFilter()">
-          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-          <mat-datepicker #picker></mat-datepicker>
-        </mat-form-field>
-      
-        <button mat-raised-button color="primary" (click)="clearFilters()">Pulisci Filtri</button>
-      </div>
+  <!-- Pulsante per aprire/chiudere la tabella -->
+  <button mat-raised-button color="accent" (click)="toggleTableVisibility()">
+    {{ isTableVisible ? 'Nascondi Tabella' : 'Mostra Tabella' }}
+  </button>
 
-      <!-- Tabella dei Progressi -->
-      <mat-table [dataSource]="filteredTestData" class="mat-elevation-z8">
-        <ng-container matColumnDef="esame">
-          <mat-header-cell *matHeaderCellDef> Esame </mat-header-cell>
-          <mat-cell *matCellDef="let element"> {{ element.esame.titolo }} </mat-cell>
-        </ng-container>
+  <div class="filter-container" *ngIf="isTableVisible">
+    <mat-form-field appearance="fill">
+      <mat-label>Filtra per Esame</mat-label>
+      <mat-select [(value)]="filter.esame" (selectionChange)="onEsameChange()">
+        <mat-option *ngFor="let esame of esami" [value]="esame.id">{{ esame?.titolo }}</mat-option>
+      </mat-select>
+    </mat-form-field>
 
-        <ng-container matColumnDef="tipoTest">
-          <mat-header-cell *matHeaderCellDef> Tipo Test </mat-header-cell>
-          <mat-cell *matCellDef="let element"> {{ element.tipoTest.nomeTest }} </mat-cell>
-        </ng-container>
+    <!-- Filtra per Tipo Test solo se un esame è selezionato -->
+    <mat-form-field appearance="fill">
+      <mat-label>Filtra per Tipo Test</mat-label>
+      <mat-select [(value)]="filter.tipoTest" (selectionChange)="applyFilter()">
+        <mat-option *ngFor="let tipo of tipiTestForSelectedEsame" [value]="tipo.id">{{ tipo?.nomeTest
+          }}</mat-option>
+      </mat-select>
+    </mat-form-field>
 
-        <ng-container matColumnDef="data">
-          <mat-header-cell *matHeaderCellDef> Data </mat-header-cell>
-          <mat-cell *matCellDef="let element"> {{ element.data | date:'dd/MM/yyyy' }} </mat-cell>
-        </ng-container>
+    <mat-form-field appearance="fill">
+      <mat-label>Filtra per Data</mat-label>
+      <input matInput [matDatepicker]="picker" [(ngModel)]="filter.data" (dateChange)="applyFilter()">
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
 
-        <ng-container matColumnDef="voto">
-          <mat-header-cell *matHeaderCellDef> Voto </mat-header-cell>
-          <mat-cell *matCellDef="let element"> {{ element.voto }} </mat-cell>
-        </ng-container>
+    <button mat-raised-button color="primary" (click)="clearFilters()">Pulisci Filtri</button>
+  </div>
 
-        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
-      </mat-table>
+  <!-- Tabella -->
+  <div *ngIf="isTableVisible">
+    <mat-table [dataSource]="filteredTestData" class="mat-elevation-z8">
+      <ng-container matColumnDef="esame">
+        <mat-header-cell *matHeaderCellDef> Esame </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{ element.esame.titolo }} </mat-cell>
+      </ng-container>
 
-      <!-- Media Voti -->
-      <div class="media-voti">
-        <p>Media Voti: {{ mediaVoti | number:'1.1-1' }}</p>
-      </div>
-    </mat-tab>
+      <ng-container matColumnDef="tipoTest">
+        <mat-header-cell *matHeaderCellDef> Tipo Test </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{ element.tipoTest.nomeTest }} </mat-cell>
+      </ng-container>
 
-    <!-- Tab Dashboard -->
-    <mat-tab label="Dashboard">
-      <div class="dashboard">
+      <ng-container matColumnDef="data">
+        <mat-header-cell *matHeaderCellDef> Data </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{ element.data | date:'dd/MM/yyyy' }} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="voto">
+        <mat-header-cell *matHeaderCellDef> Voto </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{ element.voto }} </mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+
+    <!-- Media Voti -->
+    <div class="media-voti">
+      <p>Media Voti: {{ mediaVoti | number:'1.1-1' }}</p>
+    </div>
+  </div>
+
+  <!-- Dashboard -->
+  <!-- <div class="dashboard">
         <mat-card>
           <h2>Progressi dello Studente</h2>
           <div class="stats">
@@ -85,7 +90,5 @@
             </div>
           </div>
         </mat-card>
-      </div>
-    </mat-tab>
-  </mat-tab-group>
+      </div> -->
 </div>

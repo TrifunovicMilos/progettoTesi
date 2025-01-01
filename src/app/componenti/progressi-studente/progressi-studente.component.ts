@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { MatTableModule } from '@angular/material/table';
-import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -17,12 +16,14 @@ import { MatButtonModule } from '@angular/material/button';
 @Component({
   selector: 'app-progressi-studente',
   standalone: true,
-  imports: [CommonModule, MatTableModule, MatTabsModule, MatCardModule, MatFormFieldModule, FormsModule, MatSelectModule, MatDatepickerModule, MatNativeDateModule, MatInputModule, MatButtonModule ],
+  imports: [CommonModule, MatTableModule, MatTabsModule, MatFormFieldModule, FormsModule, MatSelectModule, MatDatepickerModule, MatNativeDateModule, MatInputModule, MatButtonModule ],
   templateUrl: './progressi-studente.component.html',
   styleUrl: './progressi-studente.component.css'
 })
 export class ProgressiStudenteComponent implements OnInit {
   isLoading = true;
+  isTableVisible = true;
+
   uid! : string;
 
   esami: any[] = [];
@@ -98,6 +99,10 @@ export class ProgressiStudenteComponent implements OnInit {
       console.error('Error loading data:', error);
       this.isLoading = false;
     }
+  }
+
+    toggleTableVisibility() {
+    this.isTableVisible = !this.isTableVisible;
   }
 
   applyFilter() {
