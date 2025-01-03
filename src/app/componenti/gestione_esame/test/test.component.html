@@ -26,9 +26,9 @@
   </mat-card>
 
   <!-- Risultato-->
-  <mat-card *ngIf="risultato" class="test-result">
+  <mat-card *ngIf="isCompleted" class="test-result">
     <h2>Risultato</h2>
-    <p>Risposte corrette: {{ risultato.corrette }} / {{ domande.length }}</p>
+    <p>Risposte corrette: {{ risposteCorrette }} / {{ domande.length }}</p>
     <p>Voto: {{ voto }} / 100</p>
   </mat-card>
 
@@ -46,8 +46,8 @@
             <mat-radio-group [(ngModel)]="risposte[domanda.id]" [name]="'domanda-' + domanda.id"
               class="opzioni-container">
               <mat-radio-button *ngFor="let opzione of domanda.opzioni" [value]="opzione"
-                [ngClass]="{'correct': risposte[domanda.id] === opzione && opzione === domanda.opzioneCorretta && isCompleted, 
-                            'incorrect': risposte[domanda.id] === opzione && opzione !== domanda.opzioneCorretta && isCompleted}" class="opzione-radio" [disabled]="isCompleted">
+                [ngClass]="{'correct': risposte[domanda.id] === opzione && opzione === domanda.opzioneCorretta, 
+                            'incorrect': risposte[domanda.id] === opzione && opzione !== domanda.opzioneCorretta}" class="opzione-radio" [disabled]="isCompleted">
                 {{ opzione }}
               </mat-radio-button>
             </mat-radio-group>
@@ -65,10 +65,6 @@
           <mat-radio-group [(ngModel)]="risposte[domande[currentQuestionIndex]?.id]"
             [name]="'domanda-' + domande[currentQuestionIndex]?.id" class="opzioni-container">
             <mat-radio-button *ngFor="let opzione of domande[currentQuestionIndex]?.opzioni" [value]="opzione"
-              [ngClass]="{'correct': risposte[domande[currentQuestionIndex]?.id] === opzione && 
-                                          opzione === domande[currentQuestionIndex]?.opzioneCorretta && isCompleted, 
-                                          'incorrect': risposte[domande[currentQuestionIndex]?.id] === opzione && 
-                                          opzione !== domande[currentQuestionIndex]?.opzioneCorretta && isCompleted}"
               class="opzione-radio" [disabled]="isCompleted">
               {{ opzione }}
             </mat-radio-button>
