@@ -22,13 +22,14 @@ import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
   templateUrl: './progressi-studente.component.html',
   styleUrl: './progressi-studente.component.css'
 })
+
 export class ProgressiStudenteComponent implements OnInit {
   isLoading = true;
   isTableVisible = true;
 
-  uid! : string;
+  uid!: string;
 
-  esami: any[] = []; 
+  esami: any[] = [];
   tipiTest: any[] = [];
   testData: any[] = [];
   realTestData: any[] = [];
@@ -37,9 +38,9 @@ export class ProgressiStudenteComponent implements OnInit {
   filter = {
     esame: '',
     tipoTest: '',
-    data: null
+    data: null,
   };
-  
+
   selectedEsame: any;
   tipiTestForSelectedEsame: any[] = [];
 
@@ -48,23 +49,24 @@ export class ProgressiStudenteComponent implements OnInit {
   totalMediaVoti = 0;
   realMediaVoti = 0;
   filteredMediaVoti = 0;
-  pageSize = 25;        
-  pageIndex = 0; 
+
+  pageSize = 25;
+  pageIndex = 0;
   pageSizeOptions = [5, 10, 25, 50];
+
   displayedColumns: string[] = ['esame', 'tipoTest', 'data', 'voto'];
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
-  constructor(private firebaseService: FirebaseService, private authService: AuthService, private router: Router) { }
+  constructor( private firebaseService: FirebaseService, private authService: AuthService, private router: Router) {}
 
   ngOnInit() {
-    this.authService.getUserObservable().subscribe(userData => {
+    this.authService.getUserObservable().subscribe((userData) => {
       if (userData) {
         this.uid = this.authService.getUid() || '';
         const ruolo = this.authService.getUserRole();
         // se non sono uno studente di questo esame visualizzo un errore
-        if (!(ruolo === 'studente'))
-          this.router.navigate(['404'])
+        if (!(ruolo === 'studente')) this.router.navigate(['404']);
         else
           this.loadData().then(() => {
             this.isLoading = false;
@@ -75,44 +77,43 @@ export class ProgressiStudenteComponent implements OnInit {
 
   async loadData() {
     try {
-      const esami = await this.firebaseService.getExamService().getEsami(); 
+      const esami = await this.firebaseService.getExamService().getEsami();
 
       this.testData = await this.firebaseService.getTestService().getStudentTests(this.uid);
 
       // Estrai tutti i tipi di test unici
-      const tipoTestIds = [...new Set(this.testData.map(test => test.tipoTest))];
+      const tipoTestIds = [...new Set(this.testData.map((test) => test.tipoTest)),];
 
-      const tipiTestPromises = tipoTestIds.map(id => this.firebaseService.getTestService().getTipoTestById(id));
+      const tipiTestPromises = tipoTestIds.map((id) =>this.firebaseService.getTestService().getTipoTestById(id));
       this.tipiTest = await Promise.all(tipiTestPromises);
       this.tipiTestForSelectedEsame = this.tipiTest;
 
       for (let test of this.testData) {
-  
-        const tipoTest = this.tipiTest.find(t => t.id === test.tipoTest);
-        test.tipoTest = tipoTest ? { id: tipoTest.id, nomeTest: tipoTest.nomeTest } : { id: '', nomeTest: 'Tipo di test sconosciuto' };
-        
-        const esame = esami.find(e => Array.isArray(e.tipiTest) && e.tipiTest.includes(test.tipoTest.id));  
-        test.esame = esame ? { id: esame.id, titolo: esame.titolo } : { id: '', titolo: 'Esame sconosciuto' };
+        const tipoTest = this.tipiTest.find((t) => t.id === test.tipoTest);
+        test.tipoTest = tipoTest ? { id: tipoTest.id, nomeTest: tipoTest.nomeTest } : { id: '', nomeTest: '' };
+
+        const esame = esami.find((e) => Array.isArray(e.tipiTest) && e.tipiTest.includes(test.tipoTest.id));
+        test.esame = esame ? { id: esame.id, titolo: esame.titolo } : { id: '', titolo: '' };
       }
 
       // Seleziona l'ultimo test per ogni tipo di test
       const latestTestsByTipoTest = new Map<string, any>();
       for (let test of this.testData) {
-          // Sovrascrivi la mappa: l'ultimo test è quello che rimane grazie all'ordine cronologico
-          latestTestsByTipoTest.set(test.tipoTest.id, test);
+        // Sovrascrivi la mappa: l'ultimo test è quello che rimane perché sono in ordine cronologico
+        latestTestsByTipoTest.set(test.tipoTest.id, test);
       }
-      
+
       // Estrai i test più recenti
       this.realTestData = Array.from(latestTestsByTipoTest.values());
 
       // Estrai solo gli esami dei quali ho svolto test
-      const esamiIds = [...new Set(this.testData.map(test => test.esame.id))];
+      const esamiIds = [...new Set(this.testData.map((test) => test.esame.id))];
 
-      const esamiPromises = esamiIds.map(id => this.firebaseService.getExamService().getEsameById(id));
+      const esamiPromises = esamiIds.map((id) => this.firebaseService.getExamService().getEsameById(id));
       this.esami = await Promise.all(esamiPromises);
 
       this.filteredTestData = [...this.testData];
-      
+
       this.updatePageSizeOptions();
       this.applyPagination();
       this.calculateStats();
@@ -127,7 +128,7 @@ export class ProgressiStudenteComponent implements OnInit {
     this.isTableVisible = !this.isTableVisible;
   }
 
-    updatePageSizeOptions() {
+  updatePageSizeOptions() {
     if (this.filteredTestData.length > 50) {
       this.pageSizeOptions = [5, 10, 25, 50, this.filteredTestData.length];
     } else {
@@ -144,44 +145,45 @@ export class ProgressiStudenteComponent implements OnInit {
   onPageChange(event: any) {
     this.pageIndex = event.pageIndex;
     this.pageSize = event.pageSize;
-    this.applyPagination(); 
+    this.applyPagination();
   }
 
   applyFilter() {
-    this.filteredTestData = this.testData.filter(test => {
+    this.filteredTestData = this.testData.filter((test) => {
       const matchesEsame = this.filter.esame ? test.esame.id === this.filter.esame : true;
       const matchesTipoTest = this.filter.tipoTest ? test.tipoTest.id === this.filter.tipoTest : true;
-      const matchesData = this.filter.data ? new Date(test.data).toLocaleDateString() === new Date(this.filter.data).toLocaleDateString() : true;
-      
+      const matchesData = this.filter.data ? new Date(test.data).toLocaleDateString() === 
+      new Date(this.filter.data).toLocaleDateString() : true;
+
       return matchesEsame && matchesTipoTest && matchesData;
     });
-    this.pageIndex = 0;  
+    this.pageIndex = 0;
     this.applyPagination();
     this.calculateStats();
   }
 
   onEsameChange() {
     // Quando cambia l'esame, aggiorniamo i tipi di test disponibili
-    this.selectedEsame = this.esami.find(e => e.id === this.filter.esame);
+    this.selectedEsame = this.esami.find((e) => e.id === this.filter.esame);
     if (this.selectedEsame) {
-      this.tipiTestForSelectedEsame = this.tipiTest.filter(tipoTest => this.selectedEsame.tipiTest.includes(tipoTest.id));
-      this.filter.tipoTest = ''; 
+      this.tipiTestForSelectedEsame = this.tipiTest.filter((tipoTest) => this.selectedEsame.tipiTest.includes(tipoTest.id));
+      this.filter.tipoTest = '';
     } else {
       this.tipiTestForSelectedEsame = this.tipiTest;
-      this.filter.tipoTest = '';  
+      this.filter.tipoTest = '';
     }
-    this.applyFilter(); 
+    this.applyFilter();
   }
 
   clearFilters() {
     this.filter = {
       esame: '',
       tipoTest: '',
-      data: null
+      data: null,
     };
     this.filteredTestData = [...this.testData];
     this.tipiTestForSelectedEsame = this.tipiTest;
-    this.pageIndex = 0;  
+    this.pageIndex = 0;
     this.applyPagination();
     this.calculateStats();
   }
@@ -195,7 +197,6 @@ export class ProgressiStudenteComponent implements OnInit {
 
     const filteredTests = this.filteredTestData;
     this.filteredMediaVoti = filteredTests.reduce((acc, test) => acc + test.voto, 0) / filteredTests.length;
-
   }
 
   getCircleColor(value: number): string {
@@ -211,5 +212,4 @@ export class ProgressiStudenteComponent implements OnInit {
       return '#43a047'; // Verde scuro
     }
   }
-
 }

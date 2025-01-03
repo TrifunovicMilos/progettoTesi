@@ -4,59 +4,53 @@
 
 <div class="container" *ngIf="!isLoading">
 
-<div class="stats-container">
-  <!-- Test Totali -->
-  <div class="stat-item">
-    <p class="stat-title">Test Totali</p>
-    <p class="stat-value">{{ totalTests }}</p>
-  </div>
+  <div class="stats-container">
+    <!-- Test Totali -->
+    <div class="stat-item">
+      <p class="stat-title">Test Totali</p>
+      <p class="stat-value">{{ totalTests }}</p>
+    </div>
 
-  <!-- Media Totale -->
-  <div class="stat-item">
-    <p class="stat-title">Media Voti Totale</p>
-    <div class="circle-container">
-      <svg viewBox="0 0 36 36" class="circular-chart">
-        <path class="circle-bg"
-              d="M18 2.0845
+    <!-- Media Totale -->
+    <div class="stat-item">
+      <p class="stat-title">Media Voti Totale</p>
+      <div class="circle-container">
+        <svg viewBox="0 0 36 36" class="circular-chart">
+          <path class="circle-bg" d="M18 2.0845
                  a 15.9155 15.9155 0 0 1 0 31.831
                  a 15.9155 15.9155 0 0 1 0 -31.831" />
-        <path class="circle"
-              [attr.stroke-dasharray]="totalMediaVoti + ', 100'"
-              [attr.stroke]="getCircleColor(totalMediaVoti)"
-              d="M18 2.0845
+          <path class="circle" [attr.stroke-dasharray]="totalMediaVoti + ', 100'"
+            [attr.stroke]="getCircleColor(totalMediaVoti)" d="M18 2.0845
                  a 15.9155 15.9155 0 0 1 0 31.831
                  a 15.9155 15.9155 0 0 1 0 -31.831" />
-      </svg>
-      <p class="circle-label">{{ totalMediaVoti | number:'1.0-0' }}%</p>
+        </svg>
+        <p class="circle-label">{{ totalMediaVoti | number:'1.0-0' }}%</p>
+      </div>
+    </div>
+
+    <!-- Diversi Tipi di Test -->
+    <div class="stat-item">
+      <p class="stat-title">Tipologie di Test</p>
+      <p class="stat-value">{{ differentTests }}</p>
+    </div>
+
+    <!-- Media Ultimi Tentativi -->
+    <div class="stat-item">
+      <p class="stat-title">Media Voti Effettiva</p>
+      <div class="circle-container">
+        <svg viewBox="0 0 36 36" class="circular-chart">
+          <path class="circle-bg" d="M18 2.0845
+                 a 15.9155 15.9155 0 0 1 0 31.831
+                 a 15.9155 15.9155 0 0 1 0 -31.831" />
+          <path class="circle" [attr.stroke-dasharray]="realMediaVoti + ', 100'"
+            [attr.stroke]="getCircleColor(realMediaVoti)" d="M18 2.0845
+                 a 15.9155 15.9155 0 0 1 0 31.831
+                 a 15.9155 15.9155 0 0 1 0 -31.831" />
+        </svg>
+        <p class="circle-label">{{ realMediaVoti | number:'1.0-0' }}%</p>
+      </div>
     </div>
   </div>
-
-  <!-- Diversi Tipi di Test -->
-  <div class="stat-item">
-    <p class="stat-title">Tipologie di Test</p>
-    <p class="stat-value">{{ differentTests }}</p>
-  </div>
-
-  <!-- Media Ultimi Tentativi -->
-  <div class="stat-item">
-    <p class="stat-title">Media Voti Effettiva</p>
-    <div class="circle-container">
-      <svg viewBox="0 0 36 36" class="circular-chart">
-        <path class="circle-bg"
-              d="M18 2.0845
-                 a 15.9155 15.9155 0 0 1 0 31.831
-                 a 15.9155 15.9155 0 0 1 0 -31.831" />
-        <path class="circle"
-              [attr.stroke-dasharray]="realMediaVoti + ', 100'"
-              [attr.stroke]="getCircleColor(realMediaVoti)"
-              d="M18 2.0845
-                 a 15.9155 15.9155 0 0 1 0 31.831
-                 a 15.9155 15.9155 0 0 1 0 -31.831" />
-      </svg>
-      <p class="circle-label">{{ realMediaVoti | number:'1.0-0' }}%</p>
-    </div>
-  </div>
-</div>
 
   <div class="header-container">
     <h2 class="title">Storico Test</h2>
@@ -98,33 +92,29 @@
         <mat-header-cell *matHeaderCellDef> Esame </mat-header-cell>
         <mat-cell *matCellDef="let element"> {{ element.esame.titolo }} </mat-cell>
       </ng-container>
-  
+
       <ng-container matColumnDef="tipoTest">
         <mat-header-cell *matHeaderCellDef> Tipo Test </mat-header-cell>
         <mat-cell *matCellDef="let element"> {{ element.tipoTest.nomeTest }} </mat-cell>
       </ng-container>
-  
+
       <ng-container matColumnDef="data">
         <mat-header-cell *matHeaderCellDef> Data </mat-header-cell>
         <mat-cell *matCellDef="let element"> {{ element.data | date:'dd/MM/yyyy' }} </mat-cell>
       </ng-container>
-  
+
       <ng-container matColumnDef="voto">
         <mat-header-cell *matHeaderCellDef> Voto </mat-header-cell>
         <mat-cell *matCellDef="let element"> {{ element.voto }} </mat-cell>
       </ng-container>
-  
+
       <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
       <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
     </mat-table>
-  
+
     <!-- Paginazione -->
-    <mat-paginator 
-    [length]="filteredTestData.length"
-    [pageSize]="pageSize"
-    [pageIndex]="pageIndex"
-    [pageSizeOptions]="pageSizeOptions"
-    (page)="onPageChange($event)">
+    <mat-paginator [length]="filteredTestData.length" [pageSize]="pageSize" [pageIndex]="pageIndex"
+      [pageSizeOptions]="pageSizeOptions" (page)="onPageChange($event)">
     </mat-paginator>
 
     <!-- Media Voti -->
