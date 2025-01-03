@@ -78,7 +78,7 @@ export class TestComponent implements OnInit{
         let corrette = 0;
         this.domande.forEach((domanda, index) => {
           if (risposte[index]) {
-            this.risposte[domanda.id] = risposte[index].risposta;
+            this.risposte[domanda.id] = risposte[index];
             if (this.risposte[domanda.id] === domanda.opzioneCorretta) {
               corrette++;
             } 
