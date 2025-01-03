@@ -67,12 +67,14 @@ export class TestComponent implements OnInit{
       this.nomeTest = tipoTestData.nomeTest;
       this.descrizione = tipoTestData.descrizione;
 
-      if (this.testData.voto) {
+      // caso in cui entro in un test già svolto: effettuo e mostro la revisione
+      if (this.testData.voto && this.testData.risposte) {
+        // test completato: con "true" nego la possibilità di cambiare le risposte e inviare test (vedi html)
         this.isCompleted = true;
         this.voto = this.testData.voto;
         const risposte = this.testData.risposte
-        this.risposteCorrette = risposte.filter((risposta: { corretta: any; }) => risposta.corretta).length;
 
+        // calcolo il numero di risposte corrette perché tale numero non è salvato nel database, solo il voto
         let corrette = 0;
         this.domande.forEach((domanda, index) => {
           if (risposte[index]) {
@@ -84,7 +86,6 @@ export class TestComponent implements OnInit{
         });
         this.risposteCorrette = corrette;
       }
-
     } catch (error: any) {
       this.router.navigate(['404'])
       if(error.message == 'Test non trovato.')
