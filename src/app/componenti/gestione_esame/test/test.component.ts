@@ -29,7 +29,7 @@ export class TestComponent implements OnInit{
   testId! : string;
   domande: any[] = [];
   risposte: { [key: string]: string } = {};
-  risultato: { corrette: number } | null = null;
+  risposteCorrette = 0;
   voto = 0;
   currentQuestionIndex: number = 0;
 
@@ -66,6 +66,25 @@ export class TestComponent implements OnInit{
       const tipoTestData = await this.firebaseService.getTestService().getTipoTestById(this.testData.tipoTest);
       this.nomeTest = tipoTestData.nomeTest;
       this.descrizione = tipoTestData.descrizione;
+
+      if (this.testData.voto) {
+        this.isCompleted = true;
+        this.voto = this.testData.voto;
+        const risposte = this.testData.risposte
+        this.risposteCorrette = risposte.filter((risposta: { corretta: any; }) => risposta.corretta).length;
+
+        let corrette = 0;
+        this.domande.forEach((domanda, index) => {
+          if (risposte[index]) {
+            this.risposte[domanda.id] = risposte[index].risposta;
+            if (this.risposte[domanda.id] === domanda.opzioneCorretta) {
+              corrette++;
+            } 
+          }
+        });
+        this.risposteCorrette = corrette;
+      }
+
     } catch (error: any) {
       this.router.navigate(['404'])
       if(error.message == 'Test non trovato.')
@@ -106,12 +125,14 @@ export class TestComponent implements OnInit{
 
   private async inviaTest() {
     let corrette = 0;
+    const risposte: any[] = [];
 
     // Correzione
     this.domande.forEach(domanda => {
       if (this.risposte[domanda.id] === domanda.opzioneCorretta) {
         corrette++;
       }
+      risposte.push(this.risposte[domanda.id]);
     });
 
     this.voto = Math.round(100 * (corrette / this.domande.length) * 100) / 100;
@@ -120,10 +141,10 @@ export class TestComponent implements OnInit{
     const data = new Date();
 
     // Salva il risultato nel database
-    await this.firebaseService.getTestService().saveTest(this.testId, this.voto, data.toUTCString());
+    await this.firebaseService.getTestService().saveTest(this.testId, risposte, this.voto, data.toUTCString());
 
     // Visualizza il risultato
-    this.risultato = { corrette };
+    this.risposteCorrette = corrette;
     this.isCompleted = true;
   }
 

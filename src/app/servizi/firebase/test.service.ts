@@ -139,12 +139,12 @@ export class TestService {
     return testDocRef.id;
   }
 
-  async saveTest(testId: string, voto: number, data: string): Promise<void> {
+  async saveTest(testId: string, risposte: any[], voto: number, data: string): Promise<void> {
     try {
       const testDocRef = doc(this.firestore, 'test', testId);
   
       // Aggiorna il documento del test aggiungendo il voto
-      await updateDoc(testDocRef, { voto, data: data });
+      await updateDoc(testDocRef, { voto, risposte, data });
     } catch (error) {
       console.error('Errore durante il salvataggio del test:', error);
       throw error;
