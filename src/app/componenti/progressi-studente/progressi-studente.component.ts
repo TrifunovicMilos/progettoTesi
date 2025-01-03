@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatTableModule } from '@angular/material/table';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
@@ -13,11 +13,12 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-progressi-studente',
   standalone: true,
-  imports: [CommonModule, MatTableModule, MatTabsModule, MatFormFieldModule, FormsModule, MatSelectModule, MatDatepickerModule, MatNativeDateModule, MatInputModule, MatButtonModule, MatSlideToggleModule ],
+  imports: [CommonModule, MatTableModule, MatTabsModule, MatFormFieldModule, FormsModule, MatSelectModule, MatDatepickerModule, MatNativeDateModule, MatInputModule, MatButtonModule, MatSlideToggleModule, MatPaginatorModule ],
   templateUrl: './progressi-studente.component.html',
   styleUrl: './progressi-studente.component.css'
 })
@@ -32,6 +33,7 @@ export class ProgressiStudenteComponent implements OnInit {
   testData: any[] = [];
   realTestData: any[] = [];
   filteredTestData: any[] = [];
+  paginatedData: any[] = [];
   filter = {
     esame: '',
     tipoTest: '',
@@ -46,7 +48,12 @@ export class ProgressiStudenteComponent implements OnInit {
   totalMediaVoti = 0;
   realMediaVoti = 0;
   filteredMediaVoti = 0;
+  pageSize = 25;        
+  pageIndex = 0; 
+  pageSizeOptions = [5, 10, 25, 50];
   displayedColumns: string[] = ['esame', 'tipoTest', 'data', 'voto'];
+
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   constructor(private firebaseService: FirebaseService, private authService: AuthService, private router: Router) { }
 
@@ -105,7 +112,9 @@ export class ProgressiStudenteComponent implements OnInit {
       this.esami = await Promise.all(esamiPromises);
 
       this.filteredTestData = [...this.testData];
-
+      
+      this.updatePageSizeOptions();
+      this.applyPagination();
       this.calculateStats();
       this.isLoading = false;
     } catch (error) {
@@ -114,8 +123,28 @@ export class ProgressiStudenteComponent implements OnInit {
     }
   }
 
-    toggleTableVisibility() {
+  toggleTableVisibility() {
     this.isTableVisible = !this.isTableVisible;
+  }
+
+    updatePageSizeOptions() {
+    if (this.filteredTestData.length > 50) {
+      this.pageSizeOptions = [5, 10, 25, 50, this.filteredTestData.length];
+    } else {
+      this.pageSizeOptions = [5, 10, 25, 50];
+    }
+  }
+
+  applyPagination() {
+    const start = this.pageIndex * this.pageSize;
+    const end = start + this.pageSize;
+    this.paginatedData = this.filteredTestData.slice(start, end);
+  }
+
+  onPageChange(event: any) {
+    this.pageIndex = event.pageIndex;
+    this.pageSize = event.pageSize;
+    this.applyPagination(); 
   }
 
   applyFilter() {
@@ -126,6 +155,8 @@ export class ProgressiStudenteComponent implements OnInit {
       
       return matchesEsame && matchesTipoTest && matchesData;
     });
+    this.pageIndex = 0;  
+    this.applyPagination();
     this.calculateStats();
   }
 
@@ -150,10 +181,10 @@ export class ProgressiStudenteComponent implements OnInit {
     };
     this.filteredTestData = [...this.testData];
     this.tipiTestForSelectedEsame = this.tipiTest;
+    this.pageIndex = 0;  
+    this.applyPagination();
     this.calculateStats();
-    
   }
-
 
   calculateStats() {
     this.totalTests = this.testData.length;

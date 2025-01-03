@@ -93,30 +93,39 @@
 
   <!-- Tabella -->
   <div *ngIf="isTableVisible">
-    <mat-table [dataSource]="filteredTestData" class="mat-elevation-z8">
+    <mat-table [dataSource]="paginatedData" class="mat-elevation-z8">
       <ng-container matColumnDef="esame">
         <mat-header-cell *matHeaderCellDef> Esame </mat-header-cell>
         <mat-cell *matCellDef="let element"> {{ element.esame.titolo }} </mat-cell>
       </ng-container>
-
+  
       <ng-container matColumnDef="tipoTest">
         <mat-header-cell *matHeaderCellDef> Tipo Test </mat-header-cell>
         <mat-cell *matCellDef="let element"> {{ element.tipoTest.nomeTest }} </mat-cell>
       </ng-container>
-
+  
       <ng-container matColumnDef="data">
         <mat-header-cell *matHeaderCellDef> Data </mat-header-cell>
         <mat-cell *matCellDef="let element"> {{ element.data | date:'dd/MM/yyyy' }} </mat-cell>
       </ng-container>
-
+  
       <ng-container matColumnDef="voto">
         <mat-header-cell *matHeaderCellDef> Voto </mat-header-cell>
         <mat-cell *matCellDef="let element"> {{ element.voto }} </mat-cell>
       </ng-container>
-
+  
       <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
       <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
     </mat-table>
+  
+    <!-- Paginazione -->
+    <mat-paginator 
+    [length]="filteredTestData.length"
+    [pageSize]="pageSize"
+    [pageIndex]="pageIndex"
+    [pageSizeOptions]="pageSizeOptions"
+    (page)="onPageChange($event)">
+    </mat-paginator>
 
     <!-- Media Voti -->
     <div class="media-voti">
