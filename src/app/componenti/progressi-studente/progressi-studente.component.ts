@@ -1,4 +1,5 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Chart } from 'chart.js/auto';
 import { MatTableModule } from '@angular/material/table';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
@@ -59,6 +60,14 @@ export class ProgressiStudenteComponent implements OnInit {
 
   sortColumn: string = ''; // Colonna su cui stiamo ordinando
   sortDirection: 'asc' | 'desc' = 'asc'; // Direzione di ordinamento
+
+  chartFilter = {
+    esame: '',
+    tipoTest: ''
+  };
+
+  tipiTestForChart: any[] = [];
+  chart: any;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
@@ -255,5 +264,72 @@ export class ProgressiStudenteComponent implements OnInit {
     } else {
       return '#43a047'; // Verde scuro
     }
+  }
+
+  onChartEsameChange() {
+    const selectedEsame = this.esami.find(e => e.id === this.chartFilter.esame);
+    if (selectedEsame) {
+      this.tipiTestForChart = this.tipiTest.filter(tipo =>
+        selectedEsame.tipiTest.includes(tipo.id)
+      );
+    } else {
+      this.tipiTestForChart = this.tipiTest;
+    }
+    this.chartFilter.tipoTest = '';
+    this.updateChart();
+  }
+
+  // Metodo per aggiornare il grafico
+  updateChart() {
+    console.log("update")
+    const filteredData = this.testData.filter(test => {
+      const matchesEsame = this.chartFilter.esame ? test.esame.id === this.chartFilter.esame : true;
+      const matchesTipoTest = this.chartFilter.tipoTest ? test.tipoTest.id === this.chartFilter.tipoTest : true;
+      return matchesEsame && matchesTipoTest;
+    });
+
+    const labels = filteredData.map(test => new Date(test.data).toLocaleDateString());
+    const data = filteredData.map(test => test.voto);
+
+    if (this.chart) {
+      this.chart.destroy();
+    }
+
+    this.chart = new Chart('votiChart', {
+      type: 'line',
+      data: {
+        labels,
+        datasets: [{
+          label: 'Voto',
+          data,
+          borderColor: '#3e95cd',
+          fill: false,
+        }],
+      },
+      options: {
+        responsive: true,
+        scales: {
+          x: {
+            title: {
+              display: true,
+              text: 'Data',
+            },
+          },
+          y: {
+            title: {
+              display: true,
+              text: 'Voto',
+            },
+            beginAtZero: true,
+            max: 100,
+          },
+        },
+      },
+    });
+  }
+
+  ngAfterViewInit() {
+    this.tipiTestForChart = this.tipiTest;
+    this.updateChart();
   }
 }
