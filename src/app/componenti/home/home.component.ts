@@ -69,6 +69,7 @@ export class HomeComponent implements OnInit {
     } 
   }
 
+  // barra di ricerca
   onInput(filter: string) {
     this.esamiFiltered = this.esami.filter(esame => 
       esame.titolo.toLowerCase().includes(filter.toLowerCase()) || 
@@ -76,7 +77,6 @@ export class HomeComponent implements OnInit {
     );
   }
   
-
   // mostra la descrizione dell'esame al click su "info"
   onClickInfo(esame: any): void {
     const dialogRef = this.dialog.open(InfoDialogComponent, {

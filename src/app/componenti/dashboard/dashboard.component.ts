@@ -39,7 +39,7 @@ export class DashboardComponent implements OnInit{
   constructor(private authService: AuthService, private sidebarService: SidebarService, private dialog: MatDialog, private cdr: ChangeDetectorRef){}
 
   ngAfterViewChecked() {
-    // Forza il rilevamento dei cambiamenti, per risolvere ExpressionChangedAfterItHasBeenCheckedError in riga 58 del html
+    // Forza il rilevamento dei cambiamenti, per risolvere ExpressionChangedAfterItHasBeenCheckedError in html riga 54
     this.cdr.detectChanges();  
   }
 
