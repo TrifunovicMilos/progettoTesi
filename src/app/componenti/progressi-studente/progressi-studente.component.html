@@ -144,4 +144,29 @@
       <p>Media Voti: {{ filteredMediaVoti | number:'1.1-1' }}</p>
     </div>
   </div>
+
+  <div class="chart-container">
+    <h2 class="title">Andamento Voti</h2>
+
+    <div class="chart-filters">
+      <mat-form-field appearance="fill">
+        <mat-label>Seleziona Esame</mat-label>
+        <mat-select [(value)]="chartFilter.esame" (selectionChange)="onChartEsameChange()">
+          <mat-option [value]="''"></mat-option>
+          <mat-option *ngFor="let esame of esami" [value]="esame.id">{{ esame.titolo }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-label>Seleziona Tipo Test</mat-label>
+        <mat-select [(value)]="chartFilter.tipoTest" (selectionChange)="updateChart()">
+          <mat-option [value]="''"></mat-option>
+          <mat-option *ngFor="let tipo of tipiTestForChart" [value]="tipo.id">{{ tipo.nomeTest }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <canvas id="votiChart"></canvas>
+  </div>
+
 </div>
