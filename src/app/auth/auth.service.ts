@@ -24,14 +24,14 @@ export class AuthService {
   
   constructor(private firebaseService: FirebaseService, private router: Router) {
     const user = localStorage.getItem('user');
-    const lastActive = localStorage.getItem('lastActive'); //***
+    const lastActive = localStorage.getItem('lastActive'); 
     if (user && lastActive) {
-      const now = new Date().getTime(); //***
-      const elapsedTime = now - parseInt(lastActive, 10); //***
-      if (elapsedTime < this.logoutTime) { //***
+      const now = new Date().getTime(); 
+      const elapsedTime = now - parseInt(lastActive, 10); // tempo passato dall'ultimo accesso
+      if (elapsedTime < this.logoutTime) { 
         this.isLoggedIn = true;
       } else {
-        this.logout(); //***
+        this.logout(); 
       }
     } else {
       this.isLoggedIn = false;
@@ -55,9 +55,10 @@ export class AuthService {
     const ruolo = this.currentUser?.email?.includes('docente') ? 'docente' : 'studente';
     try {
       const userData = await this.firebaseService.getUserService().getUserData(uid, ruolo);
-      this.userData = userData
-      this.userSubject.next(userData); // Emit updated data to observers
+      this.userData = userData;
+      this.userSubject.next(userData); // Emette i dati aggiornati agli osservatori
     } catch (error) {
+      console.log(error);
     }
   }
 

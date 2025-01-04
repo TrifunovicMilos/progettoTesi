@@ -1,9 +1,3 @@
-<!-- se uso l'animazione, quando vado da Login a Home, si combina con la slideAnimation -->
-<!-- <div [@routeTransition]="o.isActivated ? o.activatedRoute : ''"> -->
-    <!-- <router-outlet #o="outlet"></router-outlet> -->
-<!-- </div> -->
-
-<!-- quindi ci metto la slideAnimation pure per quando vado da Login->Dashboard e Dashboard->Login -->
 <div [@slideInAnimation]="o.isActivated ? o.activatedRoute : ''">
     <router-outlet #o="outlet"></router-outlet>
 </div>

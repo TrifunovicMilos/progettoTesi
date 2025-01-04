@@ -18,12 +18,8 @@ export class SidebarService {
     this.sidebarState.next(!currentState); 
   }
 
-  // getSidebarState() {
-  //   return this.sidebarState.value; 
-  // }
-
   // chiamato dalle modifiche alla sidebar tramite mouse enter/leave, i quali NON chiamano toggleSidebar()
-  // chiamta da onMouseEnter() e onMouseLeave di dashboard.component.ts
+  // chiamata da onMouseEnter() e onMouseLeave di dashboard.component.ts
   setSidebarState(state: boolean) {
     this.sidebarState.next(state); 
   }

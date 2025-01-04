@@ -33,7 +33,6 @@ export class TestService {
         tipiTest: [...existingPools, tipoTestDocRef.id],
       });
 
-      // console.log(`Pool ${poolDocRef.id} aggiunto all'esame ${esameId}`);
     } else {
       throw new Error('Esame non trovato.');
     }
@@ -51,40 +50,14 @@ export class TestService {
     }
   }
 
-  async getTestById(id: string): Promise<any> {
-    const testDocRef = doc(this.firestore, 'test', id);
-    const docSnap = await getDoc(testDocRef);
-
-    if (docSnap.exists()) {
-      return { id, ...docSnap.data() };
-    } else {
-      throw new Error('Test non trovato.');
-    }
-  }
-
-  async getStudentTests(uid: string): Promise<any[]> {
-    const studentiDocRef = doc(this.firestore, 'studenti', uid);
-    const studenteSnap = await getDoc(studentiDocRef);
-  
-    if (studenteSnap.exists()) {
-      const studentData = studenteSnap.data();
-      const testIds = studentData['test'] || [];
-        
-      const testPromises = testIds.map((testId: string) => this.getTestById(testId));
-      return Promise.all(testPromises);
-    } else {
-      throw new Error('Studente non trovato.');
-    }
-  }
-
   async removeTipoTest(tipoTestId: string, esameId: string): Promise<void> {
     const tipoTestDocRef = doc(this.firestore, 'tipiTest', tipoTestId);
     const esameDocRef = doc(this.firestore, 'esami', esameId);
 
-    // Rimuove il pool dalla collezione 'pool'
+    // Rimuove il tipoTest dalla collezione 'tipiTest'
     await deleteDoc(tipoTestDocRef);
 
-    // Rimuove l'id del pool dall'array "pool" dell'esame
+    // Rimuove l'id del tipoTest dall'array "tipiTest" dell'esame
     await updateDoc(esameDocRef, {
       tipiTest: arrayRemove(tipoTestId),
     });
@@ -139,6 +112,38 @@ export class TestService {
     return testDocRef.id;
   }
 
+  private getRandomSubset(array: any[], size: number): any[] {
+    const shuffled = [...array].sort(() => 0.5 - Math.random());
+    return shuffled.slice(0, size);
+  }
+
+  async getTestById(id: string): Promise<any> {
+    const testDocRef = doc(this.firestore, 'test', id);
+    const docSnap = await getDoc(testDocRef);
+
+    if (docSnap.exists()) {
+      return { id, ...docSnap.data() };
+    } else {
+      throw new Error('Test non trovato.');
+    }
+  }
+
+  async getStudentTests(uid: string): Promise<any[]> {
+    const studentiDocRef = doc(this.firestore, 'studenti', uid);
+    const studenteSnap = await getDoc(studentiDocRef);
+  
+    if (studenteSnap.exists()) {
+      const studentData = studenteSnap.data();
+      const testIds = studentData['test'] || [];
+        
+      const testPromises = testIds.map((testId: string) => this.getTestById(testId));
+      return Promise.all(testPromises);
+    } else {
+      throw new Error('Studente non trovato.');
+    }
+  }
+
+  // aggiungo i campi rimanenti del test (es. voto) una volta che è stato completato
   async saveTest(testId: string, risposte: any[], voto: number, data: string): Promise<void> {
     try {
       const testDocRef = doc(this.firestore, 'test', testId);
@@ -151,14 +156,6 @@ export class TestService {
     }
   }
   
-  
-  // Metodo ausiliario per selezionare un sottoinsieme casuale
-  private getRandomSubset(array: any[], size: number): any[] {
-    const shuffled = [...array].sort(() => 0.5 - Math.random());
-    return shuffled.slice(0, size);
-  }
-  
-
   listenToTestInEsame(esameId: string) {
     const esameDocRef = doc(this.firestore, 'esami', esameId);
     const tipiTestSubject = new BehaviorSubject<string[]>([]);

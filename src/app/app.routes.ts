@@ -4,7 +4,6 @@ import { LoginComponent } from './componenti/login/login.component';
 import { DashboardComponent } from './componenti/dashboard/dashboard.component';
 import { authGuard } from './auth/auth.guard';
 import { HomeComponent } from './componenti/home/home.component';
-import { Pagina3Component } from './componenti/pagina3/pagina3.component';
 import { ProfiloComponent } from './componenti/profilo/profilo.component';
 import { EsameComponent } from './componenti/gestione_esame/esame/esame.component';
 import { IMieiEsamiComponent } from './componenti/i-miei-esami/i-miei-esami.component';
@@ -29,7 +28,6 @@ export const routes: Routes = [
         {path: 'esami/:idEsame/test/:idTipoTest/:idTest', component: TestComponent},
         {path: 'my-exams', component: IMieiEsamiComponent},
         {path: 'progressi', component: ProgressiStudenteComponent},
-        {path: 'pagina3', component: Pagina3Component},
         {path: 'profilo', component: ProfiloComponent},
     ]},
     {path: 'login', component: LoginComponent},
