@@ -12,6 +12,7 @@ export class QuestionService {
   private firestore: Firestore = inject(Firestore);
   constructor() { }
 
+  // creazione domanda
   async addDomanda(testo: string, opzioni: string[], opzioneCorretta: string): Promise<any> {
     const domandeColRef = collection(this.firestore, 'domande');
 
@@ -20,10 +21,9 @@ export class QuestionService {
       opzioni: opzioni,
       opzioneCorretta: opzioneCorretta,
     });
-    // console.log('Domanda aggiunta con ID: ', docRef.id);
     return docRef;
   }
-
+  
   async addDomandaToEsame(domandaId: string, esameId: string): Promise<void> {
     const esameDocRef = doc(this.firestore, 'esami', esameId);
     const docSnap = await getDoc(esameDocRef);
@@ -60,12 +60,12 @@ export class QuestionService {
       const esameData = esameSnap.data();
       const poolIds = esameData['pool'] || [];
 
-      // Rimuove la domanda dai pool associati all'esame
+      // Rimuove le domande dai pool associati all'esame
       for (const poolId of poolIds) {
         await this.removeDomandeFromPool(domandeId, poolId);
       }
 
-      // Rimuove le domande dall'elenco associato all'esame
+      // Rimuove le domande dall'esame
       await updateDoc(esameDocRef, {
         domande: arrayRemove(...domandeId),
       });
@@ -88,10 +88,8 @@ export class QuestionService {
     // 1. Creazione nuovo documento nella collezione "pool" con gli ID delle domande
     const poolDocRef = await addDoc(poolColRef, {
       nomePool: poolName,
-      domande: domandeIds,
+      domande: domandeIds
     });
-
-    // console.log('Pool creato con ID:', poolDocRef.id);
 
     // 2. Aggiunta dell'ID del pool al documento dell'esame
     const esameDocRef = doc(this.firestore, 'esami', esameId);
@@ -103,7 +101,6 @@ export class QuestionService {
         pool: [...existingPools, poolDocRef.id],
       });
 
-      // console.log(`Pool ${poolDocRef.id} aggiunto all'esame ${esameId}`);
     } else {
       throw new Error('Esame non trovato.');
     }
@@ -125,7 +122,6 @@ export class QuestionService {
   async removeDomandeFromPool(domandeId: string[], poolId: string): Promise<void> {
     const poolDocRef = doc(this.firestore, 'pool', poolId);
 
-    // Rimuove le domande dal pool
     await updateDoc(poolDocRef, {
       domande: arrayRemove(...domandeId),
     });
@@ -153,11 +149,10 @@ export class QuestionService {
     }
   }
 
-  // Ascolta le modifiche in tempo reale alle domande di un esame
+  // Ascolta le modifiche in tempo reale alle domande di un esame, per mostrarle istantaneamente una volta aggiunte
   listenToDomandeInEsame(esameId: string) {
-    // Riferimento al documento specifico dell'esame
     const esameDocRef = doc(this.firestore, 'esami', esameId);
-    const domandeSubject = new BehaviorSubject<string[]>([]); // Comincia con un array vuoto di domande
+    const domandeSubject = new BehaviorSubject<string[]>([]); 
   
     // Ascolta i cambiamenti nel documento dell'esame
     onSnapshot(esameDocRef, (docSnap) => {
@@ -175,7 +170,6 @@ export class QuestionService {
       }
     });
   
-    // Restituisci l'osservabile
     return domandeSubject.asObservable();
   }
 

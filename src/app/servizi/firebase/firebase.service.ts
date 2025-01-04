@@ -8,7 +8,7 @@ import { TestService } from './test.service';
   providedIn: 'root',
 })
 
-// servizio per aggiungere e manipolare i documenti in Firestore e per ascoltarne i cambiamenti
+// servizio per aggiungere e maodificare i documenti in Firestore e per ascoltarne i cambiamenti
 export class FirebaseService {
 
   constructor(

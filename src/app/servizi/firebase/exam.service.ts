@@ -10,6 +10,7 @@ export class ExamService {
   private firestore: Firestore = inject(Firestore);
   constructor() {}
 
+  // creazione nuovo esame da parte del docente
   async addEsame(titolo: string, docente: string, descrizione: string, imgUrl: string, 
     annoAccademico: string, crediti: number, lingua: string): Promise<any> {
 
@@ -24,10 +25,11 @@ export class ExamService {
       crediti: crediti,
       lingua: lingua,
     });
-    // console.log('Esame aggiunto con ID: ', docRef.id);
     return docRef;
   }
   
+  // associazione dell'esame al docente che lo ha creato oppure iscrizione studente all'esame
+  // in ogni caso, aggiunta dell'id dell'esame all'array esami[] dell'utente
   async addEsameToUser(id: string, ruolo: string, esameId: string): Promise<void> {
     const userDocRef = doc(this.firestore, ruolo === 'docente' ? 'docenti' : 'studenti', id);
     const docSnap = await getDoc(userDocRef);
@@ -42,7 +44,9 @@ export class ExamService {
       throw new Error('Docente non trovato');
     }
   }
-
+  
+  // disiscrizione dello studente dall'esame
+  // *** potrà essere usata in futuro anche per i docenti che eliminano l'esame
   async removeEsameFromUser(id: string, ruolo: string, esameId: string): Promise<void> {
     const userDocRef = doc(this.firestore, ruolo === 'docente' ? 'docenti' : 'studenti', id);
     
@@ -60,7 +64,8 @@ export class ExamService {
       return { id: doc.id, ...doc.data() }; // Restituisce i dati dei documenti, incluso l'ID
     });
   }
-
+  
+  // info sull'esame dato idEsame
   async getEsameById(id: string): Promise<any> {
     const esameDocRef = doc(this.firestore, 'esami', id);
     const docSnap = await getDoc(esameDocRef);
@@ -71,13 +76,15 @@ export class ExamService {
       throw new Error('Esame non trovato.');
     }
   }
-
-  async getUserEsami(uid: string, ruolo: string): Promise<any[]> {
-    const userDocRef = doc(this.firestore, ruolo === 'docente' ? 'docenti' : 'studenti', uid);
+  
+  // tutti gli esami dell'utente, non solo gli idEsame ma anche tutte le altre informazioni
+  async getUserEsami(id: string, ruolo: string): Promise<any[]> {
+    const userDocRef = doc(this.firestore, ruolo === 'docente' ? 'docenti' : 'studenti', id);
     const userSnap = await getDoc(userDocRef);
   
     if (userSnap.exists()) {
       const userData = userSnap.data();
+      // il documento dell'utente contiene solo i riferimenti all'esame
       const esamiIds = userData['esami'] || [];
         
       const esamiPromises = esamiIds.map((esameId: string) => this.getEsameById(esameId));
