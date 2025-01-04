@@ -95,6 +95,31 @@
   margin-bottom: 20px;
 }
 
+mat-header-cell {
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+mat-header-cell:hover {
+  background-color: #e3e3e3;
+}
+
+.sortable-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 5px;
+}
+
+mat-icon:hover {
+  transform: scale(1.1);
+}
+
+/* alterna colori righe */
+mat-row:nth-child(odd) {
+  background-color: #f0f0f0;
+}
+
 mat-row:hover {
   background-color: rgba(0, 123, 255, 0.1);
   cursor: pointer;
