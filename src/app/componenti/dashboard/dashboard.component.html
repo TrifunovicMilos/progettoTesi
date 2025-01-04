@@ -4,18 +4,14 @@
     <mat-icon>menu</mat-icon>
   </button>
   <!-- nome app e logo da decidere ancora -->
-  <!-- <a routerLink="/home" class="title" style="display: flex; align-items: center;">
-    <mat-icon style="color: orange; margin-left: 20px;">flutter_dash</mat-icon>
-    <span style="margin-left: 8px;">Nome App</span>
-  </a> -->
   <a routerLink="/home" class="title" style="display: flex; align-items: center;">
     <img src="assets/icone/logo.png" alt="Logo" style="width: 47px; height: 47px; margin-left: 20px;" />
     <span style="margin-left: 8px;">Nome App</span>
   </a>
   <span class="example-spacer"></span>
   <!-- dati utente -->
-  <a class="nomeProfilo"
-    routerLink="/profilo" routerLinkActive="activeNomeProfilo" [routerLinkActiveOptions]="{exact: true}">
+  <a class="nomeProfilo" routerLink="/profilo" routerLinkActive="activeNomeProfilo"
+    [routerLinkActiveOptions]="{exact: true}">
     {{nome}} {{cognome}} - {{ruolo}}
   </a>
   <button mat-icon-button aria-label="avatar" class="avatarButton" routerLink="/profilo">
@@ -29,12 +25,12 @@
 
 <!-- sotto l'header, un contenitore mat-drawer-container che: -->
 <!-- - a sinistra contiene la sidebar (mat-drawer)  -->
-<!-- - a destra la pagina scelta (mat-drawer-content) -->  
+<!-- - a destra la pagina scelta (mat-drawer-content) -->
 <mat-drawer-container style="background-color: #f4f7fc;">
-  
+
   <!-- lo stato della Sidebar determina la classe -->
-  <mat-drawer [ngClass]="{'mat-drawer-open': isSidebarOpen, 'mat-drawer-close': !isSidebarOpen}" mode="side" opened 
-  (mouseenter)="onMouseEnter()" (mouseleave)="onMouseLeave()">
+  <mat-drawer [ngClass]="{'mat-drawer-open': isSidebarOpen, 'mat-drawer-close': !isSidebarOpen}" mode="side" opened
+    (mouseenter)="onMouseEnter()" (mouseleave)="onMouseLeave()">
     <mat-nav-list>
       <!-- icone di Home, Esami, Statistiche (visualizzazione progressi ecc), impostazioni(?) -->
       <a mat-list-item routerLink="/home" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
@@ -49,7 +45,6 @@
       <a mat-list-item routerLink="/profilo" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
         <mat-icon>account_circle</mat-icon> <span *ngIf="isSidebarOpen">Profilo</span>
       </a>
-      <!-- altre possibili icone ...  -->
     </mat-nav-list>
   </mat-drawer>
 
@@ -61,4 +56,3 @@
     </div>
   </mat-drawer-content>
 </mat-drawer-container>
-

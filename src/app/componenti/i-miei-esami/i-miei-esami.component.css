@@ -6,20 +6,20 @@
 }
 
 .link-home {
-  color: #007bff; 
+  color: #007bff;
   font-weight: bold;
   text-decoration: none;
-  transition: all 0.3s ease; 
+  transition: all 0.3s ease;
   cursor: pointer;
 }
 
 .link-home:hover {
-  color: #0056b3; 
-  text-decoration: underline; 
+  color: #0056b3;
+  text-decoration: underline;
 }
 
 .link-home:focus {
-  outline: none; 
+  outline: none;
 }
 
 mat-form-field,
@@ -163,10 +163,10 @@ mat-form-field,
 }
 
 /* 
-    d'ora in poi 1 card per riga con margini differenti, 
-    poiché in alcuni casi 2 card sono troppe mentre 1 è troppo poco (diventa enorme la card), 
-    quindi manimolo i margini
-  */
+  d'ora in poi 1 card per riga con margini differenti, 
+  poiché in alcuni casi 2 card sono troppe mentre 1 è troppo poco (diventa enorme la card), 
+  quindi manimolo i margini
+*/
 @media (max-width: 710px) {
   .card,
   .card-collapsed {
@@ -217,7 +217,8 @@ img[mat-card-image] {
   object-fit: cover;
 }
 
-.no-results, .no-resultsAdapted {
+.no-results,
+.no-resultsAdapted {
   text-align: center;
   display: block;
   margin-left: auto;
@@ -235,7 +236,8 @@ img[mat-card-image] {
 }
 
 @media (max-width: 800px) {
-  .no-results, .no-resultsAdapted {
+  .no-results,
+  .no-resultsAdapted {
     padding-left: 10px;
   }
 }

@@ -2,12 +2,14 @@
   <p>Caricamento in corso...</p>
 </div> -->
 
-<div *ngIf="!isLoading && esami?.length==0 && ruolo == 'studente'" [ngClass]="isSidebarOpen ? 'no-resultsAdapted' : 'no-results'">
+<div *ngIf="!isLoading && esami?.length==0 && ruolo == 'studente'"
+  [ngClass]="isSidebarOpen ? 'no-resultsAdapted' : 'no-results'">
   <p>Nessun esame trovato. Iscriviti ad un esame dalla <a routerLink="/home" class="link-home">home</a>.</p>
 </div>
 
-<div *ngIf="!isLoading && esami?.length==0 && ruolo == 'docente'" [ngClass]="isSidebarOpen ? 'no-resultsAdapted' : 'no-results'">
-  <p>Non hai ancora creato esami. <a (click)="openCreateExamDialog()" class="link-home">Crea</a>  il tuo primo esame.</p>
+<div *ngIf="!isLoading && esami?.length==0 && ruolo == 'docente'"
+  [ngClass]="isSidebarOpen ? 'no-resultsAdapted' : 'no-results'">
+  <p>Non hai ancora creato esami. <a (click)="openCreateExamDialog()" class="link-home">Crea</a> il tuo primo esame.</p>
 </div>
 
 <div *ngIf="!isLoading && esami?.length!=0" style="margin-bottom: 20px;">
@@ -20,8 +22,8 @@
       (keyup)="onInputNome($any($event.target).value)">
   </mat-form-field>
 
-  <button *ngIf="ruolo=='docente'" mat-flat-button color="primary" [ngClass]="isSidebarOpen ? 'adaptedButtonCreate' : 'buttonCreate'"
-    (click)="openCreateExamDialog()">
+  <button *ngIf="ruolo=='docente'" mat-flat-button color="primary"
+    [ngClass]="isSidebarOpen ? 'adaptedButtonCreate' : 'buttonCreate'" (click)="openCreateExamDialog()">
     <mat-icon style="vertical-align: middle;">add</mat-icon>Nuovo esame
   </button>
 

@@ -79,7 +79,8 @@ mat-form-field,
 }
 
 @media (max-width: 800px) {
-  mat-form-field, .adaptedForm {
+  mat-form-field,
+  .adaptedForm {
     padding-left: 10px;
   }
 }
@@ -87,7 +88,7 @@ mat-form-field,
 .iscritto-badge {
   background-color: rgba(0, 128, 0, 0.6);
   color: white;
-  border-radius: 20px; 
+  border-radius: 20px;
   display: flex;
   align-items: center;
   height: 25px;
@@ -256,7 +257,7 @@ quindi isSidebarOpen non ha più impatto sulla classi */
     max-width: calc(100%);
     margin-left: -5px;
     margin-right: 0px;
-    color: blue
+    color: blue;
   }
 }
 
@@ -280,7 +281,8 @@ img[mat-card-image] {
   object-fit: cover;
 }
 
-.no-results, .no-resultsAdapted {
+.no-results,
+.no-resultsAdapted {
   text-align: center;
   display: block;
   margin-left: auto;
@@ -298,9 +300,8 @@ img[mat-card-image] {
 }
 
 @media (max-width: 800px) {
-  .no-results, .no-resultsAdapted {
+  .no-results,
+  .no-resultsAdapted {
     padding-left: 10px;
   }
 }
-
-
