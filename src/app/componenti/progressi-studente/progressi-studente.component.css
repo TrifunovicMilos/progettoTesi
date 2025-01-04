@@ -95,6 +95,17 @@
   margin-bottom: 20px;
 }
 
+mat-row:hover {
+  background-color: rgba(0, 123, 255, 0.1);
+  cursor: pointer;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+mat-row {
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
 .media-voti {
   margin-top: 20px;
   text-align: center;
