@@ -14,11 +14,12 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-progressi-studente',
   standalone: true,
-  imports: [CommonModule, RouterLink, MatTableModule, MatTabsModule, MatFormFieldModule, FormsModule, MatSelectModule, MatDatepickerModule, MatNativeDateModule, MatInputModule, MatButtonModule, MatSlideToggleModule, MatPaginatorModule ],
+  imports: [CommonModule, RouterLink, MatIconModule, MatTableModule, MatTabsModule, MatFormFieldModule, FormsModule, MatSelectModule, MatDatepickerModule, MatNativeDateModule, MatInputModule, MatButtonModule, MatSlideToggleModule, MatPaginatorModule ],
   templateUrl: './progressi-studente.component.html',
   styleUrl: './progressi-studente.component.css'
 })
@@ -55,6 +56,9 @@ export class ProgressiStudenteComponent implements OnInit {
   pageSizeOptions = [5, 10, 25, 50];
 
   displayedColumns: string[] = ['esame', 'tipoTest', 'data', 'voto'];
+
+  sortColumn: string = ''; // Colonna su cui stiamo ordinando
+  sortDirection: 'asc' | 'desc' = 'asc'; // Direzione di ordinamento
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
@@ -127,6 +131,40 @@ export class ProgressiStudenteComponent implements OnInit {
     }
   }
 
+  sortData(column: string): void {
+    if (this.sortColumn === column) {
+      // Se la colonna su cui stiamo ordinando è la stessa, invertiamo la direzione
+      this.sortDirection = this.sortDirection === 'asc' ? 'desc' : 'asc';
+    } else {
+      // Se cambiamo colonna, settiamo la direzione su "asc"
+      this.sortColumn = column;
+      this.sortDirection = 'asc';
+    }
+  
+    this.filteredTestData = this.filteredTestData.sort((a, b) => {
+      let comparison = 0;
+  
+      // Eseguiamo il confronto in base alla colonna selezionata
+      if (this.sortColumn === 'esame') {
+        comparison = a.esame.titolo.localeCompare(b.esame.titolo);
+      } else if (this.sortColumn === 'tipoTest') {
+        comparison = a.tipoTest.nomeTest.localeCompare(b.tipoTest.nomeTest);
+      } else if (this.sortColumn === 'data') {
+        const dateA = new Date(a.data);
+        const dateB = new Date(b.data);
+        comparison = dateA > dateB ? 1 : (dateA < dateB ? -1 : 0);
+      } else if (this.sortColumn === 'voto') {
+        comparison = a.voto - b.voto;
+      }
+  
+      // Se la direzione è discendente, invertiamo il risultato
+      return this.sortDirection === 'asc' ? comparison : -comparison;
+    });
+  
+    this.pageIndex = 0; // Reset della pagina ogni volta che ordiniamo
+    this.applyPagination(); // Rappresentiamo i dati ordinati
+  }
+
   toggleTableVisibility() {
     this.isTableVisible = !this.isTableVisible;
   }
@@ -160,6 +198,9 @@ export class ProgressiStudenteComponent implements OnInit {
 
       return matchesEsame && matchesTipoTest && matchesData;
     });
+
+    this.sortData(this.sortColumn);
+    
     this.pageIndex = 0;
     this.applyPagination();
     this.calculateStats();

@@ -89,22 +89,42 @@
   <div *ngIf="isTableVisible">
     <mat-table [dataSource]="paginatedData" class="mat-elevation-z8">
       <ng-container matColumnDef="esame">
-        <mat-header-cell *matHeaderCellDef> Esame </mat-header-cell>
+        <mat-header-cell *matHeaderCellDef (click)="sortData('esame')" class="sortable-header">
+          Esame
+          <mat-icon *ngIf="sortColumn === 'esame'">
+            {{ sortDirection === 'asc' ? 'arrow_upward' : 'arrow_downward' }}
+          </mat-icon>
+        </mat-header-cell>
         <mat-cell *matCellDef="let element"> {{ element.esame.titolo }} </mat-cell>
       </ng-container>
 
       <ng-container matColumnDef="tipoTest">
-        <mat-header-cell *matHeaderCellDef> Tipo Test </mat-header-cell>
+        <mat-header-cell *matHeaderCellDef (click)="sortData('tipoTest')" class="sortable-header">
+          Tipo Test
+          <mat-icon *ngIf="sortColumn === 'tipoTest'">
+            {{ sortDirection === 'asc' ? 'arrow_upward' : 'arrow_downward' }}
+          </mat-icon>
+        </mat-header-cell>
         <mat-cell *matCellDef="let element"> {{ element.tipoTest.nomeTest }} </mat-cell>
       </ng-container>
 
       <ng-container matColumnDef="data">
-        <mat-header-cell *matHeaderCellDef> Data </mat-header-cell>
+        <mat-header-cell *matHeaderCellDef (click)="sortData('data')" class="sortable-header">
+          Data
+          <mat-icon *ngIf="sortColumn === 'data'">
+            {{ sortDirection === 'asc' ? 'arrow_upward' : 'arrow_downward' }}
+          </mat-icon>
+        </mat-header-cell>
         <mat-cell *matCellDef="let element"> {{ element.data | date:'dd/MM/yyyy' }} </mat-cell>
       </ng-container>
 
       <ng-container matColumnDef="voto">
-        <mat-header-cell *matHeaderCellDef> Voto </mat-header-cell>
+        <mat-header-cell *matHeaderCellDef (click)="sortData('voto')" class="sortable-header">
+          Voto
+          <mat-icon *ngIf="sortColumn === 'voto'">
+            {{ sortDirection === 'asc' ? 'arrow_upward' : 'arrow_downward' }}
+          </mat-icon>
+        </mat-header-cell>
         <mat-cell *matCellDef="let element"> {{ element.voto }} </mat-cell>
       </ng-container>
 
