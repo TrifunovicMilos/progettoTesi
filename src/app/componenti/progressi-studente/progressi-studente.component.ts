@@ -81,6 +81,9 @@ export class ProgressiStudenteComponent implements OnInit {
 
       this.testData = await this.firebaseService.getTestService().getStudentTests(this.uid);
 
+      // Ordina i test in ordine decrescente di data (più recenti in cima)
+      this.testData = this.testData.reverse();
+
       // Estrai tutti i tipi di test unici
       const tipoTestIds = [...new Set(this.testData.map((test) => test.tipoTest)),];
 
