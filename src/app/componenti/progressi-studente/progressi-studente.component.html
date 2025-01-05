@@ -152,7 +152,7 @@
       <mat-form-field appearance="fill">
         <mat-label>Seleziona Esame</mat-label>
         <mat-select [(value)]="chartFilter.esame" (selectionChange)="onChartEsameChange()">
-          <!-- <mat-option [value]="''">Tutti</mat-option> -->
+          <mat-option [value]="''">Tutti</mat-option>
           <mat-option *ngFor="let esame of esami" [value]="esame.id">{{ esame.titolo }}</mat-option>
         </mat-select>
       </mat-form-field>
