@@ -286,9 +286,8 @@ export class ProgressiStudenteComponent implements OnInit {
     this.updateChart();
   }
 
-  // Metodo per aggiornare il grafico
   updateChart() {
-    const filteredData = this.testData.filter(test => {
+    const filteredData = this.testData.reverse().filter(test => {
       const matchesEsame = this.chartFilter.esame ? test.esame.id === this.chartFilter.esame : true;
       const matchesTipoTest = this.chartFilter.tipoTest ? test.tipoTest.id === this.chartFilter.tipoTest : true;
       return matchesEsame && matchesTipoTest;
@@ -344,7 +343,7 @@ export class ProgressiStudenteComponent implements OnInit {
             beginAtZero: true,
             max: 100,
             afterDataLimits: (axis) => {
-              axis.max += 10; // Aggiungi margine oltre il massimo
+              axis.max += 10; // Aggiunge margine oltre il massimo
             },
           },
         },
@@ -358,7 +357,6 @@ export class ProgressiStudenteComponent implements OnInit {
               label: function (context) {
                 const index = context.dataIndex;
                 const info = tooltipData[index];
-                // Divide ogni informazione su una riga
                 return [
                   `Voto: ${info.voto}`,
                   `Data: ${info.data}`,
