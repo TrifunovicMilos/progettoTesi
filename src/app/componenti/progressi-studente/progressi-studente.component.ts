@@ -302,6 +302,14 @@ export class ProgressiStudenteComponent implements OnInit {
     const labels = filteredData.map(test => new Date(test.data).toLocaleDateString());
     const data = filteredData.map(test => test.voto);
 
+    // dati mostrati al passaggio del mouse sul punto del grafico
+    const tooltipData = filteredData.map(test => ({
+      voto: test.voto,
+      data: new Date(test.data).toLocaleString(),
+      esame: test.esame.titolo,
+      tipoTest: test.tipoTest.nomeTest,
+    }));
+
     if (this.chart) {
       this.chart.destroy();
     }
@@ -310,12 +318,14 @@ export class ProgressiStudenteComponent implements OnInit {
       type: 'line',
       data: {
         labels,
-        datasets: [{
-          label: 'Voto',
-          data,
-          borderColor: '#3e95cd',
-          fill: false,
-        }],
+        datasets: [
+          {
+            label: 'Voto',
+            data,
+            borderColor: '#3e95cd',
+            fill: false,
+          },
+        ],
       },
       options: {
         responsive: true,
@@ -333,6 +343,29 @@ export class ProgressiStudenteComponent implements OnInit {
             },
             beginAtZero: true,
             max: 100,
+          },
+        },
+        plugins: {
+          tooltip: {
+            callbacks: {
+              title: function () {
+                // Rimuove il titolo predefinito del tooltip (la data senza ora presente nelle ascisse)
+                return '';
+              },
+              label: function (context) {
+                const index = context.dataIndex;
+                const info = tooltipData[index];
+                // Divide ogni informazione su una riga
+                return [
+                  `Voto: ${info.voto}`,
+                  `Data: ${info.data}`,
+                  `Esame: ${info.esame}`,
+                  `Tipo Test: ${info.tipoTest}`,
+                ];
+              },
+            },
+            // Disabilita il logo accanto al campo "Voto"
+            displayColors: false,
           },
         },
       },
