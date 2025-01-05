@@ -149,8 +149,36 @@ mat-row {
   display: flex;
   gap: 20px;
   margin-bottom: 20px;
+  margin-left: 35px;
+  margin-top: 20px;
 }
 
 canvas {
   max-width: 100%;
+  max-height: 400px;
+}
+
+.chart-stats {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.chart-stats .stat-item {
+  text-align: center;
+  flex: 1;
+}
+
+.chart-stats .stat-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #555;
+  margin-bottom: 5px;
+}
+
+.chart-stats .stat-value {
+  font-size: 1.4rem;
+  font-weight: bold;
+  color: #000;
 }

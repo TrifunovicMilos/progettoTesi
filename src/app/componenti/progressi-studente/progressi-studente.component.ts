@@ -61,6 +61,7 @@ export class ProgressiStudenteComponent implements OnInit {
   sortColumn: string = ''; // Colonna su cui stiamo ordinando
   sortDirection: 'asc' | 'desc' = 'asc'; // Direzione di ordinamento
 
+  // grafico
   chartFilter = {
     esame: '',
     tipoTest: ''
@@ -68,6 +69,12 @@ export class ProgressiStudenteComponent implements OnInit {
 
   tipiTestForChart: any[] = [];
   chart: any;
+
+  chartTestCount = 0;
+  chartTestAverage = 0;
+  chartTestMax = 0;
+  chartTestMin = 0;
+
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
@@ -253,7 +260,7 @@ export class ProgressiStudenteComponent implements OnInit {
   }
 
   getCircleColor(value: number): string {
-    if (value < 50) {
+    if (value <= 50) {
       return '#e53935'; // Rosso
     } else if (value < 60) {
       return '#ffb74d'; // Arancione
@@ -281,13 +288,16 @@ export class ProgressiStudenteComponent implements OnInit {
 
   // Metodo per aggiornare il grafico
   updateChart() {
-    console.log("update")
-
     const filteredData = this.testData.filter(test => {
       const matchesEsame = this.chartFilter.esame ? test.esame.id === this.chartFilter.esame : true;
       const matchesTipoTest = this.chartFilter.tipoTest ? test.tipoTest.id === this.chartFilter.tipoTest : true;
       return matchesEsame && matchesTipoTest;
     });
+
+    this.chartTestCount = filteredData.length;
+    this.chartTestAverage = filteredData.reduce((sum, test) => sum + test.voto, 0) / (filteredData.length || 1);
+    this.chartTestMax = Math.max(...filteredData.map(test => test.voto));
+    this.chartTestMin = Math.min(...filteredData.map(test => test.voto));
 
     const labels = filteredData.map(test => new Date(test.data).toLocaleDateString());
     const data = filteredData.map(test => test.voto);
