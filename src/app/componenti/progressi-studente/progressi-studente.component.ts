@@ -282,6 +282,7 @@ export class ProgressiStudenteComponent implements OnInit {
   // Metodo per aggiornare il grafico
   updateChart() {
     console.log("update")
+
     const filteredData = this.testData.filter(test => {
       const matchesEsame = this.chartFilter.esame ? test.esame.id === this.chartFilter.esame : true;
       const matchesTipoTest = this.chartFilter.tipoTest ? test.tipoTest.id === this.chartFilter.tipoTest : true;
