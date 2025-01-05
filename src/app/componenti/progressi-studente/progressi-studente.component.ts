@@ -331,6 +331,31 @@ export class ProgressiStudenteComponent implements OnInit {
 
   ngAfterViewInit() {
     this.tipiTestForChart = this.tipiTest;
-    this.updateChart();
+  
+    // Aspetta che il DOM sia completamente pronto
+    this.waitForCanvas('votiChart').then(() => {
+      this.updateChart();
+    }).catch(err => console.error("Errore durante l'attesa del canvas:", err));
   }
+  
+  // Funzione per aspettare che il canvas sia pronto, per risolvere errore: "Failed to create chart: can't acquire context from the given item"
+  private waitForCanvas(id: string): Promise<HTMLCanvasElement> {
+    return new Promise((resolve, reject) => {
+      const checkCanvas = () => {
+        const canvas = document.getElementById(id) as HTMLCanvasElement;
+        if (canvas) {
+          const context = canvas.getContext('2d');
+          if (context) {
+            resolve(canvas);
+          } else {
+            reject(new Error(`Impossibile acquisire il contesto 2D per il canvas con id "${id}".`));
+          }
+        } else {
+          setTimeout(checkCanvas, 50); // Ritenta dopo un breve ritardo
+        }
+      };
+      checkCanvas();
+    });
+  }
+  
 }
