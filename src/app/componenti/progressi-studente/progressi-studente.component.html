@@ -146,7 +146,7 @@
   </div>
 
   <div class="chart-container">
-    <h2 class="title">Andamento Voti</h2>
+    <h2 class="title" style="margin-left: 35px;">Andamento Voti</h2>
 
     <div class="chart-filters">
       <mat-form-field appearance="fill">
@@ -164,6 +164,25 @@
           <mat-option *ngFor="let tipo of tipiTestForChart" [value]="tipo.id">{{ tipo.nomeTest }}</mat-option>
         </mat-select>
       </mat-form-field>
+    </div>
+
+    <div class="chart-stats">
+      <div class="stat-item">
+        <p class="stat-title">Numero di Test</p>
+        <p class="stat-value">{{ chartTestCount }}</p>
+      </div>
+      <div class="stat-item">
+        <p class="stat-title">Media dei Voti</p>
+        <p class="stat-value" [ngStyle]="{ 'color': getCircleColor(chartTestAverage) }">{{ chartTestAverage | number:'1.1-1' }}</p>
+      </div>
+      <div class="stat-item">
+        <p class="stat-title">Voto Massimo</p>
+        <p class="stat-value" [ngStyle]="{ 'color': getCircleColor(chartTestMax) }">{{ chartTestMax }}</p>
+      </div>
+      <div class="stat-item">
+        <p class="stat-title">Voto Minimo</p>
+        <p class="stat-value" [ngStyle]="{ 'color': getCircleColor(chartTestMin) }">{{ chartTestMin }}</p>
+      </div>
     </div>
 
     <canvas id="votiChart"></canvas>
