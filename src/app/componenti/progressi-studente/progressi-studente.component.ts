@@ -343,6 +343,9 @@ export class ProgressiStudenteComponent implements OnInit {
             },
             beginAtZero: true,
             max: 100,
+            afterDataLimits: (axis) => {
+              axis.max += 10; // Aggiungi margine oltre il massimo
+            },
           },
         },
         plugins: {
