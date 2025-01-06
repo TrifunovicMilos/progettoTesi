@@ -136,7 +136,7 @@ export class ProgressiStudenteComponent implements OnInit {
       this.esami.sort((a, b) => a.titolo.localeCompare(b.titolo));
 
       // Ordina i test in ordine decrescente di data (più recenti in cima)
-      this.testData = this.testData.reverse();
+      // this.testData = this.testData.reverse();
       this.filteredTestData = [...this.testData];
 
       this.updatePageSizeOptions();
@@ -289,7 +289,7 @@ export class ProgressiStudenteComponent implements OnInit {
   }
 
   updateChart() {
-    const filteredData = this.testData.reverse().filter(test => {
+    const filteredData = this.testData.filter(test => {
       const matchesEsame = this.chartFilter.esame ? test.esame.id === this.chartFilter.esame : true;
       const matchesTipoTest = this.chartFilter.tipoTest ? test.tipoTest.id === this.chartFilter.tipoTest : true;
       return matchesEsame && matchesTipoTest;
