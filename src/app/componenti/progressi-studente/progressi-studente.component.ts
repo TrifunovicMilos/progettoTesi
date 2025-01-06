@@ -58,7 +58,7 @@ export class ProgressiStudenteComponent implements OnInit {
 
   displayedColumns: string[] = ['esame', 'tipoTest', 'data', 'voto'];
 
-  sortColumn: string = ''; // Colonna su cui stiamo ordinando
+  sortColumn: string = 'data'; // Colonna su cui sto ordinando
   sortDirection: 'asc' | 'desc' = 'asc'; // Direzione di ordinamento
 
   // grafico
@@ -138,6 +138,8 @@ export class ProgressiStudenteComponent implements OnInit {
       // Ordina i test in ordine decrescente di data (più recenti in cima)
       // this.testData = this.testData.reverse();
       this.filteredTestData = [...this.testData];
+
+      this.sortData('data');
 
       this.updatePageSizeOptions();
       this.applyPagination();
@@ -363,7 +365,7 @@ export class ProgressiStudenteComponent implements OnInit {
                   `Voto: ${info.voto}`,
                   `Data: ${info.data}`,
                   `Esame: ${info.esame}`,
-                  `Tipo Test: ${info.tipoTest}`,
+                  `Test: ${info.tipoTest}`,
                 ];
               },
             },
