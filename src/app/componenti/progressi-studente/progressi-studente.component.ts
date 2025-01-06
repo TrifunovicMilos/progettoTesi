@@ -135,8 +135,6 @@ export class ProgressiStudenteComponent implements OnInit {
       this.tipiTest.sort((a, b) => a.nomeTest.localeCompare(b.nomeTest));
       this.esami.sort((a, b) => a.titolo.localeCompare(b.titolo));
 
-      // Ordina i test in ordine decrescente di data (più recenti in cima)
-      // this.testData = this.testData.reverse();
       this.filteredTestData = [...this.testData];
 
       this.sortData('data');
