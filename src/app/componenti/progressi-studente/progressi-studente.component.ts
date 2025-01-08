@@ -317,6 +317,14 @@ export class ProgressiStudenteComponent implements OnInit {
     this.updateChart();
   }
 
+  clearChartFilters() {
+    this.chartFilter = {
+      esame: '',
+      tipoTest: ''
+    };
+    this.updateChart()
+  }
+
   updateChart() {
     const filteredData = this.testData.filter(test => {
       const matchesEsame = this.chartFilter.esame ? test.esame.id === this.chartFilter.esame : true;

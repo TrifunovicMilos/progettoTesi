@@ -84,7 +84,10 @@
       <mat-datepicker #picker></mat-datepicker>
     </mat-form-field>
 
-    <button mat-raised-button color="primary" (click)="clearFilters()">Pulisci Filtri</button>
+    <button mat-raised-button color="primary" (click)="clearFilters()" class="-clear-button">
+      <mat-icon style="margin-right: 8px;">clear_all</mat-icon>Pulisci Filtri
+    </button>
+    
   </div>
 
   <!-- Tabella -->
@@ -166,6 +169,10 @@
           <mat-option *ngFor="let tipo of tipiTestForChart" [value]="tipo.id">{{ tipo.nomeTest }}</mat-option>
         </mat-select>
       </mat-form-field>
+
+      <button mat-raised-button color="primary" (click)="clearFilters()" class="-clear-button">
+        <mat-icon style="margin-right: 8px;">clear_all</mat-icon>Pulisci Filtri
+      </button>
     </div>
 
     <div class="chart-stats">
