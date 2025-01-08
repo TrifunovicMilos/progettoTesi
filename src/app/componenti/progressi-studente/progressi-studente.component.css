@@ -182,3 +182,16 @@ canvas {
   font-weight: bold;
   color: #000;
 }
+
+.clear-button {
+  display: flex;
+  align-items: center;
+  padding: 8px 16px;
+  border-radius: 20px;
+  background-color: #f4f4f4;
+  transition: background-color 0.3s;
+}
+
+.clear-button:hover {
+  background-color: #e0e0e0;
+}
