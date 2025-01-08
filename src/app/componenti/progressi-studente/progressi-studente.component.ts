@@ -107,6 +107,7 @@ export class ProgressiStudenteComponent implements OnInit {
       const tipiTestPromises = tipoTestIds.map((id) =>this.firebaseService.getTestService().getTipoTestById(id));
       this.tipiTest = await Promise.all(tipiTestPromises);
       this.tipiTestForSelectedEsame = this.tipiTest;
+      this.tipiTestForChart = this.tipiTest;
 
       for (let test of this.testData) {
         const tipoTest = this.tipiTest.find((t) => t.id === test.tipoTest);
@@ -404,7 +405,7 @@ export class ProgressiStudenteComponent implements OnInit {
   }
 
   ngAfterViewInit() {
-    this.tipiTestForChart = this.tipiTest;
+    
   
     // Aspetta che il DOM sia completamente pronto
     this.waitForCanvas('votiChart').then(() => {
