@@ -59,7 +59,7 @@ export class ProgressiStudenteComponent implements OnInit {
   displayedColumns: string[] = ['esame', 'tipoTest', 'data', 'voto'];
 
   sortColumn: string = 'data'; // Colonna su cui sto ordinando
-  sortDirection: 'asc' | 'desc' = 'asc'; // Direzione di ordinamento
+  sortDirection: 'asc' | 'desc' = 'desc'; // Direzione di ordinamento
 
   // grafico
   chartFilter = {
@@ -137,7 +137,7 @@ export class ProgressiStudenteComponent implements OnInit {
 
       this.filteredTestData = [...this.testData];
 
-      this.invertSortData('data');
+      this.sortData();
 
       this.updatePageSizeOptions();
       this.applyPagination();
