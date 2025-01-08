@@ -137,7 +137,7 @@ export class ProgressiStudenteComponent implements OnInit {
 
       this.filteredTestData = [...this.testData];
 
-      this.sortData('data');
+      this.invertSortData('data');
 
       this.updatePageSizeOptions();
       this.applyPagination();
@@ -149,7 +149,7 @@ export class ProgressiStudenteComponent implements OnInit {
     }
   }
 
-  sortData(column: string): void {
+  invertSortData(column: string): void {
     if (this.sortColumn === column) {
       // Se la colonna su cui stiamo ordinando è la stessa, invertiamo la direzione
       this.sortDirection = this.sortDirection === 'asc' ? 'desc' : 'asc';
@@ -158,6 +158,32 @@ export class ProgressiStudenteComponent implements OnInit {
       this.sortColumn = column;
       this.sortDirection = 'asc';
     }
+  
+    this.filteredTestData = this.filteredTestData.sort((a, b) => {
+      let comparison = 0;
+  
+      // Eseguiamo il confronto in base alla colonna selezionata
+      if (this.sortColumn === 'esame') {
+        comparison = a.esame.titolo.localeCompare(b.esame.titolo);
+      } else if (this.sortColumn === 'tipoTest') {
+        comparison = a.tipoTest.nomeTest.localeCompare(b.tipoTest.nomeTest);
+      } else if (this.sortColumn === 'data') {
+        const dateA = new Date(a.data);
+        const dateB = new Date(b.data);
+        comparison = dateA > dateB ? 1 : (dateA < dateB ? -1 : 0);
+      } else if (this.sortColumn === 'voto') {
+        comparison = a.voto - b.voto;
+      }
+  
+      // Se la direzione è discendente, invertiamo il risultato
+      return this.sortDirection === 'asc' ? comparison : -comparison;
+    });
+  
+    this.pageIndex = 0; // Reset della pagina ogni volta che ordiniamo
+    this.applyPagination(); // Rappresentiamo i dati ordinati
+  }
+
+  sortData(): void {
   
     this.filteredTestData = this.filteredTestData.sort((a, b) => {
       let comparison = 0;
@@ -217,11 +243,12 @@ export class ProgressiStudenteComponent implements OnInit {
       return matchesEsame && matchesTipoTest && matchesData;
     });
 
-    this.sortData(this.sortColumn);
+    this.sortData();
     
     this.pageIndex = 0;
     this.applyPagination();
     this.calculateStats();
+
   }
 
   onEsameChange() {
@@ -248,9 +275,7 @@ export class ProgressiStudenteComponent implements OnInit {
     this.pageIndex = 0;
     this.applyPagination();
     this.calculateStats();
-    this.sortData('data')
-    if (this.sortDirection == 'asc')
-    this.sortData('data')
+    this.sortData()
   }
 
   calculateStats() {
