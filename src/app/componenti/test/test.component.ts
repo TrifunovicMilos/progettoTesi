@@ -4,11 +4,11 @@ import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatRadioModule } from '@angular/material/radio';
 import { ActivatedRoute, Router } from '@angular/router';
-import { FirebaseService } from '../../../servizi/firebase/firebase.service';
-import { AuthService } from '../../../auth/auth.service';
+import { FirebaseService } from '../../servizi/firebase/firebase.service';
+import { AuthService } from '../../auth/auth.service';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
-import { ConfirmDialogComponent } from '../../dialoghi/confirm-dialog/confirm-dialog.component';
+import { ConfirmDialogComponent } from '../dialoghi/confirm-dialog/confirm-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 
 @Component({
@@ -174,6 +174,12 @@ export class TestComponent implements OnInit{
       console.error("Errore nell'avvio del test:", error);
     }
 
+  }
+
+  previousQuestion() {
+    if (this.currentQuestionIndex > 0) {
+      this.currentQuestionIndex--;
+    }
   }
 
   nextQuestion() {
