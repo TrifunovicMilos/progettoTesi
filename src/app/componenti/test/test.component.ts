@@ -68,7 +68,7 @@ export class TestComponent implements OnInit{
       this.descrizione = tipoTestData.descrizione;
 
       // caso in cui entro in un test già svolto: effettuo e mostro la revisione
-      if (this.testData.voto && this.testData.risposte) {
+      if (this.testData.voto != null && this.testData.risposte) {
         // test completato: con "true" nego la possibilità di cambiare le risposte e inviare test (vedi html)
         this.isCompleted = true;
         this.voto = this.testData.voto;

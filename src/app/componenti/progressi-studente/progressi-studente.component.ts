@@ -270,7 +270,7 @@ export class ProgressiStudenteComponent implements OnInit {
     } else if (value < 60) {
       return '#ffb74d'; // Arancione
     } else if (value < 75) {
-      return '#ffee58'; // Giallo
+      return '#fdd835' ; // Giallo
     } else if (value < 90) {
       return '#66bb6a'; // Verde chiaro
     } else {
