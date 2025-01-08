@@ -11,7 +11,7 @@ import { EsameNegatoComponent } from './componenti/gestione_esame/esame-negato/e
 import { DomandeComponent } from './componenti/gestione_esame/domande/domande.component';
 import { PoolComponent } from './componenti/gestione_esame/pool/pool.component';
 import { TipoTestComponent } from './componenti/gestione_esame/tipo-test/tipo-test.component';
-import { TestComponent } from './componenti/gestione_esame/test/test.component';
+import { TestComponent } from './componenti/test/test.component';
 import { ProgressiStudenteComponent } from './componenti/progressi-studente/progressi-studente.component';
 
 export const routes: Routes = [

@@ -45,9 +45,9 @@
             <p class="domanda-testo">{{ domanda.testo }}</p>
             <mat-radio-group [(ngModel)]="risposte[domanda.id]" [name]="'domanda-' + domanda.id"
               class="opzioni-container">
-              <mat-radio-button *ngFor="let opzione of domanda.opzioni" [value]="opzione"
-                [ngClass]="{'correct': risposte[domanda.id] === opzione && opzione === domanda.opzioneCorretta, 
-                            'incorrect': risposte[domanda.id] === opzione && opzione !== domanda.opzioneCorretta}" class="opzione-radio" [disabled]="isCompleted">
+              <mat-radio-button *ngFor="let opzione of domanda.opzioni" [value]="opzione" [ngClass]="{'correct': risposte[domanda.id] === opzione && opzione === domanda.opzioneCorretta, 
+                            'incorrect': risposte[domanda.id] === opzione && opzione !== domanda.opzioneCorretta}"
+                class="opzione-radio" [disabled]="isCompleted">
                 {{ opzione }}
               </mat-radio-button>
             </mat-radio-group>
@@ -73,9 +73,14 @@
       </div>
 
       <div class="actions">
+        <!-- bottone indietro, durante il test -->
+        <button *ngIf="currentQuestionIndex > 0 && !isCompleted" mat-flat-button color="primary" 
+          class="submit-button" (click)="previousQuestion()">
+          <mat-icon style="vertical-align: middle;">arrow_back_ios</mat-icon>Indietro
+        </button>
         <!-- bottone prossima domanda, durante il test -->
-        <button *ngIf="currentQuestionIndex < domande.length - 1 && !isCompleted" mat-flat-button color="primary" class="submit-button"
-          (click)="nextQuestion()">
+        <button *ngIf="currentQuestionIndex < domande.length - 1 && !isCompleted" mat-flat-button color="primary"
+          class="submit-button" (click)="nextQuestion()">
           <mat-icon style="vertical-align: middle;">arrow_forward_ios</mat-icon>Avanti
         </button>
         <!-- bottone invio test, durante il test -->
