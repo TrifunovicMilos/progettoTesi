@@ -248,6 +248,9 @@ export class ProgressiStudenteComponent implements OnInit {
     this.pageIndex = 0;
     this.applyPagination();
     this.calculateStats();
+    this.sortData('data')
+    if (this.sortDirection == 'asc')
+    this.sortData('data')
   }
 
   calculateStats() {
