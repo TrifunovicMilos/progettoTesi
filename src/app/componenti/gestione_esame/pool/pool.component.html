@@ -48,7 +48,7 @@
           delete_forever
         </span></mat-icon>Elimina pool
     </button>
-    <button *ngIf="selectedDomande.length > 0" class="btn-remove" (click)="onRemove()">
+    <button [disabled]="selectedDomande.length < 1" class="btn-remove" (click)="onRemove()">
       <mat-icon>delete</mat-icon>Elimina domande
     </button>
   </div>

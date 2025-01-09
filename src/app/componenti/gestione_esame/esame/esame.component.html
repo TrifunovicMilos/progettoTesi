@@ -34,6 +34,18 @@
     </div>
 
     <!-- Test -->
+    <div *ngIf="ruolo === 'docente'" class="exam-domande">
+        <h2>Domande</h2>
+        <a class="domande-link" [routerLink]="['/esami', esameId, 'domande']">Gestisci le domande</a>
+    </div>
+
+    <div *ngIf="ruolo === 'docente'" class="exam-pool">
+        <h2>Pool</h2>
+        <a *ngFor="let pool of pools" class="pool-link"
+            [routerLink]="['/esami', esameId, 'pool', pool.id]">{{pool.nomePool}}</a>
+        <a *ngIf="pools.length == 0" class="no-elements">Nessun pool creato</a>
+    </div>
+    
     <div class="exam-tests">
         <h2>Test
             <button *ngIf="ruolo=='docente'" mat-flat-button color="primary" class="new-test" (click)="openCreateTestDialog()">
@@ -48,18 +60,6 @@
                 </a>
             </li>
         </ul>
-    </div>
-
-    <div *ngIf="ruolo === 'docente'" class="exam-domande">
-        <h2>Domande</h2>
-        <a class="domande-link" [routerLink]="['/esami', esameId, 'domande']">Gestisci le domande</a>
-    </div>
-
-    <div *ngIf="ruolo === 'docente'" class="exam-pool">
-        <h2>Pool</h2>
-        <a *ngFor="let pool of pools" class="pool-link"
-            [routerLink]="['/esami', esameId, 'pool', pool.id]">{{pool.nomePool}}</a>
-        <a *ngIf="pools.length == 0" class="no-elements">Nessun pool creato</a>
     </div>
 
     <!-- unsubscribe -->

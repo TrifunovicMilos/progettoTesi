@@ -22,6 +22,9 @@ export class TestComponent implements OnInit{
   isLoading = true;
   isCompleted = false;
   uid! : string;
+  nome! : string;
+  cognome! : string;
+  ruolo! : string;
   testData : any;
   nomeTest : any;
   descrizione : any;
@@ -45,10 +48,12 @@ export class TestComponent implements OnInit{
     this.authService.getUserObservable().subscribe(userData => {
       if (userData) {
         this.uid = this.authService.getUid() || '';
-        const ruolo = this.authService.getUserRole();
+        this.nome = userData.nome || '';
+        this.cognome = userData.cognome || '';
+        this.ruolo = this.authService.getUserRole();
         const esamiUtente = userData.esami || '';
-        // se non sono uno studente di questo esame visualizzo un errore
-        if (!(esamiUtente.includes(this.esameId) && ruolo === 'studente'))
+        // se non sono uno studente iscritto o il docente di questo esame visualizzo un errore
+        if (!(esamiUtente.includes(this.esameId)))
           this.router.navigate(['exam-denied'])
         else
           this.loadTestDetails().then(() => {
@@ -166,7 +171,8 @@ export class TestComponent implements OnInit{
   private async startTest() {
 
     try {
-      const testId = await this.firebaseService.getTestService().createTest(this.uid, this.testData.tipoTest);
+      const studente = this.nome + " " +this.cognome
+      const testId = await this.firebaseService.getTestService().createTest(this.uid, studente, this.testData.tipoTest);
       this.router.navigate([`esami/${this.esameId}/test/${this.testData.tipoTest}/${testId}`]).then(() => {
         window.location.reload();
       });

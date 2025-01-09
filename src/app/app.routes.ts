@@ -13,6 +13,7 @@ import { PoolComponent } from './componenti/gestione_esame/pool/pool.component';
 import { TipoTestComponent } from './componenti/gestione_esame/tipo-test/tipo-test.component';
 import { TestComponent } from './componenti/test/test.component';
 import { ProgressiStudenteComponent } from './componenti/progressi-studente/progressi-studente.component';
+import { ReportDocenteComponent } from './componenti/report-docente/report-docente.component';
 
 export const routes: Routes = [
     // Per accedere a questo gruppo di pagine è necessario essere loggati
@@ -28,6 +29,7 @@ export const routes: Routes = [
         {path: 'esami/:idEsame/test/:idTipoTest/:idTest', component: TestComponent},
         {path: 'my-exams', component: IMieiEsamiComponent},
         {path: 'progressi', component: ProgressiStudenteComponent},
+        {path: 'report', component: ReportDocenteComponent},
         {path: 'profilo', component: ProfiloComponent},
     ]},
     {path: 'login', component: LoginComponent},
