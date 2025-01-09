@@ -41,10 +41,10 @@
       </button>
   
       <!-- Bottone per Crea Pool e Elimina -->
-      <button *ngIf="selectedDomande.length > 0" class="btn-create-pool" (click)="openCreatePoolDialog()">
+      <button [disabled]="selectedDomande.length < 1" class="btn-create-pool" (click)="openCreatePoolDialog()">
         <mat-icon>add_circle</mat-icon>Crea Pool
         </button>
-      <button *ngIf="selectedDomande.length > 0" class="btn-remove" (click)="onRemove()">
+      <button [disabled]="selectedDomande.length < 1" class="btn-remove" (click)="onRemove()">
         <mat-icon>delete</mat-icon>Elimina
       </button>
     </div>

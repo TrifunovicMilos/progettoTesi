@@ -1,0 +1,101 @@
+<div *ngIf="isLoading" class="loading-container">
+    <p>Caricamento in corso...</p>
+  </div>
+  
+  <div class="container" *ngIf="!isLoading">
+  
+    <div class="header-container">
+      <h2 class="title">Storico Test</h2>
+      <mat-slide-toggle color="accent" [(ngModel)]="isTableVisible" style="margin-left: 10px;">
+        {{ isTableVisible ? 'Nascondi' : 'Mostra' }}
+      </mat-slide-toggle>
+    </div>
+  
+    <div class="filter-container" *ngIf="isTableVisible">
+      <mat-form-field appearance="fill">
+        <mat-label>Filtra per Esame</mat-label>
+        <mat-select [(value)]="filter.esame" (selectionChange)="onEsameChange()">
+          <mat-option [value]="''">Tutti</mat-option>
+          <mat-option *ngFor="let esame of esami" [value]="esame.id">{{ esame?.titolo }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+  
+      <!-- Filtra per Tipo Test solo se un esame è selezionato -->
+      <mat-form-field appearance="fill">
+        <mat-label>Filtra per Test</mat-label>
+        <mat-select [(value)]="filter.tipoTest" (selectionChange)="applyFilter()">
+          <mat-option [value]="''">Tutti</mat-option>
+          <mat-option *ngFor="let tipo of tipiTestForSelectedEsame" [value]="tipo.id">{{ tipo?.nomeTest }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+  
+      <mat-form-field appearance="fill">
+        <mat-label>Filtra per Data</mat-label>
+        <input matInput [matDatepicker]="picker" [(ngModel)]="filter.data" (dateChange)="applyFilter()">
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+  
+      <button mat-raised-button color="primary" (click)="clearFilters()">
+        <mat-icon style="margin-right: 8px;">clear_all</mat-icon>Pulisci Filtri
+      </button>
+      
+    </div>
+  
+    <!-- Tabella -->
+    <div *ngIf="isTableVisible">
+      <mat-table [dataSource]="paginatedData" class="mat-elevation-z8">
+        <ng-container matColumnDef="esame">
+          <mat-header-cell *matHeaderCellDef (click)="invertSortData('esame')" class="sortable-header">
+            Esame
+            <mat-icon *ngIf="sortColumn === 'esame'">
+              {{ sortDirection === 'asc' ? 'arrow_upward' : 'arrow_downward' }}
+            </mat-icon>
+          </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{ element.esame.titolo }} </mat-cell>
+        </ng-container>
+  
+        <ng-container matColumnDef="tipoTest">
+          <mat-header-cell *matHeaderCellDef (click)="invertSortData('tipoTest')" class="sortable-header">
+            Tipo Test
+            <mat-icon *ngIf="sortColumn === 'tipoTest'">
+              {{ sortDirection === 'asc' ? 'arrow_upward' : 'arrow_downward' }}
+            </mat-icon>
+          </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{ element.tipoTest.nomeTest }} </mat-cell>
+        </ng-container>
+  
+        <ng-container matColumnDef="data">
+          <mat-header-cell *matHeaderCellDef (click)="invertSortData('data')" class="sortable-header">
+            Data
+            <mat-icon *ngIf="sortColumn === 'data'">
+              {{ sortDirection === 'asc' ? 'arrow_upward' : 'arrow_downward' }}
+            </mat-icon>
+          </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{ element.data | date:'dd/MM/yyyy' }} </mat-cell>
+        </ng-container>
+  
+        <ng-container matColumnDef="voto">
+          <mat-header-cell *matHeaderCellDef (click)="invertSortData('voto')" class="sortable-header">
+            Voto
+            <mat-icon *ngIf="sortColumn === 'voto'">
+              {{ sortDirection === 'asc' ? 'arrow_upward' : 'arrow_downward' }}
+            </mat-icon>
+          </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{ element.voto }} </mat-cell>
+        </ng-container>
+  
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;"
+          [routerLink]="['/esami', row.esame.id, 'test', row.tipoTest.id, row.id]">
+        </mat-row>
+      </mat-table>
+  
+      <!-- Paginazione -->
+      <mat-paginator [length]="filteredTestData.length" [pageSize]="pageSize" [pageIndex]="pageIndex"
+        [pageSizeOptions]="pageSizeOptions" (page)="onPageChange($event)">
+      </mat-paginator>
+  
+    </div>
+  
+  </div>

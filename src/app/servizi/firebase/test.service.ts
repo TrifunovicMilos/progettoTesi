@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Firestore, doc, getDoc, updateDoc, onSnapshot, collection, addDoc, arrayRemove, deleteDoc } from '@angular/fire/firestore';
+import { Firestore, doc, getDoc, updateDoc, onSnapshot, collection, addDoc, arrayRemove, deleteDoc, getDocs } from '@angular/fire/firestore';
 import { inject } from '@angular/core';
 import { BehaviorSubject} from 'rxjs';
 
@@ -63,7 +63,7 @@ export class TestService {
     });
   }
 
-  async createTest(uid: string, tipoTestId: string): Promise<string> {
+  async createTest(uid: string, studente: string, tipoTestId: string): Promise<string> {
     const testColRef = collection(this.firestore, 'test');
     const studentiDocRef = doc(this.firestore, 'studenti', uid);
     const tipoTestDocRef = doc(this.firestore, 'tipiTest', tipoTestId);
@@ -95,6 +95,7 @@ export class TestService {
     const testDocRef = await addDoc(testColRef, {
       tipoTest: tipoTestId,
       domande: domandeSelezionate,
+      studente: studente
     });
   
     // 5. Aggiorna l'array dei test dello studente
@@ -176,5 +177,35 @@ export class TestService {
 
     return tipiTestSubject.asObservable();
   }
+
+  async getAllTestsByEsame(esameId: string): Promise<any[]> {
+    const esameDocRef = doc(this.firestore, 'esami', esameId);
+    const esameDocSnap = await getDoc(esameDocRef);
+  
+    if (!esameDocSnap.exists()) {
+      throw new Error('Esame non trovato.');
+    }
+  
+    const esameData = esameDocSnap.data();
+    const tipiTestIds = esameData['tipiTest'] || [];
+  
+    // Recupera tutti i test dalla collezione 'test'
+    const testColRef = collection(this.firestore, 'test');
+    const testSnapshots = await getDocs(testColRef);
+  
+    // Filtra i test in base ai tipiTest associati all'esame
+    const filteredTests = testSnapshots.docs
+      .map(docSnap => {
+        const data = docSnap.data(); 
+        data['id'] = docSnap.id;     
+        return data;                
+      })
+      .filter(test => tipiTestIds.includes(test['tipoTest'])); 
+  
+    return filteredTests;
+  }
+  
+  
+  
 }
 

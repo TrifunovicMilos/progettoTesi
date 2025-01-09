@@ -39,7 +39,10 @@
       <a mat-list-item routerLink="/my-exams" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
         <mat-icon>school</mat-icon> <span *ngIf="isSidebarOpen">I miei esami</span>
       </a>
-      <a mat-list-item routerLink="/progressi" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+      <a *ngIf="ruolo == 'studente'" mat-list-item routerLink="/progressi" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+        <mat-icon>query_stats</mat-icon> <span *ngIf="isSidebarOpen">Statistiche</span>
+      </a>
+      <a *ngIf="ruolo == 'docente'" mat-list-item routerLink="/report" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
         <mat-icon>query_stats</mat-icon> <span *ngIf="isSidebarOpen">Statistiche</span>
       </a>
       <a mat-list-item routerLink="/profilo" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">

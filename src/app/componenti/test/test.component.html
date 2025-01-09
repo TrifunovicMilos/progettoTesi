@@ -89,7 +89,7 @@
           <mat-icon style="vertical-align: middle;">send</mat-icon>Invia Test
         </button>
         <!-- bottone ritenta test, a fine test -->
-        <button *ngIf="isCompleted" mat-flat-button color="primary" class="submit-button" (click)="onRetry()">
+        <button *ngIf="isCompleted && ruolo == 'studente'" mat-flat-button color="primary" class="submit-button" (click)="onRetry()">
           <mat-icon style="vertical-align: middle;">restart_alt</mat-icon>Ritenta il test
         </button>
       </div>

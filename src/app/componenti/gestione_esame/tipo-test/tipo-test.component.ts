@@ -21,6 +21,8 @@ export class TipoTestComponent implements OnInit{
   tipoTestId!: string;
   testData : any;
   uid! : string;
+  nome! : string;
+  cognome! : string;
   ruolo = '';
 
   constructor(private route: ActivatedRoute, private router: Router, private authService: AuthService, private firebaseService: FirebaseService, private dialog: MatDialog) {}
@@ -33,6 +35,8 @@ export class TipoTestComponent implements OnInit{
     this.authService.getUserObservable().subscribe(userData => {
       if (userData) {
         this.uid = this.authService.getUid() || '';
+        this.nome = userData.nome || '';
+        this.cognome = userData.cognome || '';
         this.ruolo = this.authService.getUserRole();
         const esamiUtente = userData.esami || '';
         // se non ho questo esame nella lista (di esami a cui sono iscritto o che gestisco) visualizzo un errore
@@ -99,7 +103,8 @@ export class TipoTestComponent implements OnInit{
   private async startTest() {
 
     try {
-      const testId = await this.firebaseService.getTestService().createTest(this.uid, this.tipoTestId);
+      const studente = this.nome + " " + this.cognome;
+      const testId = await this.firebaseService.getTestService().createTest(this.uid, studente, this.tipoTestId);
       this.router.navigate([`esami/${this.esameId}/test/${this.tipoTestId}/${testId}`]);
     } catch (error) {
       console.error("Errore nell'avvio del test:", error);
