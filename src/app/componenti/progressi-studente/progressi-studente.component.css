@@ -183,3 +183,27 @@ canvas {
   color: #000;
 }
 
+.no-results,
+.no-resultsAdapted {
+  text-align: center;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  padding-right: 20px;
+  margin-top: 20px;
+  font-size: 1.2em;
+  color: #999;
+}
+
+@media (max-width: 1350px) {
+  .no-resultsAdapted {
+    padding-left: 5px;
+  }
+}
+
+@media (max-width: 800px) {
+  .no-results,
+  .no-resultsAdapted {
+    padding-left: 10px;
+  }
+}

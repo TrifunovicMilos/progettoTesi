@@ -32,12 +32,15 @@ export class ReportDocenteComponent {
 
   esami: any[] = [];
   tipiTest: any[] = [];
+  studenti: any[] = [];
   testData: any[] = [];
+  realTestData: any[] = [];
   filteredTestData: any[] = [];
   paginatedData: any[] = [];
   filter = {
     esame: '',
     tipoTest: '',
+    studente: '',
     data: null,
   };
 
@@ -45,13 +48,17 @@ export class ReportDocenteComponent {
   tipiTestForSelectedEsame: any[] = [];
 
   totalTests = 0;
-  totalVotiMedia = 0;
+  differentTests = 0;
+  totalMediaVoti = 0;
+  realMediaVoti = 0;
+  filteredMediaVoti = 0;
+  filteredRealMediaVoti = 0;
 
   pageSize = 25;
   pageIndex = 0;
   pageSizeOptions = [5, 10, 25, 50];
 
-  displayedColumns: string[] = ['esame', 'tipoTest', 'data', 'voto'];
+  displayedColumns: string[] = ['studente' ,'esame', 'tipoTest', 'data', 'voto'];
 
   sortColumn: string = 'data';
   sortDirection: 'asc' | 'desc' = 'desc'; 
@@ -75,8 +82,9 @@ export class ReportDocenteComponent {
 
   async loadData() {
     try {
-      // tutti gli esami del docente
+      // tutti gli esami del docente che contengono almeno un test
       this.esami = await this.firebaseService.getExamService().getUserEsami(this.uid, 'docente');
+      this.esami = this.esami.filter((esame) => esame.tipiTest && esame.tipiTest.length > 0);
 
       // ottieni tutti i test
       let allTests: any[] = [];
@@ -86,7 +94,9 @@ export class ReportDocenteComponent {
       }
 
       this.testData = allTests;
-      this.filteredTestData = [...this.testData];
+
+      // Estra tutti gli studenti
+      this.studenti = [...new Set(this.testData.map((test) => test.studente)),];
 
       // Estrai tutti i tipi di test unici
       const tipoTestIds = [...new Set(this.testData.map((test) => test.tipoTest)),];
@@ -94,6 +104,7 @@ export class ReportDocenteComponent {
       const tipiTestPromises = tipoTestIds.map((id) =>this.firebaseService.getTestService().getTipoTestById(id));
       this.tipiTest = await Promise.all(tipiTestPromises);
       this.tipiTestForSelectedEsame = this.tipiTest;
+      this.differentTests = this.tipiTest.length
 
       for (let test of this.testData) {
         const tipoTest = this.tipiTest.find((t) => t.id === test.tipoTest);
@@ -103,14 +114,40 @@ export class ReportDocenteComponent {
         test.esame = esame ? { id: esame.id, titolo: esame.titolo } : { id: '', titolo: '' };
       }
 
+      // Seleziona l'ultimo test per ogni combinazione di tipoTest.id e studente
+      const latestTestsByTipoTestAndStudente = new Map<string, any>();
+
+      for (let test of this.testData) {
+        // Crea una chiave unica per tipoTest.id e studente
+        const key = `${test.tipoTest.id}-${test.studente}`;
+
+        // Controlla se esiste già un test per questa combinazione
+        if (latestTestsByTipoTestAndStudente.has(key)) {
+          const existingTest = latestTestsByTipoTestAndStudente.get(key);
+
+          // Confronta le date per mantenere il test più recente
+          if (new Date(test.data) > new Date(existingTest.data)) {
+            latestTestsByTipoTestAndStudente.set(key, test);
+          }
+        } else {
+          // Aggiungi il test alla mappa se la chiave non esiste
+          latestTestsByTipoTestAndStudente.set(key, test);
+        }
+      }
+
+      // Estrai i test più recenti
+      this.realTestData = Array.from(latestTestsByTipoTestAndStudente.values());
+
       this.tipiTest.sort((a, b) => a.nomeTest.localeCompare(b.nomeTest));
       this.esami.sort((a, b) => a.titolo.localeCompare(b.titolo));
+
+      this.filteredTestData = [...this.testData];
 
       this.sortData();
 
       this.updatePageSizeOptions();
       this.applyPagination();
-      // this.calculateStats();
+      this.calculateStats();
       this.isLoading = false;
     } catch (error) {
       console.error('Error loading data:', error);
@@ -142,6 +179,8 @@ export class ReportDocenteComponent {
         comparison = dateA > dateB ? 1 : (dateA < dateB ? -1 : 0);
       } else if (this.sortColumn === 'voto') {
         comparison = a.voto - b.voto;
+      } else if (this.sortColumn === 'studente') {
+        comparison = a.studente.localeCompare(b.studente);
       }
   
       // Se la direzione è discendente, invertiamo il risultato
@@ -168,6 +207,8 @@ export class ReportDocenteComponent {
         comparison = dateA > dateB ? 1 : (dateA < dateB ? -1 : 0);
       } else if (this.sortColumn === 'voto') {
         comparison = a.voto - b.voto;
+      } else if (this.sortColumn === 'studente') {
+        comparison = a.studente.localeCompare(b.studente);
       }
   
       // Se la direzione è discendente, invertiamo il risultato
@@ -206,17 +247,20 @@ export class ReportDocenteComponent {
     this.filteredTestData = this.testData.filter((test) => {
       const matchesEsame = this.filter.esame ? test.esame.id === this.filter.esame : true;
       const matchesTipoTest = this.filter.tipoTest ? test.tipoTest.id === this.filter.tipoTest : true;
+      const studentSearch = this.filter.studente.toLowerCase();
+      console.log(studentSearch)
+      const matchesStudente = this.filter.studente ? test.studente.toLowerCase().includes(studentSearch): true;
       const matchesData = this.filter.data ? new Date(test.data).toLocaleDateString() === 
       new Date(this.filter.data).toLocaleDateString() : true;
 
-      return matchesEsame && matchesTipoTest && matchesData;
+      return matchesEsame && matchesTipoTest && matchesStudente && matchesData;
     });
 
     this.sortData();
     
     this.pageIndex = 0;
     this.applyPagination();
-    // this.calculateStats();
+    this.calculateStats();
 
   }
 
@@ -226,9 +270,11 @@ export class ReportDocenteComponent {
     if (this.selectedEsame) {
       this.tipiTestForSelectedEsame = this.tipiTest.filter((tipoTest) => this.selectedEsame.tipiTest.includes(tipoTest.id));
       this.filter.tipoTest = '';
+      this.filter.studente = '';
     } else {
       this.tipiTestForSelectedEsame = this.tipiTest;
       this.filter.tipoTest = '';
+      this.filter.studente = '';
     }
     this.applyFilter();
   }
@@ -237,14 +283,43 @@ export class ReportDocenteComponent {
     this.filter = {
       esame: '',
       tipoTest: '',
+      studente: '',
       data: null,
     };
     this.filteredTestData = [...this.testData];
     this.tipiTestForSelectedEsame = this.tipiTest;
     this.pageIndex = 0;
     this.applyPagination();
-    // this.calculateStats();
+    this.calculateStats();
     this.sortData()
+  }
+
+  calculateStats() {
+    this.totalTests = this.testData.length;
+    this.totalMediaVoti = this.testData.reduce((acc, test) => acc + test.voto, 0) / this.totalTests;
+
+    const differentTests = this.realTestData.length;
+    this.realMediaVoti = this.realTestData.reduce((acc, test) => acc + test.voto, 0) / differentTests;
+
+    const filteredTests = this.filteredTestData;
+    this.filteredMediaVoti = filteredTests.reduce((acc, test) => acc + test.voto, 0) / filteredTests.length;
+
+    const filteredRealTests = filteredTests.filter((test) => this.realTestData.includes(test));
+    this.filteredRealMediaVoti = filteredRealTests.reduce((acc, test) => acc + test.voto, 0) / filteredRealTests.length;
+  }
+
+  getCircleColor(value: number): string {
+    if (value <= 50) {
+      return '#e53935'; // Rosso
+    } else if (value < 60) {
+      return '#ffb74d'; // Arancione
+    } else if (value < 75) {
+      return '#fdd835' ; // Giallo
+    } else if (value < 90) {
+      return '#66bb6a'; // Verde chiaro
+    } else {
+      return '#43a047'; // Verde scuro
+    }
   }
 
 }
