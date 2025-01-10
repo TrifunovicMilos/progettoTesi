@@ -60,6 +60,14 @@
   </div>
 
   <div class="filter-container" *ngIf="isTableVisible">
+
+    <!-- Filtra per Studente -->
+    <mat-form-field appearance="outline">
+      <mat-label>Ricerca studente</mat-label>
+      <mat-icon matPrefix>search</mat-icon>
+      <input matInput [(ngModel)]="filter.studente" (input)="applyFilter()" placeholder="nome cognome">
+    </mat-form-field>
+
     <mat-form-field appearance="fill">
       <mat-label>Filtra per Esame</mat-label>
       <mat-select [(value)]="filter.esame" (selectionChange)="onEsameChange()">
@@ -75,13 +83,6 @@
         <mat-option [value]="''">Tutti</mat-option>
         <mat-option *ngFor="let tipo of tipiTestForSelectedEsame" [value]="tipo.id">{{ tipo?.nomeTest }}</mat-option>
       </mat-select>
-    </mat-form-field>
-
-    <!-- Filtra per Studente -->
-    <mat-form-field appearance="outline">
-      <mat-label>Ricerca studente</mat-label>
-      <mat-icon matPrefix>search</mat-icon>
-      <input matInput [(ngModel)]="filter.studente" (input)="applyFilter()" placeholder="nome cognome">
     </mat-form-field>
 
     <mat-form-field appearance="fill">
