@@ -420,8 +420,6 @@ export class ProgressiStudenteComponent implements OnInit {
   }
 
   ngAfterViewInit() {
-    
-  
     // Aspetta che il DOM sia completamente pronto
     this.waitForCanvas('votiChart').then(() => {
       this.updateChart();

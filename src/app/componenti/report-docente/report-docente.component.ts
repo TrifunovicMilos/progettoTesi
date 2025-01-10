@@ -16,11 +16,12 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatIconModule } from '@angular/material/icon';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 @Component({
   selector: 'app-report-docente',
   standalone: true,
-  imports: [CommonModule, RouterLink, MatIconModule, MatTableModule, MatTabsModule, MatFormFieldModule, FormsModule, MatSelectModule, MatDatepickerModule, MatNativeDateModule, MatInputModule, MatButtonModule, MatSlideToggleModule, MatPaginatorModule],
+  imports: [CommonModule, RouterLink, MatIconModule, MatTableModule, MatTabsModule, MatFormFieldModule, FormsModule, MatSelectModule, MatDatepickerModule, MatNativeDateModule, MatInputModule, MatButtonModule, MatSlideToggleModule, MatPaginatorModule, MatAutocompleteModule],
   templateUrl: './report-docente.component.html',
   styleUrl: './report-docente.component.css'
 })
@@ -47,6 +48,10 @@ export class ReportDocenteComponent {
   selectedEsame: any;
   tipiTestForSelectedEsame: any[] = [];
 
+  filteredStudenti: string[] = [];
+  selectedStudent: string = '';
+  showMinCharMessage = false;
+
   totalTests = 0;
   differentTests = 0;
   totalMediaVoti = 0;
@@ -58,12 +63,45 @@ export class ReportDocenteComponent {
   pageIndex = 0;
   pageSizeOptions = [5, 10, 25, 50];
 
-  displayedColumns: string[] = ['studente' ,'esame', 'tipoTest', 'data', 'voto'];
+  displayedColumns: string[] = [
+    'studente',
+    'esame',
+    'tipoTest',
+    'data',
+    'voto',
+  ];
 
   sortColumn: string = 'data';
-  sortDirection: 'asc' | 'desc' = 'desc'; 
+  sortDirection: 'asc' | 'desc' = 'desc';
 
-  constructor( private firebaseService: FirebaseService, private authService: AuthService, private router: Router) {}
+  // grafico
+  chartFilter = {
+    esame: '',
+    tipoTest: '',
+    studente: '',
+  };
+
+  tipiTestForChart: any[] = [];
+  chart: any;
+  noChartData = false;
+
+  chartTestCount = 0;
+  chartTestAverage = 0;
+  chartTestMax = 0;
+  chartTestMin = 0;
+
+  filteredChartStudenti: string[] = [];
+  selectedChartStudent: string = '';
+  showMinCharMessageChart = false;
+  filteredNumberStudents = 0;
+
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+
+  constructor(
+    private firebaseService: FirebaseService,
+    private authService: AuthService,
+    private router: Router
+  ) {}
 
   ngOnInit() {
     this.authService.getUserObservable().subscribe((userData) => {
@@ -84,31 +122,36 @@ export class ReportDocenteComponent {
     try {
       // tutti gli esami del docente che contengono almeno un test
       this.esami = await this.firebaseService.getExamService().getUserEsami(this.uid, 'docente');
-      this.esami = this.esami.filter((esame) => esame.tipiTest && esame.tipiTest.length > 0);
+      this.esami = this.esami.filter(
+        (esame) => esame.tipiTest && esame.tipiTest.length > 0
+      );
 
       // ottieni tutti i test
       let allTests: any[] = [];
       for (const esame of this.esami) {
         const tests = await this.firebaseService.getTestService().getAllTestsByEsame(esame.id);
-        allTests = allTests.concat(tests); 
+        allTests = allTests.concat(tests);
       }
 
       this.testData = allTests;
 
       // Estra tutti gli studenti
-      this.studenti = [...new Set(this.testData.map((test) => test.studente)),];
+      this.studenti = [...new Set(this.testData.map((test) => test.studente))];
 
       // Estrai tutti i tipi di test unici
       const tipoTestIds = [...new Set(this.testData.map((test) => test.tipoTest)),];
 
-      const tipiTestPromises = tipoTestIds.map((id) =>this.firebaseService.getTestService().getTipoTestById(id));
+      const tipiTestPromises = tipoTestIds.map((id) =>
+        this.firebaseService.getTestService().getTipoTestById(id)
+      );
       this.tipiTest = await Promise.all(tipiTestPromises);
       this.tipiTestForSelectedEsame = this.tipiTest;
-      this.differentTests = this.tipiTest.length
+      this.tipiTestForChart = this.tipiTest;
+      this.differentTests = this.tipiTest.length;
 
       for (let test of this.testData) {
         const tipoTest = this.tipiTest.find((t) => t.id === test.tipoTest);
-        test.tipoTest = tipoTest ? { id: tipoTest.id, nomeTest: tipoTest.nomeTest } : { id: '', nomeTest: '' };
+        test.tipoTest = tipoTest ? { id: tipoTest.id, nomeTest: tipoTest.nomeTest }: { id: '', nomeTest: '' };
 
         const esame = this.esami.find((e) => Array.isArray(e.tipiTest) && e.tipiTest.includes(test.tipoTest.id));
         test.esame = esame ? { id: esame.id, titolo: esame.titolo } : { id: '', titolo: '' };
@@ -164,10 +207,10 @@ export class ReportDocenteComponent {
       this.sortColumn = column;
       this.sortDirection = 'asc';
     }
-  
+
     this.filteredTestData = this.filteredTestData.sort((a, b) => {
       let comparison = 0;
-  
+
       // Eseguiamo il confronto in base alla colonna selezionata
       if (this.sortColumn === 'esame') {
         comparison = a.esame.titolo.localeCompare(b.esame.titolo);
@@ -176,26 +219,25 @@ export class ReportDocenteComponent {
       } else if (this.sortColumn === 'data') {
         const dateA = new Date(a.data);
         const dateB = new Date(b.data);
-        comparison = dateA > dateB ? 1 : (dateA < dateB ? -1 : 0);
+        comparison = dateA > dateB ? 1 : dateA < dateB ? -1 : 0;
       } else if (this.sortColumn === 'voto') {
         comparison = a.voto - b.voto;
       } else if (this.sortColumn === 'studente') {
         comparison = a.studente.localeCompare(b.studente);
       }
-  
+
       // Se la direzione è discendente, invertiamo il risultato
       return this.sortDirection === 'asc' ? comparison : -comparison;
     });
-  
+
     this.pageIndex = 0; // Reset della pagina ogni volta che ordiniamo
     this.applyPagination(); // Rappresentiamo i dati ordinati
   }
 
   sortData(): void {
-  
     this.filteredTestData = this.filteredTestData.sort((a, b) => {
       let comparison = 0;
-  
+
       // Eseguiamo il confronto in base alla colonna selezionata
       if (this.sortColumn === 'esame') {
         comparison = a.esame.titolo.localeCompare(b.esame.titolo);
@@ -204,17 +246,17 @@ export class ReportDocenteComponent {
       } else if (this.sortColumn === 'data') {
         const dateA = new Date(a.data);
         const dateB = new Date(b.data);
-        comparison = dateA > dateB ? 1 : (dateA < dateB ? -1 : 0);
+        comparison = dateA > dateB ? 1 : dateA < dateB ? -1 : 0;
       } else if (this.sortColumn === 'voto') {
         comparison = a.voto - b.voto;
       } else if (this.sortColumn === 'studente') {
         comparison = a.studente.localeCompare(b.studente);
       }
-  
+
       // Se la direzione è discendente, invertiamo il risultato
       return this.sortDirection === 'asc' ? comparison : -comparison;
     });
-  
+
     this.pageIndex = 0; // Reset della pagina ogni volta che ordiniamo
     this.applyPagination(); // Rappresentiamo i dati ordinati
   }
@@ -243,32 +285,58 @@ export class ReportDocenteComponent {
     this.applyPagination();
   }
 
+  onStudentInput(event: any) {
+    const input = event.target.value.toLowerCase();
+    if (input.length < 3) {
+      this.showMinCharMessage = input.length > 0;
+      this.filteredStudenti = [];
+    } 
+    else {
+      this.showMinCharMessage = false;
+      this.filteredStudenti = this.studenti.filter((student) =>
+        student.toLowerCase().includes(input)
+      );
+    }   
+  }
+
+  selectStudent(student: string) {
+    this.selectedStudent = student;
+    this.filter.studente = student;
+    this.filteredStudenti = []
+    this.applyFilter();
+  }
+
+  clearStudentInput() {
+    this.selectedStudent = '';
+    this.filter.studente = '';
+    this.applyFilter();
+  }
+
   applyFilter() {
     this.filteredTestData = this.testData.filter((test) => {
       const matchesEsame = this.filter.esame ? test.esame.id === this.filter.esame : true;
       const matchesTipoTest = this.filter.tipoTest ? test.tipoTest.id === this.filter.tipoTest : true;
-      const studentSearch = this.filter.studente.toLowerCase();
-      console.log(studentSearch)
-      const matchesStudente = this.filter.studente ? test.studente.toLowerCase().includes(studentSearch): true;
-      const matchesData = this.filter.data ? new Date(test.data).toLocaleDateString() === 
-      new Date(this.filter.data).toLocaleDateString() : true;
+      const matchesStudente = this.filter.studente ? test.studente === this.filter.studente : true;
+      const matchesData = this.filter.data ? 
+      new Date(test.data).toLocaleDateString() === new Date(this.filter.data).toLocaleDateString() : true;
 
       return matchesEsame && matchesTipoTest && matchesStudente && matchesData;
     });
 
     this.sortData();
-    
+
     this.pageIndex = 0;
     this.applyPagination();
     this.calculateStats();
-
   }
 
   onEsameChange() {
     // Quando cambia l'esame, aggiorniamo i tipi di test disponibili
     this.selectedEsame = this.esami.find((e) => e.id === this.filter.esame);
     if (this.selectedEsame) {
-      this.tipiTestForSelectedEsame = this.tipiTest.filter((tipoTest) => this.selectedEsame.tipiTest.includes(tipoTest.id));
+      this.tipiTestForSelectedEsame = this.tipiTest.filter((tipoTest) =>
+        this.selectedEsame.tipiTest.includes(tipoTest.id)
+      );
       this.filter.tipoTest = '';
       this.filter.studente = '';
     } else {
@@ -286,12 +354,14 @@ export class ReportDocenteComponent {
       studente: '',
       data: null,
     };
+    this.selectedStudent = '';
+    this.filteredStudenti = [];
     this.filteredTestData = [...this.testData];
     this.tipiTestForSelectedEsame = this.tipiTest;
     this.pageIndex = 0;
     this.applyPagination();
     this.calculateStats();
-    this.sortData()
+    this.sortData();
   }
 
   calculateStats() {
@@ -314,7 +384,7 @@ export class ReportDocenteComponent {
     } else if (value < 60) {
       return '#ffb74d'; // Arancione
     } else if (value < 75) {
-      return '#fdd835' ; // Giallo
+      return '#fdd835'; // Giallo
     } else if (value < 90) {
       return '#66bb6a'; // Verde chiaro
     } else {
@@ -322,4 +392,188 @@ export class ReportDocenteComponent {
     }
   }
 
+  onChartEsameChange() {
+    const selectedEsame = this.esami.find((e) => e.id === this.chartFilter.esame);
+    if (selectedEsame) {
+      this.tipiTestForChart = this.tipiTest.filter((tipo) =>
+        selectedEsame.tipiTest.includes(tipo.id)
+      );
+    } else {
+      this.tipiTestForChart = this.tipiTest;
+    }
+    this.chartFilter.tipoTest = '';
+    this.updateChart();
+  }
+
+  clearChartFilters() {
+    this.chartFilter = {
+      esame: '',
+      tipoTest: '',
+      studente: '',
+    };
+    this.selectedChartStudent = '';
+    this.filteredChartStudenti = [];
+    this.chartFilter.studente = '';
+    this.updateChart();
+  }
+
+  updateChart() {
+    const filteredData = this.testData.filter((test) => {
+      const matchesEsame = this.chartFilter.esame ? test.esame.id === this.chartFilter.esame : true;
+      const matchesTipoTest = this.chartFilter.tipoTest ? test.tipoTest.id === this.chartFilter.tipoTest : true;
+      const matchesStudente = this.chartFilter.studente ? test.studente === this.chartFilter.studente : true;
+
+      return matchesEsame && matchesTipoTest && matchesStudente;
+    });
+
+    if (filteredData.length == 0)
+    this.noChartData = true;
+    else
+    this.noChartData = false;
+
+    this.filteredNumberStudents  = [...new Set(filteredData.map((test) => test.studente))].length;
+
+    this.chartTestCount = filteredData.length;
+    this.chartTestAverage = filteredData.reduce((sum, test) => sum + test.voto, 0) / (filteredData.length || 1);
+    this.chartTestMax = Math.max(...filteredData.map((test) => test.voto));
+    this.chartTestMin = Math.min(...filteredData.map((test) => test.voto));
+
+    const labels = filteredData.map((test) => new Date(test.data).toLocaleDateString());
+    const data = filteredData.map((test) => test.voto);
+
+    // dati mostrati al passaggio del mouse sul punto del grafico
+    const tooltipData = filteredData.map((test) => ({
+      voto: test.voto,
+      data: new Date(test.data).toLocaleString(),
+      studente: test.studente,
+      esame: test.esame.titolo,
+      tipoTest: test.tipoTest.nomeTest,
+    }));
+
+    if (this.chart) {
+      this.chart.destroy();
+    }
+
+    this.chart = new Chart('votiChart', {
+      type: 'line',
+      data: {
+        labels,
+        datasets: [
+          {
+            label: 'Voto',
+            data,
+            borderColor: '#3e95cd',
+            fill: false,
+          },
+        ],
+      },
+      options: {
+        responsive: true,
+        scales: {
+          x: {
+            title: {
+              display: true,
+              text: 'Data',
+            },
+          },
+          y: {
+            title: {
+              display: true,
+              text: 'Voto',
+            },
+            beginAtZero: true,
+            max: 100,
+            afterDataLimits: (axis) => {
+              axis.max += 10; // Aggiunge margine oltre il massimo
+            },
+          },
+        },
+        plugins: {
+          tooltip: {
+            callbacks: {
+              title: function () {
+                // Rimuove il titolo predefinito del tooltip (la data senza ora presente nelle ascisse)
+                return '';
+              },
+              label: function (context) {
+                const index = context.dataIndex;
+                const info = tooltipData[index];
+                return [
+                  `Voto: ${info.voto}`,
+                  `Data: ${info.data}`,
+                  `Studente: ${info.studente}`,
+                  `Esame: ${info.esame}`,
+                  `Test: ${info.tipoTest}`,
+                ];
+              },
+            },
+            // Disabilita il logo accanto al campo "Voto"
+            displayColors: false,
+          },
+        },
+      },
+    });
+  }
+
+  onChartStudentInput(event: any) {
+    const input = event.target.value.toLowerCase();
+    if (input.length < 3) {
+      this.showMinCharMessageChart = input.length > 0;
+      this.filteredChartStudenti = [];
+    } 
+    else {
+      this.showMinCharMessageChart = false;
+      this.filteredChartStudenti = this.studenti.filter((student) =>
+        student.toLowerCase().includes(input)
+      );
+    }   
+  }
+
+  selectChartStudent(student: string) {
+    this.selectedChartStudent = student;
+    this.chartFilter.studente = student;
+    this.updateChart();
+  }
+
+  clearChartStudentInput() {
+    this.selectedChartStudent = '';
+    this.chartFilter.studente = '';
+    this.filteredChartStudenti = [];
+    this.updateChart();
+  }
+
+  ngAfterViewInit() {
+    // Aspetta che il DOM sia completamente pronto
+    this.waitForCanvas('votiChart')
+      .then(() => {
+        this.updateChart();
+      })
+      .catch((err) =>
+        console.error("Errore durante l'attesa del canvas:", err)
+      );
+  }
+
+  // Funzione per aspettare che il canvas sia pronto, per risolvere errore: "Failed to create chart: can't acquire context from the given item"
+  private waitForCanvas(id: string): Promise<HTMLCanvasElement> {
+    return new Promise((resolve, reject) => {
+      const checkCanvas = () => {
+        const canvas = document.getElementById(id) as HTMLCanvasElement;
+        if (canvas) {
+          const context = canvas.getContext('2d');
+          if (context) {
+            resolve(canvas);
+          } else {
+            reject(
+              new Error(
+                `Impossibile acquisire il contesto 2D per il canvas con id "${id}".`
+              )
+            );
+          }
+        } else {
+          setTimeout(checkCanvas, 50); // Ritenta dopo un breve ritardo
+        }
+      };
+      checkCanvas();
+    });
+  }
 }
