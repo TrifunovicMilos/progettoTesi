@@ -33,7 +33,6 @@
         <p>{{ esameData?.descrizione }}</p>
     </div>
 
-    <!-- Test -->
     <div *ngIf="ruolo === 'docente'" class="exam-domande">
         <h2>Domande</h2>
         <a class="domande-link" [routerLink]="['/esami', esameId, 'domande']">Gestisci le domande</a>

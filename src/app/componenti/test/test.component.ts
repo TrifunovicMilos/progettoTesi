@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, ElementRef, OnInit, QueryList, ViewChildren } from '@angular/core';
+import { Component, ElementRef, HostListener, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatRadioModule } from '@angular/material/radio';
@@ -205,6 +205,28 @@ export class TestComponent implements OnInit{
     if (domandaRef) {
       // Esegui lo scroll fino alla domanda
       domandaRef.nativeElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }
+
+  @HostListener('document:keydown.enter', ['$event'])
+  handleEnterKey(event: KeyboardEvent): void {
+    event.preventDefault(); 
+    
+    if (!this.isComplete()) {
+      // Se il test non è completo
+      if (this.currentQuestionIndex < this.domande.length - 1) {
+        // Passa alla prossima domanda, se non sei sull'ultima
+        this.nextQuestion();
+      }
+    } else {
+      // Se il test è completo
+      if (this.currentQuestionIndex === this.domande.length - 1) {
+        // Esegui invio se sei sull'ultima domanda
+        this.onSubmit();
+      }
+      else {
+        this.nextQuestion();
+      }
     }
   }
 

@@ -1,8 +1,13 @@
-<div *ngIf="isLoading" class="loading-container">
+<div *ngIf="isLoading && testData?.length!=0" class="loading-container">
   <p>Caricamento in corso...</p>
 </div>
 
-<div class="container" *ngIf="!isLoading">
+<div *ngIf="!isLoading && testData?.length==0"
+  [ngClass]="isSidebarOpen ? 'no-resultsAdapted' : 'no-results'">
+  <p>Nessun test svolto.</p>
+</div>
+
+<div class="container" *ngIf="!isLoading && testData?.length!=0">
 
   <div class="stats-container">
     <!-- Test Totali -->
@@ -68,7 +73,7 @@
       </mat-select>
     </mat-form-field>
 
-    <!-- Filtra per Tipo Test solo se un esame è selezionato -->
+    <!-- Filtra per Tipo Test -->
     <mat-form-field appearance="fill">
       <mat-label>Filtra per Test</mat-label>
       <mat-select [(value)]="filter.tipoTest" (selectionChange)="applyFilter()">

@@ -16,6 +16,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatIconModule } from '@angular/material/icon';
+import { SidebarService } from '../../servizi/sidebar.service';
 
 @Component({
   selector: 'app-progressi-studente',
@@ -28,6 +29,7 @@ import { MatIconModule } from '@angular/material/icon';
 export class ProgressiStudenteComponent implements OnInit {
   isLoading = true;
   isTableVisible = true;
+  isSidebarOpen = false;
 
   uid!: string;
 
@@ -78,7 +80,7 @@ export class ProgressiStudenteComponent implements OnInit {
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
-  constructor( private firebaseService: FirebaseService, private authService: AuthService, private router: Router) {}
+  constructor( private firebaseService: FirebaseService, private authService: AuthService, private sidebarService: SidebarService, private router: Router) {}
 
   ngOnInit() {
     this.authService.getUserObservable().subscribe((userData) => {
@@ -92,6 +94,10 @@ export class ProgressiStudenteComponent implements OnInit {
             this.isLoading = false;
           });
       }
+    });
+
+    this.sidebarService.sidebarState$.subscribe(state => {
+      this.isSidebarOpen = state; 
     });
   }
 
@@ -255,6 +261,7 @@ export class ProgressiStudenteComponent implements OnInit {
   onEsameChange() {
     // Quando cambia l'esame, aggiorniamo i tipi di test disponibili
     this.selectedEsame = this.esami.find((e) => e.id === this.filter.esame);
+    console.log(this.selectedEsame)
     if (this.selectedEsame) {
       this.tipiTestForSelectedEsame = this.tipiTest.filter((tipoTest) => this.selectedEsame.tipiTest.includes(tipoTest.id));
       this.filter.tipoTest = '';
