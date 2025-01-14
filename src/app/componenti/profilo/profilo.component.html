@@ -1,54 +1,52 @@
-<!-- pagina per testare l'integrazione con firestore, estetica da cambiare -->
-
 <div *ngIf="isLoading" class="loading-container">
   <p>Caricamento in corso...</p>
 </div>
 
 <div [ngClass]="isSidebarOpen ? 'containerAdapted' : 'container'">
-<div *ngIf="!isLoading" class="profile-container">
-  <div class="profile-header">
-    <h2>Profilo Utente</h2>
-  </div>
+  <div *ngIf="!isLoading" class="profile-container">
+    <div class="profile-header">
+      <h2>Profilo Utente</h2>
+    </div>
 
-  <div class="profile-info">
-    <div class="info-item">
-      <strong>Nome: </strong> <span>{{ nome }}</span>
+    <div class="profile-info">
+      <div class="info-item">
+        <strong>Nome: </strong> <span>{{ nome }}</span>
+      </div>
+      <div class="info-item">
+        <strong>Cognome: </strong> <span>{{ cognome }}</span>
+      </div>
+      <div class="info-item">
+        <strong>Ruolo: </strong> <span>{{ ruolo }}</span>
+      </div>
+      <div class="info-item">
+        <strong>Email: </strong> <span>{{ email }}</span>
+      </div>
     </div>
-    <div class="info-item">
-      <strong>Cognome: </strong> <span>{{ cognome }}</span>
-    </div>
-    <div class="info-item">
-      <strong>Ruolo: </strong> <span>{{ ruolo }}</span>
-    </div>
-    <div class="info-item">
-      <strong>Email: </strong> <span>{{ email }}</span>
-    </div>
-  </div>
 
-  <div class="avatar-container">
-    <div class="avatar-preview">
-      <p><img [src]="selectedAvatarUrl" class="avatar-img" alt="Avatar"></p>
+    <div class="avatar-container">
+      <div class="avatar-preview">
+        <p><img [src]="selectedAvatarUrl" class="avatar-img" alt="Avatar"></p>
+      </div>
+      <mat-form-field class="avatar-select">
+        <mat-label>Seleziona Avatar</mat-label>
+        <mat-select [(value)]="selectedAvatar" (selectionChange)="onSelect($event)">
+          <mat-option [value]="'Default'">
+            <div class="avatar-option">
+              <img [src]="'assets/avatar/default.jpg'" class="avatar-thumb" alt="Default" />
+              Default
+            </div>
+          </mat-option>
+          <mat-option *ngFor="let i of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]" [value]="'Avatar ' + i">
+            <div class="avatar-option">
+              <img [src]="'assets/avatar/avatar' + i + '.jpg'" class="avatar-thumb" alt="Avatar {{i}}" />
+              Avatar {{i}}
+            </div>
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <!-- non posso cambiare avatar se l'avatar selezionato è quello che avevo già -->
+      <button mat-raised-button color="primary" class="confirm-button" [disabled]="selectedAvatar==userAvatar"
+        (click)="onConfirmChange()">Conferma Cambio</button>
     </div>
-    <mat-form-field class="avatar-select">
-      <mat-label>Seleziona Avatar</mat-label>
-      <mat-select [(value)]="selectedAvatar" (selectionChange)="onSelect($event)">
-        <mat-option [value]="'Default'">
-          <div class="avatar-option">
-            <img [src]="'assets/avatar/default.jpg'" class="avatar-thumb" alt="Default" />
-            Default
-          </div>
-        </mat-option>
-        <mat-option *ngFor="let i of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]" [value]="'Avatar ' + i">
-          <div class="avatar-option">
-            <img [src]="'assets/avatar/avatar' + i + '.jpg'" class="avatar-thumb" alt="Avatar {{i}}" />
-            Avatar {{i}}
-          </div>
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
-    <!-- non posso cambiare avatar se l'avatar selezionato è quello che avevo già -->
-    <button mat-raised-button color="primary" class="confirm-button" [disabled]="selectedAvatar==userAvatar"
-      (click)="onConfirmChange()">Conferma Cambio</button>
   </div>
-</div>
 </div>

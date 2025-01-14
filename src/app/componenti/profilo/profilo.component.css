@@ -16,7 +16,8 @@
 }
 
 @media (max-width: 800px) {
-  .container, .containerAdapted {
+  .container,
+  .containerAdapted {
     margin-right: 10px;
     margin-left: auto;
   }
@@ -46,6 +47,7 @@
 .profile-info {
   background-color: #fff;
   padding: 15px;
+  padding-bottom: 5px;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   margin-bottom: 20px;
@@ -71,7 +73,7 @@
 }
 
 .avatar-preview {
-  margin-bottom: 16px;
+  margin-bottom: 5px;
 }
 
 .avatar-img {
@@ -134,19 +136,22 @@
 }
 
 @media (max-width: 500px) {
-  span, div {
+  span,
+  div {
     font-size: 15px;
   }
 }
 
 @media (max-width: 410px) {
-  span, div {
+  span,
+  div {
     font-size: 14px;
   }
 }
 
 @media (max-width: 350px) {
-  span, div {
+  span,
+  div {
     font-size: 13px;
   }
 }
