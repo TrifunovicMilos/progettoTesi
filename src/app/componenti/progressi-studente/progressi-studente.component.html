@@ -82,7 +82,7 @@
       </mat-select>
     </mat-form-field>
 
-    <mat-form-field appearance="fill">
+    <mat-form-field appearance="fill" style="width: 180px;">
       <mat-label>Filtra per Data</mat-label>
       <input matInput [matDatepicker]="picker" [(ngModel)]="filter.data" (dateChange)="applyFilter()">
       <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
@@ -150,10 +150,10 @@
     </mat-paginator>
 
     <!-- Media Voti -->
-    <div class="media-voti">
+    <div class="media-voti" *ngIf="filteredTestData.length>0">
       <p>Media Voti: {{ filteredMediaVoti | number:'1.1-1' }}</p>
+      <p>Media Voti Effettiva: {{ filteredRealMediaVoti | number:'1.1-1' }}</p>
     </div>
-  </div>
 
   <div class="chart-container">
     <h2 class="title" style="margin-left: 35px;">Andamento Voti</h2>
@@ -186,7 +186,7 @@
         <p class="stat-value">{{ chartTestCount }}</p>
       </div>
       <div class="stat-item">
-        <p class="stat-title">Media dei Voti</p>
+        <p class="stat-title">Media Voti</p>
         <p class="stat-value" [ngStyle]="{ 'color': getCircleColor(chartTestAverage) }">{{ chartTestAverage | number:'1.1-1' }}</p>
       </div>
       <div class="stat-item">

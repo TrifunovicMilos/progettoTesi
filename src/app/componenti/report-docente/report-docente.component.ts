@@ -97,11 +97,7 @@ export class ReportDocenteComponent {
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
-  constructor(
-    private firebaseService: FirebaseService,
-    private authService: AuthService,
-    private router: Router
-  ) {}
+  constructor(private firebaseService: FirebaseService, private authService: AuthService, private router: Router) {}
 
   ngOnInit() {
     this.authService.getUserObservable().subscribe((userData) => {
@@ -112,7 +108,6 @@ export class ReportDocenteComponent {
         if (!(ruolo === 'docente')) this.router.navigate(['404']);
         else
           this.loadData().then(() => {
-            console.log(this.testData)
             this.isLoading = false;
           });
       }
@@ -305,8 +300,7 @@ export class ReportDocenteComponent {
       this.filteredStudenti = this.studenti.filter((student) =>
         student.toLowerCase().includes(input)
       );
-    }
-    console.log(this.selectedStudent);   
+    } 
   }
 
   selectStudent(student: string) {

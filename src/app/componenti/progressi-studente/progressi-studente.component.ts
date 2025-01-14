@@ -53,6 +53,7 @@ export class ProgressiStudenteComponent implements OnInit {
   totalMediaVoti = 0;
   realMediaVoti = 0;
   filteredMediaVoti = 0;
+  filteredRealMediaVoti = 0;
 
   pageSize = 25;
   pageIndex = 0;
@@ -295,6 +296,9 @@ export class ProgressiStudenteComponent implements OnInit {
 
     const filteredTests = this.filteredTestData;
     this.filteredMediaVoti = filteredTests.reduce((acc, test) => acc + test.voto, 0) / filteredTests.length;
+
+    const filteredRealTests = filteredTests.filter((test) => this.realTestData.includes(test));
+    this.filteredRealMediaVoti = filteredRealTests.reduce((acc, test) => acc + test.voto, 0) / filteredRealTests.length;
   }
 
   getCircleColor(value: number): string {
