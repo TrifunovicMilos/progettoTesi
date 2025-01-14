@@ -17,6 +17,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatIconModule } from '@angular/material/icon';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { SidebarService } from '../../servizi/sidebar.service';
 
 @Component({
   selector: 'app-report-docente',
@@ -28,6 +29,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 export class ReportDocenteComponent {
   isLoading = true;
   isTableVisible = true;
+  isSidebarOpen = false;
 
   uid!: string;
 
@@ -97,7 +99,7 @@ export class ReportDocenteComponent {
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
-  constructor(private firebaseService: FirebaseService, private authService: AuthService, private router: Router) {}
+  constructor(private firebaseService: FirebaseService, private authService: AuthService, private sidebarService: SidebarService, private router: Router) {}
 
   ngOnInit() {
     this.authService.getUserObservable().subscribe((userData) => {
@@ -111,6 +113,10 @@ export class ReportDocenteComponent {
             this.isLoading = false;
           });
       }
+    });
+
+    this.sidebarService.sidebarState$.subscribe(state => {
+      this.isSidebarOpen = state; 
     });
   }
 
