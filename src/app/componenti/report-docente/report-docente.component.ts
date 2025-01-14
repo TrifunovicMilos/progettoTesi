@@ -112,6 +112,7 @@ export class ReportDocenteComponent {
         if (!(ruolo === 'docente')) this.router.navigate(['404']);
         else
           this.loadData().then(() => {
+            console.log(this.testData)
             this.isLoading = false;
           });
       }
@@ -135,6 +136,13 @@ export class ReportDocenteComponent {
 
       this.testData = allTests;
 
+      // oridna i test per data
+      this.testData.sort((a, b) => {
+        const dateA = new Date(a.data);
+        const dateB = new Date(b.data);
+        return dateA.getTime() - dateB.getTime();
+      });
+
       // Estra tutti gli studenti
       this.studenti = [...new Set(this.testData.map((test) => test.studente))];
 
@@ -149,6 +157,7 @@ export class ReportDocenteComponent {
       this.tipiTestForChart = this.tipiTest;
       this.differentTests = this.tipiTest.length;
 
+      // assegna ad ogni test il nome del suo tipoTest tramite il suo tipoTest ID, stessa cosa per l'esame
       for (let test of this.testData) {
         const tipoTest = this.tipiTest.find((t) => t.id === test.tipoTest);
         test.tipoTest = tipoTest ? { id: tipoTest.id, nomeTest: tipoTest.nomeTest }: { id: '', nomeTest: '' };
@@ -296,7 +305,8 @@ export class ReportDocenteComponent {
       this.filteredStudenti = this.studenti.filter((student) =>
         student.toLowerCase().includes(input)
       );
-    }   
+    }
+    console.log(this.selectedStudent);   
   }
 
   selectStudent(student: string) {
@@ -338,11 +348,9 @@ export class ReportDocenteComponent {
         this.selectedEsame.tipiTest.includes(tipoTest.id)
       );
       this.filter.tipoTest = '';
-      this.filter.studente = '';
     } else {
       this.tipiTestForSelectedEsame = this.tipiTest;
       this.filter.tipoTest = '';
-      this.filter.studente = '';
     }
     this.applyFilter();
   }
