@@ -181,8 +181,6 @@
     <div class="media-voti" *ngIf="filteredTestData.length>0">
       <p>Media Voti: {{ filteredMediaVoti | number:'1.1-1' }}</p>
       <p>Media Voti Effettiva: {{ filteredRealMediaVoti | number:'1.1-1' }}</p>
-      <div>
-      </div>
     </div>
 
     <div class="chart-container">
@@ -239,7 +237,7 @@
           <p class="stat-value">{{ filteredNumberStudents }}</p>
         </div>
         <div class="stat-item">
-          <p class="stat-title">Media dei Voti</p>
+          <p class="stat-title">Media Voti</p>
           <p class="stat-value" [ngStyle]="{ 'color': getCircleColor(chartTestAverage) }">{{ chartTestAverage |
             number:'1.1-1' }}</p>
         </div>
