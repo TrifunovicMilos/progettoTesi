@@ -128,17 +128,24 @@ mat-form-field,
   overflow: hidden;
 }
 
-/* 3 card per riga su molto schermi larghi con sidebar allargata */
+/* 4 card per riga su molto schermi larghi qnche con sidebar allargata */
 .card-collapsed {
-  flex: 1 1 calc(33.33% - 16px);
-  max-width: calc(33.33% - 16px);
+  flex: 1 1 calc(25% - 16px);
+  max-width: calc(25% - 16px);
   box-sizing: border-box;
   transition: all 0.3s ease;
   overflow: hidden;
 }
 
+@media (max-width: 1750px) {
+  .card-collapsed {
+    flex: 1 1 calc(33.33% - 16px);
+    max-width: calc(33.33% - 16px);
+  }
+}
+
 /* 3 card per riga su schermi larghi */
-@media (max-width: 1350px) {
+@media (max-width: 1450px) {
   .card {
     flex: 1 1 calc(33.33% - 16px);
     max-width: calc(33.33% - 16px);
