@@ -26,7 +26,7 @@ export const esameGuard: CanActivateFn = (route, state) => {
       const esamiUtente = userData.esami || '';
       // se non ho questo esame nella lista (di esami a cui sono iscritto o che gestisco) visualizzo un errore
       if (!esamiUtente.includes(esameId)) {
-        router.navigate(['/exam-denied']);
+        router.navigate(['/access-denied']);
         return false;
       }
     }
@@ -46,7 +46,7 @@ export const gestioneEsameGuard: CanActivateFn = (route, state) => {
       const ruolo = authService.getUserRole();
       // se non sono il docente di questo esame visualizzo un errore
       if (!(esamiUtente.includes(esameId) && ruolo === 'docente'))
-        router.navigate(['exam-denied']);
+        router.navigate(['access-denied']);
         return false;
     }
     return false;
@@ -68,7 +68,7 @@ export const testGuard: CanActivateFn = (route, state) => {
       const testStudente = userData.test || '';
       // se non sono lo studente associato al test visualizzo un errore
       if (!testStudente.includes(testId))
-        router.navigate(['exam-denied']);
+        router.navigate(['access-denied']);
         return false;
     }
     return false;

@@ -34,7 +34,7 @@ export const routes: Routes = [
     ]},
     {path: 'login', component: LoginComponent},
     {path: '404', component: NotfoundComponent},
-    {path:'exam-denied', component: EsameNegatoComponent},
+    {path:'access-denied', component: EsameNegatoComponent},
     {path: '**', redirectTo: '404' },
 ];
 
