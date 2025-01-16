@@ -23,6 +23,7 @@
   <mat-card class="test-header">
     <h1>{{ nomeTest }}</h1>
     <p class="test-description">{{ descrizione }}</p>
+    <p *ngIf="ruolo == 'docente'" class="student-name">Studente: {{ testData.studente }}</p>
   </mat-card>
 
   <!-- Risultato-->

@@ -53,3 +53,25 @@ export const gestioneEsameGuard: CanActivateFn = (route, state) => {
   });
   return true; 
 };
+
+export const testGuard: CanActivateFn = (route, state) => {
+  const authService = inject(AuthService);
+  const router = inject(Router);
+  const testId = route.paramMap.get('idTest');
+  
+  authService.getUserObservable().subscribe(userData => {
+    if (userData) {
+      const ruolo = authService.getUserRole();
+      if(ruolo === 'docente')
+      return true;
+
+      const testStudente = userData.test || '';
+      // se non sono lo studente associato al test visualizzo un errore
+      if (!testStudente.includes(testId))
+        router.navigate(['exam-denied']);
+        return false;
+    }
+    return false;
+  });
+  return true; 
+};
