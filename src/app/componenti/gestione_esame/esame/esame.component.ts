@@ -22,14 +22,13 @@ export class EsameComponent {
   esameData : any;
   ruolo = '';
   uid = '';
-  esamiUtente! : any[]; // per controllare se il docente o studente può accedere alla pagina dell'esame
   pools: any[] = [];
   tipiTest: any[] = [];
 
   constructor(private route: ActivatedRoute, private authService: AuthService, private firebaseService: FirebaseService, private router: Router, private dialog: MatDialog) {}
 
   ngOnInit() {
-    this.esameId = this.route.snapshot.paramMap.get('id') || "";
+    this.esameId = this.route.snapshot.paramMap.get('idEsame') || "";
 
     this.firebaseService.getTestService().listenToTestInEsame(this.esameId).subscribe((tipiTest) => {
       this.loadEsameDetails();
@@ -40,14 +39,9 @@ export class EsameComponent {
       if (userData) {
         this.uid = this.authService.getUid() || '';
         this.ruolo = this.authService.getUserRole();
-        this.esamiUtente = userData.esami || '';
-        // se non ho questo esame nella lista (di esami a cui sono iscritto o che gestisco) visualizzo un errore
-        if(!this.esamiUtente.includes(this.esameId))
-          this.router.navigate(['exam-denied'])
-        else
-          this.loadEsameDetails().then(() => {
-            this.isLoading = false;
-          });
+        this.loadEsameDetails().then(() => {
+          this.isLoading = false;
+        });
       }
     });
   }

@@ -128,7 +128,7 @@ export class AuthService {
     try {
       await signOut(this.auth);
       localStorage.removeItem('user');
-      localStorage.removeItem('lastActive'); //***
+      localStorage.removeItem('lastActive');
       this.isLoggedIn = false;
       this.router.navigate(['/login']);
     } catch (error) {

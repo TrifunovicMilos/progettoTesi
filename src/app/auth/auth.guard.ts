@@ -16,7 +16,40 @@ export const authGuard: CanActivateFn = (route, state) => {
   }
 };
 
-// export const authGuardChild: CanActivateChildFn = (route, state) => {
-//   const authService = inject(AuthService); 
-//   return authService.isAdmin; 
-// };
+export const esameGuard: CanActivateFn = (route, state) => {
+  const authService = inject(AuthService);
+  const router = inject(Router);
+  const esameId = route.paramMap.get('idEsame');
+  
+  authService.getUserObservable().subscribe(userData => {
+    if (userData) {
+      const esamiUtente = userData.esami || '';
+      // se non ho questo esame nella lista (di esami a cui sono iscritto o che gestisco) visualizzo un errore
+      if (!esamiUtente.includes(esameId)) {
+        router.navigate(['/exam-denied']);
+        return false;
+      }
+    }
+    return false;
+  });
+  return true; 
+};
+
+export const gestioneEsameGuard: CanActivateFn = (route, state) => {
+  const authService = inject(AuthService);
+  const router = inject(Router);
+  const esameId = route.paramMap.get('idEsame') || '';
+  
+  authService.getUserObservable().subscribe(userData => {
+    if (userData) {
+      const esamiUtente = userData.esami || '';
+      const ruolo = authService.getUserRole();
+      // se non sono il docente di questo esame visualizzo un errore
+      if (!(esamiUtente.includes(esameId) && ruolo === 'docente'))
+        router.navigate(['exam-denied']);
+        return false;
+    }
+    return false;
+  });
+  return true; 
+};

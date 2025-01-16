@@ -38,14 +38,9 @@ export class TipoTestComponent implements OnInit{
         this.nome = userData.nome || '';
         this.cognome = userData.cognome || '';
         this.ruolo = this.authService.getUserRole();
-        const esamiUtente = userData.esami || '';
-        // se non ho questo esame nella lista (di esami a cui sono iscritto o che gestisco) visualizzo un errore
-        if(!esamiUtente.includes(this.esameId))
-          this.router.navigate(['exam-denied'])
-        else
-          this.loadTestDetails().then(() => {
-            this.isLoading = false;
-          });
+        this.loadTestDetails().then(() => {
+          this.isLoading = false;
+        });
       }
     });
   }
