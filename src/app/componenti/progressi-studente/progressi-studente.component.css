@@ -158,8 +158,33 @@ mat-row {
 
 canvas {
   max-width: 100%;
-  max-height: 400px;
+  max-height: 550px;
 }
+
+@media (max-height: 850px) {
+  canvas {
+    max-height: 500px;
+  }
+}
+
+@media (max-height: 800px) {
+  canvas {
+    max-height: 450px;
+  }
+}
+
+@media (max-height: 750px) {
+  canvas {
+    max-height: 400px;
+  }
+}
+
+@media (max-height: 650px) {
+  canvas {
+    max-height: 350px;
+  }
+}
+
 
 .chart-stats {
   display: flex;

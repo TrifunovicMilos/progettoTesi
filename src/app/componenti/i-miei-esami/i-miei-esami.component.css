@@ -95,7 +95,7 @@ mat-form-field,
   overflow: hidden;
 }
 
-/* 4 card per riga su molto schermi larghi qnche con sidebar allargata */
+/* 4 card per riga su molto schermi larghi anche con sidebar allargata */
 .card-collapsed {
   flex: 1 1 calc(25% - 16px);
   max-width: calc(25% - 16px);

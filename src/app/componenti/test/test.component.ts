@@ -51,14 +51,9 @@ export class TestComponent implements OnInit{
         this.nome = userData.nome || '';
         this.cognome = userData.cognome || '';
         this.ruolo = this.authService.getUserRole();
-        const esamiUtente = userData.esami || '';
-        // se non sono uno studente iscritto o il docente di questo esame visualizzo un errore
-        if (!(esamiUtente.includes(this.esameId)))
-          this.router.navigate(['exam-denied'])
-        else
-          this.loadTestDetails().then(() => {
-            this.isLoading = false;
-          });
+        this.loadTestDetails().then(() => {
+          this.isLoading = false;
+        });
       }
     });
   }

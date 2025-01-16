@@ -2,7 +2,7 @@ import { Routes } from '@angular/router';
 import { NotfoundComponent } from './componenti/notfound/notfound.component';
 import { LoginComponent } from './componenti/login/login.component';
 import { DashboardComponent } from './componenti/dashboard/dashboard.component';
-import { authGuard } from './auth/auth.guard';
+import { authGuard, esameGuard, gestioneEsameGuard } from './auth/auth.guard';
 import { HomeComponent } from './componenti/home/home.component';
 import { ProfiloComponent } from './componenti/profilo/profilo.component';
 import { EsameComponent } from './componenti/gestione_esame/esame/esame.component';
@@ -22,11 +22,11 @@ export const routes: Routes = [
     {path: '', component: DashboardComponent, canActivate: [authGuard], children: [
         {path: '', redirectTo: 'home', pathMatch: 'full'},
         {path: 'home', component: HomeComponent},
-        {path: 'esami/:id', component: EsameComponent },
-        {path: 'esami/:idEsame/domande', component: DomandeComponent},
-        {path: 'esami/:idEsame/pool/:idPool', component: PoolComponent},
-        {path: 'esami/:idEsame/test/:idTipoTest', component: TipoTestComponent},
-        {path: 'esami/:idEsame/test/:idTipoTest/:idTest', component: TestComponent},
+        {path: 'esami/:idEsame', component: EsameComponent, canActivate: [esameGuard] },
+        {path: 'esami/:idEsame/domande', component: DomandeComponent, canActivate: [gestioneEsameGuard] },
+        {path: 'esami/:idEsame/pool/:idPool', component: PoolComponent, canActivate: [gestioneEsameGuard]},
+        {path: 'esami/:idEsame/test/:idTipoTest', component: TipoTestComponent, canActivate: [esameGuard] },
+        {path: 'esami/:idEsame/test/:idTipoTest/:idTest', component: TestComponent, canActivate: [esameGuard] },
         {path: 'my-exams', component: IMieiEsamiComponent},
         {path: 'progressi', component: ProgressiStudenteComponent},
         {path: 'report', component: ReportDocenteComponent},

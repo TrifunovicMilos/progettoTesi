@@ -33,19 +33,6 @@ export class PoolComponent {
         this.loadDomande(domande);
         this.isLoading = false;
       });
-
-    this.authService.getUserObservable().subscribe((userData) => {
-      if (userData) {
-        const uid = this.authService.getUid() || '';
-        const ruolo = this.authService.getUserRole();
-        const esamiUtente = userData.esami || '';
-
-        // se non sono il docente di questo esame visualizzo un errore
-        if (!(esamiUtente.includes(this.esameId) && ruolo === 'docente'))
-          this.router.navigate(['exam-denied']);
-        else this.isLoading = false;
-      }
-    });
   }
 
   async loadDomande(domandeID: string[]) {
