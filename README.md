@@ -20,13 +20,16 @@ monitorare i propri progressi, mentre i docenti possono configurare e gestire es
 
 Il progetto utilizza **Angular** per il frontend e **Firebase** per gestire l'autenticazione, il database e l'hosting.
 
+La piattaforma è disponibile online all'indirizzo [https://progetto-tesi-4278e.web.app](https://progetto-tesi-4278e.web.app).
+Se si desidera eseguire il progetto in locale, è possibile clonarlo e seguire i passaggi di installazione descritti nella sezione successiva.
+
 ---
 
 ## Installazione e Configurazione
 
 ### Prerequisiti
 
-- Node.js v16+
+- Node.js v18+
 - Angular CLI v18+
 - Account Firebase
 
@@ -35,12 +38,12 @@ Il progetto utilizza **Angular** per il frontend e **Firebase** per gestire l'au
 1. Clona il repository:
    ```bash
    git clone https://github.com/TrifunovicMilos/progettoTesi
-   cd mytestmate
+   cd progettoTesi
    ```
 
 2. Installa le dipendenze:
    ```bash
-   ng add @angular/material
+   npm install
    npm install chart.js
    ```
 
@@ -59,7 +62,4 @@ Il progetto utilizza **Angular** per il frontend e **Firebase** per gestire l'au
 ## Licenza
 
 Questo progetto è distribuito sotto la Licenza GNU General Public License v3.0 - vedi il file [LICENSE](./LICENSE) per i dettagli.
-
-
-
 
