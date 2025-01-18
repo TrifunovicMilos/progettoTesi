@@ -1,13 +1,65 @@
-# ProgettoTesi
+# MyTestMate
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.2.10.
+## Progettazione e sviluppo di una piattaforma di apprendimento online
 
-## Prerequisites
+---
 
-To run this project, make sure you have the necessary dependencies installed. Run the following command to install `@angular/material`:
-ng add @angular/material
+## Indice
+1. [Descrizione del Progetto](#descrizione-del-progetto)
+2. [Installazione e Configurazione](#installazione-e-configurazione)
+3. [Licenza](#licenza)
 
-## Development server
+---
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+## Descrizione del Progetto
+
+**MyTestMate** è una piattaforma di apprendimento online progettata per supportare studenti e docenti nella preparazione e gestione degli esami.
+
+La piattaforma consente agli studenti di iscriversi agli esami, svolgere test di preparazione e
+monitorare i propri progressi, mentre i docenti possono configurare e gestire esami e test personalizzati, oltre ad analizzare le performance degli studenti.
+
+Il progetto utilizza **Angular** per il frontend e **Firebase** per gestire l'autenticazione, il database e l'hosting.
+
+---
+
+## Installazione e Configurazione
+
+### Prerequisiti
+
+- Node.js v16+
+- Angular CLI v18+
+- Account Firebase
+
+### Passaggi per avviare il progetto
+
+1. Clona il repository:
+   ```bash
+   git clone https://github.com/TrifunovicMilos/progettoTesi
+   cd mytestmate
+   ```
+
+2. Installa le dipendenze:
+   ```bash
+   ng add @angular/material
+   npm install chart.js
+   ```
+
+3. Configura Firebase:
+   - Crea un progetto Firebase e abilita l'autenticazione e il Firestore.
+   - Nei file presenti in src/environments sostituisci i campi vuoti con le informazioni che trovi nelle Impostazioni del progetto di Firebase.
+
+4. Avvia il server di sviluppo:
+   ```bash
+   ng serve
+   ```
+   L'app sarà disponibile su `http://localhost:4200`.
+
+---
+
+## Licenza
+
+Questo progetto è distribuito sotto la Licenza GNU General Public License v3.0 - vedi il file [LICENSE](./LICENSE) per i dettagli.
+
+
+
 
