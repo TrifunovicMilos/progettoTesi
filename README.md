@@ -20,6 +20,9 @@ monitorare i propri progressi, mentre i docenti possono configurare e gestire es
 
 Il progetto utilizza **Angular** per il frontend e **Firebase** per gestire l'autenticazione, il database e l'hosting.
 
+La piattaforma è disponibile online all'indirizzo [https://progetto-tesi-4278e.web.app/](https://progetto-tesi-4278e.web.app/).
+Se si desidera eseguire il progetto in locale, è possibile clonarlo e seguire i passaggi di installazione descritti nella sezione successiva.
+
 ---
 
 ## Installazione e Configurazione
