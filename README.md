@@ -35,12 +35,12 @@ Il progetto utilizza **Angular** per il frontend e **Firebase** per gestire l'au
 1. Clona il repository:
    ```bash
    git clone https://github.com/TrifunovicMilos/progettoTesi
-   cd mytestmate
+   cd progettoTesi
    ```
 
 2. Installa le dipendenze:
    ```bash
-   ng add @angular/material
+   npm install
    npm install chart.js
    ```
 
