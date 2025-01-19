@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../../auth/auth.service';
 import { FirebaseService } from '../../../servizi/firebase/firebase.service';
 import { CommonModule } from '@angular/common';
@@ -11,7 +11,7 @@ import { MatDialog } from '@angular/material/dialog';
 @Component({
   selector: 'app-tipo-test',
   standalone: true,
-  imports: [CommonModule, MatButtonModule, MatIconModule],
+  imports: [CommonModule, MatButtonModule, MatIconModule, RouterLink],
   templateUrl: './tipo-test.component.html',
   styleUrl: './tipo-test.component.css'
 })
