@@ -32,13 +32,13 @@
         <mat-select [(value)]="selectedAvatar" (selectionChange)="onSelect($event)">
           <mat-option [value]="'Default'">
             <div class="avatar-option">
-              <img [src]="'assets/avatar/default.jpg'" class="avatar-thumb" alt="Default" />
+              <img [src]="'assets/avatar/default.png'" class="avatar-thumb" alt="Default" />
               Default
             </div>
           </mat-option>
-          <mat-option *ngFor="let i of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]" [value]="'Avatar ' + i">
+          <mat-option *ngFor="let i of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]" [value]="'Avatar ' + i">
             <div class="avatar-option">
-              <img [src]="'assets/avatar/avatar' + i + '.jpg'" class="avatar-thumb" alt="Avatar {{i}}" />
+              <img [src]="'assets/avatar/avatar' + i + '.png'" class="avatar-thumb" alt="Avatar {{i}}" />
               Avatar {{i}}
             </div>
           </mat-option>

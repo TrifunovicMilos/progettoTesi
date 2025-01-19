@@ -63,10 +63,10 @@ export class DashboardComponent implements OnInit{
   // chiamata nella funzione sopra per aggiornare avatarUrl (foto mostrata nell'header)
   private getAvatarUrl(): string {
     if (this.avatar === 'Default') {
-      return 'assets/avatar/default.jpg'; 
+      return 'assets/avatar/default.png'; 
     } else {
       const avatarNumber = this.avatar.split(' ')[1];
-      return `assets/avatar/avatar${avatarNumber}.jpg`;
+      return `assets/avatar/avatar${avatarNumber}.png`;
     }
   }
   

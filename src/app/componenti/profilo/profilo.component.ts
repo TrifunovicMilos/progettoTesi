@@ -53,10 +53,10 @@ export class ProfiloComponent implements OnInit {
   // quindi estraggo X e la concateno con "avatar"
   private getAvatarUrl(): string {
     if (this.selectedAvatar === 'Default') {
-      return 'assets/avatar/default.jpg'; 
+      return 'assets/avatar/default.png'; 
     } else {
       const avatarNumber = this.selectedAvatar.split(' ')[1];
-      return `assets/avatar/avatar${avatarNumber}.jpg`;
+      return `assets/avatar/avatar${avatarNumber}.png`;
     }
   }
 
