@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { FirebaseService } from '../../../servizi/firebase/firebase.service';
 import { MatDialog } from '@angular/material/dialog';
 import { CreateDomandaDialogComponent } from '../../dialoghi/create/create-domanda-dialog/create-domanda-dialog.component';
@@ -13,7 +13,7 @@ import { ConfirmDialogComponent } from '../../dialoghi/confirm-dialog/confirm-di
 @Component({
   selector: 'app-domande',
   standalone: true,
-  imports: [CommonModule, FormsModule, MatIconModule],
+  imports: [CommonModule, FormsModule, MatIconModule, RouterLink],
   templateUrl: './domande.component.html',
   styleUrl: './domande.component.css'
 })

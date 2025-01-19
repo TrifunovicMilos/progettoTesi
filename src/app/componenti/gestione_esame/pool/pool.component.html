@@ -2,8 +2,14 @@
     <p>Caricamento in corso...</p>
 </div>   -->
 
+<button *ngIf="!isLoading" class="btn-back" routerLink="/esami/{{esameId}}">
+  <mat-icon>arrow_back</mat-icon> Indietro
+</button>
+
 <div *ngIf="!isLoading" class="questions-container">
   <h2>Domande nel Pool</h2>
+
+  <p *ngIf="domande.length == 0">Nessuna domanda inserita</p>
 
   <div *ngIf="domande.length > 3" class="buttons-container-top">
     <!-- Bottone per aggiungere una nuova domanda -->
@@ -17,7 +23,7 @@
           delete_forever
         </span></mat-icon>Elimina pool
     </button>
-    <button *ngIf="selectedDomande.length > 0" class="btn-remove" (click)="onRemove()">
+    <button [disabled]="selectedDomande.length < 1" class="btn-remove" (click)="onRemove()">
       <mat-icon>delete</mat-icon>Elimina domande
     </button>
   </div>
@@ -53,3 +59,8 @@
     </button>
   </div>
 </div>
+
+<button *ngIf="!isLoading && domande.length > 3" class="btn-back" routerLink="/esami/{{esameId}}"
+  style="margin-bottom: 40px;">
+  <mat-icon>arrow_back</mat-icon> Indietro
+</button>
