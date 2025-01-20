@@ -109,6 +109,7 @@ mat-drawer mat-icon {
 mat-drawer-content {
   padding-top: 20px;
   transition: width 0.3s ease;
+  overflow-y: scroll;
 }
 
 /* si attiva quando isSidebarOpen */
