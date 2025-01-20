@@ -50,7 +50,6 @@ export class AuthService {
     this.startInactivityTimer();
   }
 
-  // passo parametro perché viene chiamata anche da create-exam-component e homeComponent
   async loadUserData(uid: string): Promise<void> {
     const ruolo = this.currentUser?.email?.includes('docente') ? 'docente' : 'studente';
     try {

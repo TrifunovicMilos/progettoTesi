@@ -168,8 +168,10 @@ export class TestComponent implements OnInit{
     try {
       const studente = this.nome + " " +this.cognome
       const testId = await this.firebaseService.getTestService().createTest(this.uid, studente, this.testData.tipoTest);
-      this.router.navigate([`esami/${this.esameId}/test/${this.testData.tipoTest}/${testId}`]).then(() => {
-        window.location.reload();
+      this.authService.loadUserData(this.uid).then(() => {
+        this.router.navigate([`esami/${this.esameId}/test/${this.testData.tipoTest}/${testId}`]).then(() => {
+          window.location.reload();
+        });
       });
     } catch (error) {
       console.error("Errore nell'avvio del test:", error);

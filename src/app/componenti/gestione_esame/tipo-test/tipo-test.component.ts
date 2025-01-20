@@ -96,15 +96,15 @@ export class TipoTestComponent implements OnInit{
   }
 
   private async startTest() {
-
     try {
       const studente = this.nome + " " + this.cognome;
       const testId = await this.firebaseService.getTestService().createTest(this.uid, studente, this.tipoTestId);
-      this.router.navigate([`esami/${this.esameId}/test/${this.tipoTestId}/${testId}`]);
+      this.authService.loadUserData(this.uid).then(() => {
+        this.router.navigate([`esami/${this.esameId}/test/${this.tipoTestId}/${testId}`]);
+      });
     } catch (error) {
       console.error("Errore nell'avvio del test:", error);
     }
-
   }
 
 }
