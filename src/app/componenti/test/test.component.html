@@ -31,6 +31,20 @@
     <h2>Risultato</h2>
     <p>Risposte corrette: {{ risposteCorrette }} / {{ domande.length }}</p>
     <p>Voto: {{ voto }} / 100</p>
+    <div class="actions">
+      <button mat-flat-button style="background-color: #4CAF50;" class="nav-button" routerLink="/home">
+        <mat-icon style="vertical-align: middle;">home</mat-icon> Home
+      </button>
+      <button mat-flat-button color="primary" class="nav-button" routerLink="/esami/{{esameId}}">
+        <mat-icon style="vertical-align: middle;">school</mat-icon> Esame
+      </button>
+      <button *ngIf="ruolo == 'studente'" mat-flat-button color="warn" class="nav-button" routerLink="/progressi">
+        <mat-icon style="vertical-align: middle;">bar_chart</mat-icon> Statistiche
+      </button>
+      <button *ngIf="ruolo == 'docente'" mat-flat-button color="warn" class="nav-button" routerLink="/report">
+        <mat-icon style="vertical-align: middle;">bar_chart</mat-icon> Statistiche
+      </button>
+    </div>
   </mat-card>
 
   <mat-card class="test-body">
@@ -75,8 +89,8 @@
 
       <div class="actions">
         <!-- bottone indietro, durante il test -->
-        <button *ngIf="currentQuestionIndex > 0 && !isCompleted" mat-flat-button color="primary" 
-          class="submit-button" (click)="previousQuestion()">
+        <button *ngIf="currentQuestionIndex > 0 && !isCompleted" mat-flat-button color="primary" class="submit-button"
+          (click)="previousQuestion()">
           <mat-icon style="vertical-align: middle;">arrow_back_ios</mat-icon>Indietro
         </button>
         <!-- bottone prossima domanda, durante il test -->
@@ -90,7 +104,8 @@
           <mat-icon style="vertical-align: middle;">send</mat-icon>Invia Test
         </button>
         <!-- bottone ritenta test, a fine test -->
-        <button *ngIf="isCompleted && ruolo == 'studente'" mat-flat-button color="primary" class="submit-button" (click)="onRetry()">
+        <button *ngIf="isCompleted && ruolo == 'studente'" mat-flat-button color="primary" class="submit-button"
+          (click)="onRetry()">
           <mat-icon style="vertical-align: middle;">restart_alt</mat-icon>Ritenta il test
         </button>
       </div>

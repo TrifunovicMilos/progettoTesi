@@ -3,7 +3,7 @@ import { Component, ElementRef, HostListener, OnInit, QueryList, ViewChildren } 
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatRadioModule } from '@angular/material/radio';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { FirebaseService } from '../../servizi/firebase/firebase.service';
 import { AuthService } from '../../auth/auth.service';
 import { MatCardModule } from '@angular/material/card';
@@ -14,7 +14,7 @@ import { MatDialog } from '@angular/material/dialog';
 @Component({
   selector: 'app-test',
   standalone: true,
-  imports: [CommonModule, MatButtonModule, MatIconModule, MatRadioModule, FormsModule, MatCardModule],
+  imports: [CommonModule, MatButtonModule, MatIconModule, MatRadioModule, FormsModule, MatCardModule, RouterLink],
   templateUrl: './test.component.html',
   styleUrl: './test.component.css'
 })
