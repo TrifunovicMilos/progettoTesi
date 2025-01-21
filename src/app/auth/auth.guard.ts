@@ -1,6 +1,8 @@
-import { CanActivateChildFn, CanActivateFn, Router } from '@angular/router';
+import { CanActivateChildFn, CanActivateFn, CanDeactivateFn, Router } from '@angular/router';
 import { AuthService } from './auth.service';
 import { inject } from '@angular/core';
+import { TestComponent } from '../componenti/test/test.component';
+import { FirebaseService } from '../servizi/firebase/firebase.service';
 
 // protegge tutte le pagine figlie della Dashboard
 // permette l'accesso solo se isLoggedIn = true, altrimenti rimanda alla pagina di login
@@ -74,4 +76,16 @@ export const testGuard: CanActivateFn = (route, state) => {
     return false;
   });
   return true; 
+};
+
+export const CanDeactivateTestGuard: CanDeactivateFn<TestComponent> = (
+  component: TestComponent
+) => {
+  if (!component.isCompleted) {
+    return confirm(
+      'Sei sicuro di voler uscire? Le tue risposte non saranno salvate e il test non sarà conteggiato.'
+    );
+  }
+  // Se il test è completato (sto guardando la revisione), non mostriamo il dialogo di conferma
+  return true;
 };

@@ -93,7 +93,6 @@ export class AuthService {
 
     // Invio email di verifica
     await sendEmailVerification(user);
-    console.log('Email di verifica inviata a:', email); // o anche user.email
 
     let [nome, cognome, ruolo] = email.split('@')[0].split('.'); // Estrazione nome, cognome e ruolo
     nome = nome.charAt(0).toUpperCase() + nome.slice(1).toLowerCase(); // prima lettera maiuscola

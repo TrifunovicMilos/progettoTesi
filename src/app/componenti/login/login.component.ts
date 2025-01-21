@@ -117,15 +117,10 @@ export class LoginComponent implements OnInit {
       this.emailLogin = email;
 
       this.authService.login(email, password)
-        .then(() => {
-          console.log('Login eseguito');
-        })
         .catch((error: any) => {
           if (error.message === 'Email non verificata.') {
-            console.log(error.message);
             alert(error.message + ' Controlla la tua posta.');
           } else {
-            console.log('Errore durante il login');
             alert('Errore durante il login. Controlla le credenziali.');
           }
         });
@@ -158,7 +153,6 @@ export class LoginComponent implements OnInit {
       })
       .catch((error: any) => {
         if (error.code === 'auth/email-already-in-use') {
-          console.log('Email già registrata');
           alert('Questa email è già registrata. Per favore, prova a fare il login.');
         } else {
           console.error(error);

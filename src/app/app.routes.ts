@@ -2,7 +2,7 @@ import { Routes } from '@angular/router';
 import { NotfoundComponent } from './componenti/notfound/notfound.component';
 import { LoginComponent } from './componenti/login/login.component';
 import { DashboardComponent } from './componenti/dashboard/dashboard.component';
-import { authGuard, esameGuard, gestioneEsameGuard, testGuard } from './auth/auth.guard';
+import { CanDeactivateTestGuard, authGuard, esameGuard, gestioneEsameGuard, testGuard } from './auth/auth.guard';
 import { HomeComponent } from './componenti/home/home.component';
 import { ProfiloComponent } from './componenti/profilo/profilo.component';
 import { EsameComponent } from './componenti/gestione_esame/esame/esame.component';
@@ -26,7 +26,7 @@ export const routes: Routes = [
         {path: 'esami/:idEsame/domande', component: DomandeComponent, canActivate: [gestioneEsameGuard] },
         {path: 'esami/:idEsame/pool/:idPool', component: PoolComponent, canActivate: [gestioneEsameGuard]},
         {path: 'esami/:idEsame/test/:idTipoTest', component: TipoTestComponent, canActivate: [esameGuard] },
-        {path: 'esami/:idEsame/test/:idTipoTest/:idTest', component: TestComponent, canActivate: [esameGuard, testGuard] },
+        {path: 'esami/:idEsame/test/:idTipoTest/:idTest', component: TestComponent, canActivate: [esameGuard, testGuard],  },
         {path: 'my-exams', component: IMieiEsamiComponent},
         {path: 'progressi', component: ProgressiStudenteComponent},
         {path: 'report', component: ReportDocenteComponent},
