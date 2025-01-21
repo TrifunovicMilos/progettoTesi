@@ -132,7 +132,10 @@ export class ReportDocenteComponent {
       let allTests: any[] = [];
       for (const esame of this.esami) {
         const tests = await this.firebaseService.getTestService().getAllTestsByEsame(esame.id);
-        allTests = allTests.concat(tests);
+
+        // Filtra i test completati
+        const completedTests = tests.filter((test) => test.voto >= 0);
+        allTests = allTests.concat(completedTests);
       }
 
       this.testData = allTests;

@@ -86,6 +86,11 @@ export class TestComponent implements OnInit{
         });
         this.risposteCorrette = corrette;
       }
+
+      if (this.ruolo == "docente" && !this.isCompleted ) {
+        this.router.navigate(['/404']);
+      }
+
     } catch (error: any) {
       this.router.navigate(['404'])
       if(error.message == 'Test non trovato.')
@@ -142,7 +147,8 @@ export class TestComponent implements OnInit{
     const data = new Date();
 
     // Salva il risultato nel database
-    await this.firebaseService.getTestService().saveTest(this.testId, risposte, this.voto, data.toUTCString());
+    const studente = this.nome + " " +this.cognome
+    await this.firebaseService.getTestService().saveTest(this.uid, this.testId, risposte, this.voto, data.toUTCString(), studente);
 
     // Visualizza il risultato
     this.risposteCorrette = corrette;
@@ -166,8 +172,7 @@ export class TestComponent implements OnInit{
   private async startTest() {
 
     try {
-      const studente = this.nome + " " +this.cognome
-      const testId = await this.firebaseService.getTestService().createTest(this.uid, studente, this.testData.tipoTest);
+      const testId = await this.firebaseService.getTestService().createTest(this.testData.tipoTest);
       this.authService.loadUserData(this.uid).then(() => {
         this.router.navigate([`esami/${this.esameId}/test/${this.testData.tipoTest}/${testId}`]).then(() => {
           window.location.reload();

@@ -56,10 +56,15 @@ export const gestioneEsameGuard: CanActivateFn = (route, state) => {
   return true; 
 };
 
-export const testGuard: CanActivateFn = (route, state) => {
+export const testGuard: CanActivateFn = async (route, state) => {
   const authService = inject(AuthService);
+  const firebaseService = inject(FirebaseService);
   const router = inject(Router);
   const testId = route.paramMap.get('idTest');
+
+  const testData = await firebaseService.getTestService().getTestById(testId!);
+  if (testData.voto == null) return true
+
   
   authService.getUserObservable().subscribe(userData => {
     if (userData) {
@@ -81,7 +86,7 @@ export const testGuard: CanActivateFn = (route, state) => {
 export const CanDeactivateTestGuard: CanDeactivateFn<TestComponent> = (
   component: TestComponent
 ) => {
-  if (!component.isCompleted) {
+  if (!component.isCompleted && component.ruolo == "studente") {
     return confirm(
       'Sei sicuro di voler uscire? Le tue risposte non saranno salvate e il test non sarà conteggiato.'
     );

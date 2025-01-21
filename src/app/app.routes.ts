@@ -26,7 +26,7 @@ export const routes: Routes = [
         {path: 'esami/:idEsame/domande', component: DomandeComponent, canActivate: [gestioneEsameGuard] },
         {path: 'esami/:idEsame/pool/:idPool', component: PoolComponent, canActivate: [gestioneEsameGuard]},
         {path: 'esami/:idEsame/test/:idTipoTest', component: TipoTestComponent, canActivate: [esameGuard] },
-        {path: 'esami/:idEsame/test/:idTipoTest/:idTest', component: TestComponent, canActivate: [esameGuard, testGuard],  },
+        {path: 'esami/:idEsame/test/:idTipoTest/:idTest', component: TestComponent, canActivate: [esameGuard, testGuard], canDeactivate: [CanDeactivateTestGuard]  },
         {path: 'my-exams', component: IMieiEsamiComponent},
         {path: 'progressi', component: ProgressiStudenteComponent},
         {path: 'report', component: ReportDocenteComponent},

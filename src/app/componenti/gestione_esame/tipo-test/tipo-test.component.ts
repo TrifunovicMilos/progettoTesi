@@ -97,8 +97,7 @@ export class TipoTestComponent implements OnInit{
 
   private async startTest() {
     try {
-      const studente = this.nome + " " + this.cognome;
-      const testId = await this.firebaseService.getTestService().createTest(this.uid, studente, this.tipoTestId);
+      const testId = await this.firebaseService.getTestService().createTest(this.tipoTestId);
       this.authService.loadUserData(this.uid).then(() => {
         this.router.navigate([`esami/${this.esameId}/test/${this.tipoTestId}/${testId}`]);
       });

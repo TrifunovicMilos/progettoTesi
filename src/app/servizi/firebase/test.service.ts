@@ -63,9 +63,8 @@ export class TestService {
     });
   }
 
-  async createTest(uid: string, studente: string, tipoTestId: string): Promise<string> {
+  async createTest(tipoTestId: string): Promise<string> {
     const testColRef = collection(this.firestore, 'test');
-    const studentiDocRef = doc(this.firestore, 'studenti', uid);
     const tipoTestDocRef = doc(this.firestore, 'tipiTest', tipoTestId);
   
     // 1. Ottieni il documento del tipo test
@@ -95,21 +94,9 @@ export class TestService {
     const testDocRef = await addDoc(testColRef, {
       tipoTest: tipoTestId,
       domande: domandeSelezionate,
-      studente: studente
     });
   
-    // 5. Aggiorna l'array dei test dello studente
-    const studenteSnap = await getDoc(studentiDocRef);
-    if (studenteSnap.exists()) {
-      const existingTests = studenteSnap.data()['test'] || [];
-      await updateDoc(studentiDocRef, {
-        test: [...existingTests, testDocRef.id],
-      });
-    } else {
-      throw new Error('Studente non trovato.');
-    }
-  
-    // 6. Restituisci l'ID del test creato
+    // 5. Restituisci l'ID del test creato
     return testDocRef.id;
   }
 
@@ -145,12 +132,24 @@ export class TestService {
   }
 
   // aggiungo i campi rimanenti del test (es. voto) una volta che è stato completato
-  async saveTest(testId: string, risposte: any[], voto: number, data: string): Promise<void> {
+  async saveTest(uid: string, testId: string, risposte: any[], voto: number, data: string, studente: string): Promise<void> {
     try {
       const testDocRef = doc(this.firestore, 'test', testId);
-  
+      const studentiDocRef = doc(this.firestore, 'studenti', uid);
+
       // Aggiorna il documento del test aggiungendo il voto
-      await updateDoc(testDocRef, { voto, risposte, data });
+      await updateDoc(testDocRef, { voto, risposte, data, studente });
+
+      // Aggiorna l'array dei test dello studente
+      const studenteSnap = await getDoc(studentiDocRef);
+      if (studenteSnap.exists()) {
+        const existingTests = studenteSnap.data()['test'] || [];
+        await updateDoc(studentiDocRef, {
+          test: [...existingTests, testDocRef.id],
+        });
+      } else {
+        throw new Error('Studente non trovato.');
+      }
     } catch (error) {
       console.error('Errore durante il salvataggio del test:', error);
       throw error;
@@ -205,7 +204,5 @@ export class TestService {
     return filteredTests;
   }
 
-
-  
 }
 
