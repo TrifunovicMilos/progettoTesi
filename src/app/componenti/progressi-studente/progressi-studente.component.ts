@@ -118,11 +118,19 @@ export class ProgressiStudenteComponent implements OnInit {
 
       for (let test of this.testData) {
         const tipoTest = this.tipiTest.find((t) => t.id === test.tipoTest);
-        test.tipoTest = tipoTest ? { id: tipoTest.id, nomeTest: tipoTest.nomeTest } : { id: '', nomeTest: '' };
+        if (tipoTest != null)
+        {
+          test.tipoTest = tipoTest ? { id: tipoTest.id, nomeTest: tipoTest.nomeTest } : { id: '', nomeTest: '' };
 
-        const esame = esami.find((e) => Array.isArray(e.tipiTest) && e.tipiTest.includes(test.tipoTest.id));
-        test.esame = esame ? { id: esame.id, titolo: esame.titolo } : { id: '', titolo: '' };
+          const esame = esami.find((e) => Array.isArray(e.tipiTest) && e.tipiTest.includes(test.tipoTest.id));
+          test.esame = esame ? { id: esame.id, titolo: esame.titolo } : { id: '', titolo: '' };
+        }
+        else {
+          test.tipoTest = null;
+        }
       }
+
+      this.testData = this.testData.filter((test) => test.tipoTest != null);
 
       // Seleziona l'ultimo test per ogni tipo di test
       const latestTestsByTipoTest = new Map<string, any>();
@@ -262,7 +270,6 @@ export class ProgressiStudenteComponent implements OnInit {
   onEsameChange() {
     // Quando cambia l'esame, aggiorniamo i tipi di test disponibili
     this.selectedEsame = this.esami.find((e) => e.id === this.filter.esame);
-    console.log(this.selectedEsame)
     if (this.selectedEsame) {
       this.tipiTestForSelectedEsame = this.tipiTest.filter((tipoTest) => this.selectedEsame.tipiTest.includes(tipoTest.id));
       this.filter.tipoTest = '';

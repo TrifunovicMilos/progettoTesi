@@ -46,7 +46,7 @@ export class TestService {
     if (docSnap.exists()) {
       return { id, ...docSnap.data() };
     } else {
-      throw new Error('TipoTest non trovata.');
+      return 0;
     }
   }
 

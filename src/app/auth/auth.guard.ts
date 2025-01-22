@@ -86,7 +86,7 @@ export const testGuard: CanActivateFn = async (route, state) => {
 export const CanDeactivateTestGuard: CanDeactivateFn<TestComponent> = (
   component: TestComponent
 ) => {
-  if (!component.isCompleted && component.ruolo == "studente") {
+  if (!component.isCompleted) {
     return confirm(
       'Sei sicuro di voler uscire? Le tue risposte non saranno salvate e il test non sarà conteggiato.'
     );
