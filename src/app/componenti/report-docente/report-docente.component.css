@@ -150,9 +150,11 @@ mat-row {
 
 .chart-filters {
   display: flex;
+  justify-content: space-between;
   gap: 20px;
   margin-bottom: 20px;
   margin-left: 35px;
+  margin-right: 35px;
   margin-top: 20px;
 }
 

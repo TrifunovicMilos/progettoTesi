@@ -2,8 +2,7 @@
   <p>Caricamento in corso...</p>
 </div>
 
-<div *ngIf="!isLoading && testData?.length==0"
-  [ngClass]="isSidebarOpen ? 'no-resultsAdapted' : 'no-results'">
+<div *ngIf="!isLoading && testData?.length==0" [ngClass]="isSidebarOpen ? 'no-resultsAdapted' : 'no-results'">
   <p>Nessun test svolto.</p>
 </div>
 
@@ -92,7 +91,7 @@
     <button mat-raised-button color="primary" (click)="clearFilters()">
       <mat-icon style="margin-right: 8px;">clear_all</mat-icon>Pulisci Filtri
     </button>
-    
+
   </div>
 
   <!-- Tabella -->
@@ -155,6 +154,9 @@
       <p>Media Voti Effettiva: {{ filteredRealMediaVoti | number:'1.1-1' }}</p>
     </div>
 
+  </div>
+
+  <!-- Grafico -->
   <div class="chart-container">
     <h2 class="title" style="margin-left: 35px;">Andamento Voti</h2>
 
@@ -187,7 +189,8 @@
       </div>
       <div class="stat-item">
         <p class="stat-title">Media Voti</p>
-        <p class="stat-value" [ngStyle]="{ 'color': getCircleColor(chartTestAverage) }">{{ chartTestAverage | number:'1.1-1' }}</p>
+        <p class="stat-value" [ngStyle]="{ 'color': getCircleColor(chartTestAverage) }">{{ chartTestAverage |
+          number:'1.1-1' }}</p>
       </div>
       <div class="stat-item">
         <p class="stat-title">Voto Massimo</p>
@@ -200,6 +203,7 @@
     </div>
 
     <canvas id="votiChart"></canvas>
-  </div>
 
+  </div>
+  
 </div>

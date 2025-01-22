@@ -274,10 +274,6 @@ export class ReportDocenteComponent {
     this.applyPagination(); // Rappresentiamo i dati ordinati
   }
 
-  toggleTableVisibility() {
-    this.isTableVisible = !this.isTableVisible;
-  }
-
   updatePageSizeOptions() {
     if (this.filteredTestData.length > 50) {
       this.pageSizeOptions = [5, 10, 25, 50, this.filteredTestData.length];
@@ -300,7 +296,7 @@ export class ReportDocenteComponent {
 
   onStudentInput(event: any) {
     const input = event.target.value.toLowerCase();
-    if (input.length < 3) {
+    if (input.length < 1) {
       this.showMinCharMessage = input.length > 0;
       this.filteredStudenti = [];
     } 
@@ -528,7 +524,7 @@ export class ReportDocenteComponent {
 
   onChartStudentInput(event: any) {
     const input = event.target.value.toLowerCase();
-    if (input.length < 3) {
+    if (input.length < 1) {
       this.showMinCharMessageChart = input.length > 0;
       this.filteredChartStudenti = [];
     } 

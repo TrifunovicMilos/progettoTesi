@@ -225,10 +225,6 @@ export class ProgressiStudenteComponent implements OnInit {
     this.applyPagination(); // Rappresentiamo i dati ordinati
   }
 
-  toggleTableVisibility() {
-    this.isTableVisible = !this.isTableVisible;
-  }
-
   updatePageSizeOptions() {
     if (this.filteredTestData.length > 50) {
       this.pageSizeOptions = [5, 10, 25, 50, this.filteredTestData.length];
