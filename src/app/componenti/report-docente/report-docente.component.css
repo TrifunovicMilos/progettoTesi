@@ -191,11 +191,7 @@ canvas {
   margin-top: 20px;
   font-size: 18px;
   color: gray;
-  background-color: #f9f9f9; /* Colore di sfondo tenue */
   padding: 20px;
-  border: 1px solid #e0e0e0; /* Bordo leggero */
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Ombra sottile */
 }
 
 .suffix-container {

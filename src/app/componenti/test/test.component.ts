@@ -149,10 +149,12 @@ export class TestComponent implements OnInit{
     // Salva il risultato nel database
     const studente = this.nome + " " +this.cognome
     await this.firebaseService.getTestService().saveTest(this.uid, this.testId, risposte, this.voto, data.toUTCString(), studente);
+    await this.authService.loadUserData(this.uid);
 
     // Visualizza il risultato
     this.risposteCorrette = corrette;
     this.isCompleted = true;
+
   }
 
   onRetry(): void {
