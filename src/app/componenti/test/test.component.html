@@ -4,19 +4,19 @@
 
 <div *ngIf="!isLoading" class="test-container">
 
-  <!-- durante test, quando ho le domande su pagine diverese, la nav mi fa cambiare pagina -->
-  <div *ngIf="!isCompleted" class="nav-container">
-    <div *ngFor="let domanda of domande; let i = index" [ngClass]="{'selected': currentQuestionIndex === i}"
-      class="nav-item" (click)="goToQuestion(i)">
-      {{ i + 1 }}
-    </div>
+  <div class="toggle-button" (click)="toggleNav()">
+    <mat-icon>{{ isNavOpen ? 'chevron_right' : 'chevron_left' }}</mat-icon>
   </div>
 
-  <!-- a fine test, quando ho tutte le domande sulla stessa pagina, la nav mi fa scorrere su e giù -->
-  <div *ngIf="isCompleted" class="nav-container">
-    <div *ngFor="let domanda of domande; let i = index" [ngClass]="{'selected': currentQuestionIndex === i}"
-      class="nav-item" (click)="scrollToQuestion(i)">
-      {{ i + 1 }}
+  <div class="nav-container" [ngClass]="{ 'closed': !isNavOpen }">
+    <div class="nav-grid">
+      <div *ngFor="let domanda of domande; let i = index" [ngClass]="{
+             'selected': currentQuestionIndex === i, 
+             'correct': isCompleted && risposte[domanda.id] === domanda.opzioneCorretta,
+             'incorrect': isCompleted && risposte[domanda.id] !== domanda.opzioneCorretta
+           }" class="nav-item" (click)="isCompleted ? scrollToQuestion(i) : goToQuestion(i)">
+        {{ i + 1 }}
+      </div>
     </div>
   </div>
 

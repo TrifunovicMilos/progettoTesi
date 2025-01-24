@@ -21,6 +21,7 @@ import { MatDialog } from '@angular/material/dialog';
 export class TestComponent implements OnInit{
   isLoading = true;
   isCompleted = false;
+  isNavOpen = false;
   uid! : string;
   nome! : string;
   cognome! : string;
@@ -184,6 +185,10 @@ export class TestComponent implements OnInit{
       console.error("Errore nell'avvio del test:", error);
     }
 
+  }
+
+  toggleNav() {
+    this.isNavOpen = !this.isNavOpen;
   }
 
   previousQuestion() {
