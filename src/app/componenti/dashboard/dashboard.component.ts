@@ -39,7 +39,6 @@ export class DashboardComponent implements OnInit{
   constructor(private authService: AuthService, private sidebarService: SidebarService, private dialog: MatDialog, private cdr: ChangeDetectorRef){}
 
   ngAfterViewChecked() {
-    // Forza il rilevamento dei cambiamenti, per risolvere ExpressionChangedAfterItHasBeenCheckedError in html riga 54
     this.cdr.detectChanges();  
   }
 
@@ -60,7 +59,6 @@ export class DashboardComponent implements OnInit{
     })
   }
   
-  // chiamata nella funzione sopra per aggiornare avatarUrl (foto mostrata nell'header)
   private getAvatarUrl(): string {
     if (this.avatar === 'Default') {
       return 'assets/avatar/default.png'; 
@@ -91,7 +89,6 @@ export class DashboardComponent implements OnInit{
     }
   }
   
-  // apre un dialog al quale bisogna passare titolo e messaggio
   onLogout(): void {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
       data: { title: 'Conferma Logout', message: 'Sei sicuro di voler uscire?' }

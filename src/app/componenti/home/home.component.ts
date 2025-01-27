@@ -33,7 +33,6 @@ export class HomeComponent implements OnInit {
   esami! : any[]; // tutti gli esami esistenti
   esamiFiltered! : any[]; // risultato della ricerca
   esamiIscrittiID! : any[]; // id degli esami a cui uno studente si è iscritto, 
-  // in modo tale che, al clic su un esame, so se farlo entrare nella pagina relatica oppure chiedergli prima di iscriversi
 
   constructor(private authService: AuthService, private firebaseService: FirebaseService, 
     private sidebarService: SidebarService, private dialog: MatDialog, private router: Router){}
@@ -44,7 +43,7 @@ export class HomeComponent implements OnInit {
         this.nome = userData.nome || '';
         this.cognome = userData.cognome || '';
         this.ruolo = this.authService.getUserRole();
-        this.numeroEsami = userData.esami?.length || 0; // per mostrare al docente quanti esami gestisce
+        this.numeroEsami = userData.esami?.length || 0; 
         this.uid = this.authService.getUid() || '';
         if (this.ruolo === 'studente') {
           this.loadEsami(); // lo studente deve visualizzare tutti gli esami
@@ -59,7 +58,7 @@ export class HomeComponent implements OnInit {
     });
   }
   
-  // recupero degli esami da firestore
+  // recupero esami da firestore
   async loadEsami() {
     try {
       this.esami = await this.firebaseService.getExamService().getEsami() || [];

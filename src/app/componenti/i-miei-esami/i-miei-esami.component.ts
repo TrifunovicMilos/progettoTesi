@@ -29,7 +29,7 @@ export class IMieiEsamiComponent implements OnInit{
   uid = '';
   isSidebarOpen = false;
   esami! : any[]; // tutti gli esami che gestisce il docente o ai quali lo studente è iscritto
-  esamiFiltered! : any[]; // lo studente cerca per nome o docente, docente solo per nome 
+  esamiFiltered! : any[]; // lo studente cerca per nome o docente, docente cerca solo per nome 
 
   constructor(private authService: AuthService, private firebaseService: FirebaseService, private sidebarService: SidebarService, private dialog: MatDialog){}
 

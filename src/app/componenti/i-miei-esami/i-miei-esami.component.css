@@ -31,15 +31,16 @@ mat-form-field,
   margin-left: auto;
 }
 
-@media (max-width: 800px) {
-  mat-form-field {
-    padding-left: 10px;
-  }
-}
-
 @media (max-width: 1350px) {
   .adaptedForm {
     padding-left: 5px;
+  }
+}
+
+@media (max-width: 800px) {
+  mat-form-field,
+  .adaptedForm {
+    padding-left: 10px;
   }
 }
 

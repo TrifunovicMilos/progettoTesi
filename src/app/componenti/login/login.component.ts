@@ -57,7 +57,6 @@ export class LoginComponent implements OnInit {
       this.comparePasswords();
     });
     
-    // aggiungo solo ora il validatore, in quanto sopra 'password' non era ancora nota
     this.registerForm.get('confirmPassword')?.setValidators([
       Validators.required, confirmPasswordValidator(this.registerForm.get('password')!),
     ]);
@@ -147,8 +146,7 @@ export class LoginComponent implements OnInit {
       .then(() => {
         alert('Registrazione completata! Controlla la tua email per verificare l’account.');
         console.log('Utente registrato con successo');
-        // una volta registrati si va su /signin.
-        // usando router.navigate(['/signin']) al posto del reload non funziona perché ci fa rimanere sulla tab 'Registrazione'
+        // una volta registrati si va su /login.
         window.location.reload();
       })
       .catch((error: any) => {

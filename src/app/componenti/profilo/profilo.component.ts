@@ -24,7 +24,7 @@ export class ProfiloComponent implements OnInit {
   userAvatar = ''; // avatar associato all'utente
   selectedAvatar = ''; // avatar selezionato al momento nel mat-select
   selectedAvatarUrl = '';
-  isLoading = false; // Stato del caricamento, per ora metto sempre false perche si carica sempre veloce
+  isLoading = true; 
   isSidebarOpen = false;
 
   constructor(private authService: AuthService, private firebaseService: FirebaseService, private sidebarService: SidebarService) {}
@@ -48,7 +48,6 @@ export class ProfiloComponent implements OnInit {
     });
   }
 
-  // chiamata ogni volta che cambio Avatar per cambiare anche il selectedAvatarUrl
   // gli avatar sono di tipo "Avatar X", mentre gli url /avatarX
   // quindi estraggo X e la concateno con "avatar"
   private getAvatarUrl(): string {
@@ -66,16 +65,12 @@ export class ProfiloComponent implements OnInit {
     this.selectedAvatarUrl = this.getAvatarUrl(); // si aggiorna l'avatar mostrato
   }
   
-  // click bottone di conferma Avatar
-  // il form non me lo fa fare se userAvatar = selectedAvatar
   onConfirmChange(): void {
-    console.log('Avatar cambiato a: ', this.selectedAvatar);
     this.userAvatar = this.selectedAvatar;
     const uid = this.authService.getUid();
 
     this.firebaseService.getUserService().updateUserField(uid!, this.ruolo ,'avatar', this.selectedAvatar)
       .then(() => {
-        console.log('Avatar aggiornato con successo!');
         this.authService.loadUserData(uid!)
       })
       .catch((error) => {
