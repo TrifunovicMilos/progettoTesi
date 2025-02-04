@@ -47,7 +47,7 @@ export class DomandeComponent {
 
   openCreateDomandaDialog(): void {
     const dialogRef = this.dialog.open(CreateDomandaDialogComponent, {
-      width: '37%',
+      width: '380px',
       data: { esameId: this.esameId }
     });
   }
@@ -89,7 +89,7 @@ export class DomandeComponent {
     const selectedDomandeIds = this.selectedDomande.map(domanda => domanda.id);
 
     const dialogRef = this.dialog.open(CreatePoolDialogComponent, {
-      width: '37%',
+      width: '350px',
       data: { esameId: this.esameId, domandeId: selectedDomandeIds }
     });
   }

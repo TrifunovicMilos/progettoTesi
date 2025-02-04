@@ -85,7 +85,7 @@ export class EsameComponent {
 
   openCreateTestDialog(): void {
     const dialogRef = this.dialog.open(CreateTestDialogComponent, {
-      width: '37%',
+      width: '380px',
       data: { esameId: this.esameId, pools: this.pools }
     });
   }
