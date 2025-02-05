@@ -64,7 +64,7 @@
   </div>
 
   <div class="filter-container" *ngIf="isTableVisible">
-    <mat-form-field appearance="fill">
+    <mat-form-field appearance="fill" class="filter-item">
       <mat-label>Filtra per Esame</mat-label>
       <mat-select [(value)]="filter.esame" (selectionChange)="onEsameChange()">
         <mat-option [value]="''">Tutti</mat-option>
@@ -73,7 +73,7 @@
     </mat-form-field>
 
     <!-- Filtra per Tipo Test -->
-    <mat-form-field appearance="fill">
+    <mat-form-field appearance="fill" class="filter-item">
       <mat-label>Filtra per Test</mat-label>
       <mat-select [(value)]="filter.tipoTest" (selectionChange)="applyFilter()">
         <mat-option [value]="''">Tutti</mat-option>
@@ -81,7 +81,7 @@
       </mat-select>
     </mat-form-field>
 
-    <mat-form-field appearance="fill">
+    <mat-form-field appearance="fill" class="filter-item">
       <mat-label>Filtra per Data</mat-label>
       <input matInput [matDatepicker]="picker" [(ngModel)]="filter.data" (dateChange)="applyFilter()">
       <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
@@ -158,10 +158,10 @@
 
   <!-- Grafico -->
   <div class="chart-container">
-    <h2 class="title" style="margin-left: 35px;">Andamento Voti</h2>
+    <h2 class="chart-title">Andamento Voti</h2>
 
     <div class="chart-filters">
-      <mat-form-field appearance="fill">
+      <mat-form-field appearance="fill" class="chart-filter-item">
         <mat-label>Seleziona Esame</mat-label>
         <mat-select [(value)]="chartFilter.esame" (selectionChange)="onChartEsameChange()">
           <mat-option [value]="''">Tutti</mat-option>
@@ -169,7 +169,7 @@
         </mat-select>
       </mat-form-field>
 
-      <mat-form-field appearance="fill">
+      <mat-form-field appearance="fill" class="chart-filter-item">
         <mat-label>Seleziona Test</mat-label>
         <mat-select [(value)]="chartFilter.tipoTest" (selectionChange)="updateChart()">
           <mat-option [value]="''">Tutti</mat-option>
