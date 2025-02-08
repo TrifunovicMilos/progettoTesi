@@ -89,18 +89,59 @@
   margin-bottom: 20px;
 }
 
-.title {
+.title, .chart-title {
   font-size: 1.8rem;
   font-weight: bold;
   color: #333;
   margin: 0;
 }
 
+.chart-title {
+  margin-left: 35px;
+}
+
+@media (max-width: 960px) {
+  .header-container {
+    flex-direction: column;
+  }
+}
+
 .filter-container {
   display: flex;
-  justify-content: space-between;
-  margin-bottom: 20px;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 45px;
 }
+
+.filter-item {
+  flex: 1 1 calc(25% - 45px);
+}
+
+.clear-filters {
+  width: 150px;
+  margin: 15px auto; 
+  display: block;
+}
+
+@media (max-width: 960px) {
+  .filter-item {
+    flex: 1 1 calc(50% - 20px); 
+    max-width: 250px;
+  }
+}
+
+@media (max-width: 580px) {
+  .filter-container {
+    flex-direction: column;
+    gap: 0px;
+  }
+
+  .filter-item {
+    margin: auto;
+    width: 250px;
+  }
+}
+
 
 mat-header-cell {
   cursor: pointer;
@@ -193,6 +234,33 @@ canvas {
   font-size: 1.4rem;
   font-weight: bold;
   color: #000;
+}
+
+@media (max-width: 600px) {
+  .chart-stats .stat-title  {
+    font-size: 0.9rem;
+  }
+  .chart-stats .stat-value {
+    font-size: 1.3rem;
+  }
+}
+
+@media (max-width: 500px) {
+  .chart-stats .stat-title  {
+    font-size: 0.8rem;
+  }
+  .chart-stats .stat-value {
+    font-size: 1.2rem;
+  }
+}
+
+@media (max-width: 400px) {
+  .chart-stats .stat-title  {
+    font-size: 0.7rem;
+  }
+  .chart-stats .stat-value {
+    font-size: 1.1rem;
+  }
 }
 
 .no-data-message {

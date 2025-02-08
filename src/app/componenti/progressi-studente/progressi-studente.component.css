@@ -361,6 +361,24 @@ canvas {
   color: #000;
 }
 
+@media (max-width: 600px) {
+  .chart-stats .stat-title  {
+    font-size: 0.9rem;
+  }
+  .chart-stats .stat-value {
+    font-size: 1.3rem;
+  }
+}
+
+@media (max-width: 500px) {
+  .chart-stats .stat-title  {
+    font-size: 0.8rem;
+  }
+  .chart-stats .stat-value {
+    font-size: 1.2rem;
+  }
+}
+
 .no-results,
 .no-resultsAdapted {
   text-align: center;
