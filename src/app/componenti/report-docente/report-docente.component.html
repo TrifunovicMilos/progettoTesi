@@ -193,10 +193,10 @@
 
   <!-- Grafico -->
   <div class="chart-container">
-    <h2 class="title" style="margin-left: 35px;">Andamento Voti</h2>
+    <h2 class="chart-title">Andamento Voti</h2>
 
     <div class="chart-filters">
-      <mat-form-field appearance="outline" style="width: 230px;">
+      <mat-form-field appearance="outline" class="chart-filter-item">
         <mat-label>Ricerca Studente</mat-label>
         <mat-icon matPrefix>search</mat-icon>
         <input type="text" matInput [matAutocomplete]="auto" (input)="onChartStudentInput($event)"
@@ -213,7 +213,7 @@
         </mat-autocomplete>
       </mat-form-field>
 
-      <mat-form-field appearance="fill">
+      <mat-form-field appearance="fill" class="chart-filter-item">
         <mat-label>Seleziona Esame</mat-label>
         <mat-select [(value)]="chartFilter.esame" (selectionChange)="onChartEsameChange()">
           <mat-option [value]="''">Tutti</mat-option>
@@ -221,7 +221,7 @@
         </mat-select>
       </mat-form-field>
 
-      <mat-form-field appearance="fill">
+      <mat-form-field appearance="fill" class="chart-filter-item">
         <mat-label>Seleziona Test</mat-label>
         <mat-select [(value)]="chartFilter.tipoTest" (selectionChange)="updateChart()">
           <mat-option [value]="''">Tutti</mat-option>
@@ -229,9 +229,10 @@
         </mat-select>
       </mat-form-field>
 
-      <button mat-raised-button color="primary" (click)="clearChartFilters()" style="margin-left: 20px;">
+      <button mat-raised-button color="primary" (click)="clearChartFilters()" class="clear-chart-filters">
         <mat-icon style="margin-right: 8px;">clear_all</mat-icon>Pulisci Filtri
       </button>
+
     </div>
 
     <div class="no-data-message" *ngIf="noChartData">
