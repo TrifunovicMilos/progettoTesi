@@ -100,12 +100,11 @@ export class EsameComponent {
       if (result) {
         try{
           await this.firebaseService.getExamService().removeEsameFromUser(this.uid, 'studente', this.esameId);
-          await this.authService.loadUserData(this.uid);
         } catch (error) {
           console.error('Errore nella disiscrizone: ', error);
         }
         finally{
-          this.router.navigate([`home`]);
+          window.location.href = '/home';
         }
       }
     });
