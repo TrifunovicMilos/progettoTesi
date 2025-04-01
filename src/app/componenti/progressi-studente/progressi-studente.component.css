@@ -242,7 +242,7 @@ mat-row {
 
 .chart-filters button {
   width: 150px;
-  margin-left: auto;
+  margin-left: 20px;
 }
 
 @media (max-width: 930px) {
@@ -270,6 +270,7 @@ mat-row {
 
   .chart-filters button {
     margin-left: auto;
+    margin-right: auto;
   }
 
   .chart-title {
