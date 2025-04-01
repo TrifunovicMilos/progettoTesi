@@ -113,7 +113,7 @@
   </div>
 
 
-  <button mat-raised-button color="primary" (click)="clearFilters()" class="clear-filters">
+  <button *ngIf="isTableVisible" mat-raised-button color="primary" (click)="clearFilters()" class="clear-filters">
     <mat-icon style="margin-right: 8px;">clear_all</mat-icon>Pulisci Filtri
   </button>
 
@@ -121,7 +121,7 @@
   <!-- Tabella -->
   <div *ngIf="isTableVisible">
     <div style="overflow-x: auto;">
-      <mat-table [dataSource]="paginatedData" class="mat-elevation-z8" style="min-width: 600px;">
+      <mat-table [dataSource]="paginatedData" class="mat-elevation-z8" style="min-width: 700px;">
 
         <ng-container matColumnDef="studente">
           <mat-header-cell *matHeaderCellDef (click)="invertSortData('studente')" class="sortable-header">
